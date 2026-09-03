@@ -11,3 +11,5 @@ web-build/
 *.orig.*
 web-build/
 .env
+ios
+android
