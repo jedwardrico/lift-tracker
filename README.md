@@ -88,7 +88,7 @@ POST /logs
 ### Setup
 
 ```bash
-cd app
+cd lift-tracker
 npm install
 ```
 
