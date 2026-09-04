@@ -5,9 +5,8 @@ A workout tracker for the Gamma Bomb program by John Meadows. 14-week hypertroph
 ## Project Structure
 
 ```
-lift-tracker/
-├── app/      # React Native (Expo) frontend
-└── server/   # Express.js + SQLite backend
+app/      # React Native (Expo) frontend
+server/   # Express.js + SQLite backend
 ```
 
 ---
@@ -20,7 +19,7 @@ lift-tracker/
 ### Setup
 
 ```bash
-cd lift-tracker/server
+cd server
 npm install
 npm run seed      # creates and populates the SQLite database
 ```
@@ -89,7 +88,7 @@ POST /logs
 ### Setup
 
 ```bash
-cd lift-tracker/app
+cd app
 npm install
 ```
 
