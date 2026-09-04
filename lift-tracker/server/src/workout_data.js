@@ -635,7 +635,9 @@ const workoutData = [
       sunday: { isRestDay: true, exercises: [] },
     },
   },
-  // Weeks 4-14 will be filled in once agent completes parsing
 ];
 
-module.exports = { workoutData, DAYS };
+const weeks4to14 = require('../data/weeks_4_14.json');
+const allWeeks = [...workoutData, ...weeks4to14];
+
+module.exports = { workoutData: allWeeks, DAYS };
