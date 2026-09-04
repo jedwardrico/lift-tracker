@@ -15,7 +15,7 @@ router.get('/:weekNumber', (req, res) => {
   const week = db.prepare('SELECT * FROM weeks WHERE week_number = ?').get(req.params.weekNumber);
   if (!week) return res.status(404).json({ error: 'Week not found' });
 
-  const days = db.prepare('SELECT * FROM workout_days WHERE week_id = ? ORDER BY CASE day_of_week WHEN "monday" THEN 1 WHEN "tuesday" THEN 2 WHEN "wednesday" THEN 3 WHEN "thursday" THEN 4 WHEN "friday" THEN 5 WHEN "saturday" THEN 6 WHEN "sunday" THEN 7 END').all(week.id);
+  const days = db.prepare("SELECT * FROM workout_days WHERE week_id = ? ORDER BY CASE day_of_week WHEN 'monday' THEN 1 WHEN 'tuesday' THEN 2 WHEN 'wednesday' THEN 3 WHEN 'thursday' THEN 4 WHEN 'friday' THEN 5 WHEN 'saturday' THEN 6 WHEN 'sunday' THEN 7 END").all(week.id);
 
   const result = {
     ...week,
