@@ -17,7 +17,9 @@ CREATE TABLE IF NOT EXISTS exercises (
   title TEXT NOT NULL,
   subtitle TEXT NOT NULL,
   body TEXT NOT NULL,
-  rpe TEXT
+  rpe TEXT,
+  sets INTEGER,
+  rep_range TEXT
 );
 
 CREATE TABLE IF NOT EXISTS workout_logs (

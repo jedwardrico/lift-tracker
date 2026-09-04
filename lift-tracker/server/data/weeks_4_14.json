@@ -1,0 +1,691 @@
+[
+  {
+    "week": 4,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Back", "subtitle": "One arm supinated pulldown", "body": "", "rpe": "9"},
+          {"order": 2, "title": "Back", "subtitle": "Rack pulls", "body": "", "rpe": "8-9"},
+          {"order": 3, "title": "Back", "subtitle": "Chin up death set", "body": "", "rpe": "10"},
+          {"order": 4, "title": "Back", "subtitle": "Banded dumbell pullover", "body": "", "rpe": "9"},
+          {"order": 5, "title": "Back", "subtitle": "Hang from chin up bar (stretch)", "body": "", "rpe": null},
+          {"order": 6, "title": "Abs", "subtitle": "Decline bench leg raises", "body": "", "rpe": "9"},
+          {"order": 7, "title": "Calves", "subtitle": "Standing raises", "body": "", "rpe": "10-11"}
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Chest", "subtitle": "Banded machine press", "body": "", "rpe": "8-10"},
+          {"order": 2, "title": "Chest", "subtitle": "Incline barbell press", "body": "", "rpe": "8-10"},
+          {"order": 3, "title": "Chest", "subtitle": "Neutral grip dumbell press", "body": "", "rpe": "9"},
+          {"order": 4, "title": "Chest", "subtitle": "Stretch pushups", "body": "", "rpe": "10"},
+          {"order": 5, "title": "Shoulders", "subtitle": "Over and back press", "body": "", "rpe": "9"},
+          {"order": 6, "title": "Shoulders", "subtitle": "Reverse pec deck", "body": "", "rpe": "11"},
+          {"order": 7, "title": "Shoulders", "subtitle": "6 ways", "body": "", "rpe": "10"}
+        ]
+      },
+      "wednesday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Legs", "subtitle": "Seated leg curl", "body": "", "rpe": "9-12"},
+          {"order": 2, "title": "Legs", "subtitle": "Barbell squats", "body": "", "rpe": "7-10"},
+          {"order": 3, "title": "Legs", "subtitle": "Hack squat drop set of death", "body": "", "rpe": "8-12"},
+          {"order": 4, "title": "Legs", "subtitle": "Leg extension drop set of death", "body": "", "rpe": "12"},
+          {"order": 5, "title": "Legs", "subtitle": "Glute bridge or glute kickback", "body": "", "rpe": "9"}
+        ]
+      },
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Biceps", "subtitle": "Seated alternate dumbell curls", "body": "", "rpe": "9-10"},
+          {"order": 2, "title": "Biceps", "subtitle": "Preacher hammer curl", "body": "", "rpe": "9-10"},
+          {"order": 3, "title": "Biceps", "subtitle": "Ez bar preacher curl", "body": "", "rpe": "9-10"},
+          {"order": 4, "title": "Triceps", "subtitle": "Dual rope triceps extensions", "body": "", "rpe": "9"},
+          {"order": 5, "title": "Triceps", "subtitle": "Dip machine", "body": "", "rpe": "9"},
+          {"order": 6, "title": "Triceps", "subtitle": "Seated overhead rope extensions", "body": "", "rpe": "9"},
+          {"order": 7, "title": "Abs", "subtitle": "Rope crunches", "body": "", "rpe": "9"},
+          {"order": 8, "title": "Calves", "subtitle": "Seated toe raises", "body": "", "rpe": "9-10"}
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Chest", "subtitle": "Machine press", "body": "", "rpe": "8-9"},
+          {"order": 2, "title": "Chest", "subtitle": "Hex press", "body": "", "rpe": "9"},
+          {"order": 3, "title": "Chest", "subtitle": "Flat dumbell flyes", "body": "", "rpe": "9"},
+          {"order": 4, "title": "Back", "subtitle": "One arm pulldown with banded iso hold", "body": "", "rpe": "9"},
+          {"order": 5, "title": "Back", "subtitle": "Dumbell rows", "body": "", "rpe": "9"},
+          {"order": 6, "title": "Back", "subtitle": "Seated face pull", "body": "", "rpe": "9"},
+          {"order": 7, "title": "Shoulders", "subtitle": "Dumbell bent over laterals", "body": "", "rpe": "9"},
+          {"order": 8, "title": "Shoulders", "subtitle": "Machine overhead press", "body": "", "rpe": "9"}
+        ]
+      },
+      "saturday": {"isRestDay": true, "exercises": []},
+      "sunday": {"isRestDay": true, "exercises": []}
+    }
+  },
+  {
+    "week": 5,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Back", "subtitle": "One arm barbell rows", "body": "", "rpe": "9"},
+          {"order": 2, "title": "Back", "subtitle": "Supinated pulldown variation", "body": "", "rpe": "9"},
+          {"order": 3, "title": "Back", "subtitle": "Deadstop dumbell rows", "body": "", "rpe": "9"},
+          {"order": 4, "title": "Back", "subtitle": "Banded dumbell pullover", "body": "", "rpe": "9"},
+          {"order": 5, "title": "Back", "subtitle": "Weighted hypers", "body": "", "rpe": "7-8"},
+          {"order": 6, "title": "Abs", "subtitle": "Decline bench leg raises", "body": "", "rpe": "9"},
+          {"order": 7, "title": "Calves", "subtitle": "Standing raises", "body": "", "rpe": "10"}
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Chest", "subtitle": "Banded machine press", "body": "", "rpe": "10"},
+          {"order": 2, "title": "Chest", "subtitle": "Incline barbell press", "body": "", "rpe": "8-10"},
+          {"order": 3, "title": "Chest", "subtitle": "Flat dumbell press", "body": "", "rpe": "10"},
+          {"order": 4, "title": "Chest", "subtitle": "Machine flyes", "body": "", "rpe": "10"},
+          {"order": 5, "title": "Shoulders", "subtitle": "Reverse pec deck", "body": "", "rpe": "11"},
+          {"order": 6, "title": "Shoulders", "subtitle": "High incline Smith press", "body": "", "rpe": "9"},
+          {"order": 7, "title": "Shoulders", "subtitle": "Cable side laterals", "body": "", "rpe": "9-10"}
+        ]
+      },
+      "wednesday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Legs", "subtitle": "Lying leg curl", "body": "", "rpe": "11"},
+          {"order": 2, "title": "Legs", "subtitle": "Leg press", "body": "", "rpe": "7-10"},
+          {"order": 3, "title": "Legs", "subtitle": "Barbell squat drop set of death", "body": "", "rpe": "8-12"},
+          {"order": 4, "title": "Legs", "subtitle": "Smith lunges", "body": "", "rpe": "12"},
+          {"order": 5, "title": "Legs", "subtitle": "Stiff legged deadlift", "body": "", "rpe": "11"}
+        ]
+      },
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Biceps", "subtitle": "Cable curls", "body": "", "rpe": "9-10"},
+          {"order": 2, "title": "Biceps", "subtitle": "Preacher hammer curl", "body": "", "rpe": "9-10"},
+          {"order": 3, "title": "Biceps", "subtitle": "Spider curl", "body": "", "rpe": "9-10"},
+          {"order": 4, "title": "Triceps", "subtitle": "Dual rope triceps extensions", "body": "", "rpe": "9"},
+          {"order": 5, "title": "Triceps", "subtitle": "Close grip pushups", "body": "", "rpe": "10"},
+          {"order": 6, "title": "Triceps", "subtitle": "Seated overhead dumbell extensions", "body": "", "rpe": "9"},
+          {"order": 7, "title": "Abs", "subtitle": "Rope crunches", "body": "", "rpe": "9"},
+          {"order": 8, "title": "Calves", "subtitle": "Seated toe raises", "body": "", "rpe": "9-10"}
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Chest", "subtitle": "Dumbell twist press", "body": "", "rpe": "9"},
+          {"order": 2, "title": "Chest", "subtitle": "Slight incline dumbell press", "body": "", "rpe": "8-10"},
+          {"order": 3, "title": "Chest", "subtitle": "Front dumbell flyes", "body": "", "rpe": "9"},
+          {"order": 4, "title": "Back", "subtitle": "Chins", "body": "", "rpe": "10"},
+          {"order": 5, "title": "Back", "subtitle": "Low cable rows", "body": "", "rpe": "9"},
+          {"order": 6, "title": "Back", "subtitle": "Bodyweight hyperextensions", "body": "", "rpe": "9"},
+          {"order": 7, "title": "Shoulders", "subtitle": "Dumbell bent over laterals", "body": "", "rpe": "9"},
+          {"order": 8, "title": "Shoulders", "subtitle": "Dumbell side laterals", "body": "", "rpe": "9"}
+        ]
+      },
+      "saturday": {"isRestDay": true, "exercises": []},
+      "sunday": {"isRestDay": true, "exercises": []}
+    }
+  },
+  {
+    "week": 6,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Back", "subtitle": "Low cable row", "body": "", "rpe": "9"},
+          {"order": 2, "title": "Back", "subtitle": "Kettlebell row", "body": "", "rpe": "9"},
+          {"order": 3, "title": "Back", "subtitle": "Dumbell pullover", "body": "", "rpe": "9"},
+          {"order": 4, "title": "Back", "subtitle": "Front lat pulldowns", "body": "", "rpe": "9"},
+          {"order": 5, "title": "Back", "subtitle": "Deadlifts", "body": "", "rpe": "7-8"},
+          {"order": 6, "title": "Abs", "subtitle": "Incline bench sit ups", "body": "", "rpe": "9-10"},
+          {"order": 7, "title": "Calves", "subtitle": "Standing raises", "body": "", "rpe": "8"}
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Chest", "subtitle": "Machine press", "body": "", "rpe": "8-10"},
+          {"order": 2, "title": "Chest", "subtitle": "Flat barbell press", "body": "", "rpe": "9"},
+          {"order": 3, "title": "Chest", "subtitle": "Incline Smith press", "body": "", "rpe": "9"},
+          {"order": 4, "title": "Chest", "subtitle": "Dips", "body": "", "rpe": "10"},
+          {"order": 5, "title": "Shoulders", "subtitle": "Reverse pec deck", "body": "", "rpe": "11"},
+          {"order": 6, "title": "Shoulders", "subtitle": "Heavy side lateral partials", "body": "", "rpe": "9"},
+          {"order": 7, "title": "Shoulders", "subtitle": "Wide grip upright rows", "body": "", "rpe": "9-10"}
+        ]
+      },
+      "wednesday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Legs", "subtitle": "Seated leg curl", "body": "", "rpe": "8-12"},
+          {"order": 2, "title": "Legs", "subtitle": "Leg press", "body": "", "rpe": "7-10"},
+          {"order": 3, "title": "Legs", "subtitle": "Leg extensions", "body": "", "rpe": "9"},
+          {"order": 4, "title": "Legs", "subtitle": "Walking lunges", "body": "", "rpe": "9"},
+          {"order": 5, "title": "Legs", "subtitle": "Stiff legged deadlift", "body": "", "rpe": "9"}
+        ]
+      },
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Biceps", "subtitle": "Cable curls (Giant Set)", "body": "", "rpe": "8-9"},
+          {"order": 2, "title": "Biceps", "subtitle": "Hammer curls (Giant Set)", "body": "", "rpe": "8-9"},
+          {"order": 3, "title": "Biceps", "subtitle": "Ez bar curl (Giant Set)", "body": "", "rpe": "8-9"},
+          {"order": 4, "title": "Biceps", "subtitle": "Cross body curls (Giant Set)", "body": "", "rpe": "8-9"},
+          {"order": 5, "title": "Triceps", "subtitle": "Rope pushdowns (Giant Set)", "body": "", "rpe": "8-9"},
+          {"order": 6, "title": "Triceps", "subtitle": "Bent over triceps extensions (Giant Set)", "body": "", "rpe": "8-9"},
+          {"order": 7, "title": "Triceps", "subtitle": "Dumbell kickbacks pronated grip (Giant Set)", "body": "", "rpe": "8-9"},
+          {"order": 8, "title": "Triceps", "subtitle": "Dumbell overhead extensions (Giant Set)", "body": "", "rpe": "8-9"},
+          {"order": 9, "title": "Abs", "subtitle": "Rope crunches", "body": "", "rpe": "9"},
+          {"order": 10, "title": "Calves", "subtitle": "Seated toe raises", "body": "", "rpe": "9-10"}
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Chest", "subtitle": "Hex dumbell press (Tri-set)", "body": "", "rpe": "8-9"},
+          {"order": 2, "title": "Chest", "subtitle": "Dumbell flye (Tri-set)", "body": "", "rpe": "8-9"},
+          {"order": 3, "title": "Chest", "subtitle": "Dumbell press (Tri-set)", "body": "", "rpe": "8-9"},
+          {"order": 4, "title": "Back", "subtitle": "Cable row (Tri-set)", "body": "", "rpe": "8-9"},
+          {"order": 5, "title": "Back", "subtitle": "Lat pulldown (Tri-set)", "body": "", "rpe": "8-9"},
+          {"order": 6, "title": "Back", "subtitle": "Straight arm pulldown (Tri-set)", "body": "", "rpe": "8-9"},
+          {"order": 7, "title": "Shoulders", "subtitle": "Dumbell bent over laterals", "body": "", "rpe": "9"},
+          {"order": 8, "title": "Shoulders", "subtitle": "Dumbell side laterals", "body": "", "rpe": "9"}
+        ]
+      },
+      "saturday": {"isRestDay": true, "exercises": []},
+      "sunday": {"isRestDay": true, "exercises": []}
+    }
+  },
+  {
+    "week": 7,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Back", "subtitle": "Dumbell row", "body": "", "rpe": "8"},
+          {"order": 2, "title": "Back", "subtitle": "Lat pulldown", "body": "", "rpe": "8"},
+          {"order": 3, "title": "Back", "subtitle": "Dumbell pullover", "body": "", "rpe": "8"},
+          {"order": 4, "title": "Back", "subtitle": "Supported chest row", "body": "", "rpe": "8"},
+          {"order": 5, "title": "Back", "subtitle": "Deadlifts", "body": "", "rpe": "7"},
+          {"order": 6, "title": "Abs", "subtitle": "Incline bench sit ups", "body": "", "rpe": "9-10"},
+          {"order": 7, "title": "Calves", "subtitle": "Standing raises", "body": "", "rpe": "8"}
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Chest", "subtitle": "Machine press", "body": "", "rpe": "8"},
+          {"order": 2, "title": "Chest", "subtitle": "Incline barbell press", "body": "", "rpe": "7"},
+          {"order": 3, "title": "Chest", "subtitle": "Incline dumbell press", "body": "", "rpe": "8"},
+          {"order": 4, "title": "Chest", "subtitle": "Dips", "body": "", "rpe": "8"},
+          {"order": 5, "title": "Shoulders", "subtitle": "Reverse pec deck", "body": "", "rpe": "8"},
+          {"order": 6, "title": "Shoulders", "subtitle": "Dumbell side laterals", "body": "", "rpe": "8"}
+        ]
+      },
+      "wednesday": {"isRestDay": true, "exercises": []},
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Legs", "subtitle": "Seated leg curl", "body": "", "rpe": "8"},
+          {"order": 2, "title": "Legs", "subtitle": "Barbell squats", "body": "", "rpe": "7"},
+          {"order": 3, "title": "Legs", "subtitle": "Leg press", "body": "", "rpe": "8"},
+          {"order": 4, "title": "Legs", "subtitle": "Dumbell stiff legged deadlifts", "body": "", "rpe": "8"}
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Biceps", "subtitle": "Seated dumbell curl", "body": "", "rpe": "8"},
+          {"order": 2, "title": "Biceps", "subtitle": "Barbell curls", "body": "", "rpe": "8"},
+          {"order": 3, "title": "Biceps", "subtitle": "Preacher curl", "body": "", "rpe": "8"},
+          {"order": 4, "title": "Triceps", "subtitle": "Pushdown", "body": "", "rpe": "8"},
+          {"order": 5, "title": "Triceps", "subtitle": "Bent over extensions", "body": "", "rpe": "8"},
+          {"order": 6, "title": "Triceps", "subtitle": "Dumbell overhead extension", "body": "", "rpe": "8"},
+          {"order": 7, "title": "Abs", "subtitle": "Rope crunches", "body": "", "rpe": "9"},
+          {"order": 8, "title": "Calves", "subtitle": "Seated toe raises", "body": "", "rpe": "9-10"}
+        ]
+      },
+      "saturday": {"isRestDay": true, "exercises": []},
+      "sunday": {"isRestDay": true, "exercises": []}
+    }
+  },
+  {
+    "week": 8,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Back", "subtitle": "Dumbell row", "body": "", "rpe": "8"},
+          {"order": 2, "title": "Back", "subtitle": "Lat pulldown", "body": "", "rpe": "8"},
+          {"order": 3, "title": "Back", "subtitle": "Dumbell pullover", "body": "", "rpe": "8"},
+          {"order": 4, "title": "Back", "subtitle": "Supported chest row", "body": "", "rpe": "8"},
+          {"order": 5, "title": "Back", "subtitle": "Deadlifts", "body": "", "rpe": "7"},
+          {"order": 6, "title": "Abs", "subtitle": "Incline bench sit ups", "body": "", "rpe": "9-10"},
+          {"order": 7, "title": "Calves", "subtitle": "Standing raises", "body": "", "rpe": "8"}
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Chest", "subtitle": "Machine press", "body": "", "rpe": "8"},
+          {"order": 2, "title": "Chest", "subtitle": "Incline barbell press", "body": "", "rpe": "7"},
+          {"order": 3, "title": "Chest", "subtitle": "Incline dumbell press", "body": "", "rpe": "8"},
+          {"order": 4, "title": "Chest", "subtitle": "Dips", "body": "", "rpe": "8"},
+          {"order": 5, "title": "Shoulders", "subtitle": "Reverse pec deck", "body": "", "rpe": "8"},
+          {"order": 6, "title": "Shoulders", "subtitle": "Dumbell side laterals", "body": "", "rpe": "8"}
+        ]
+      },
+      "wednesday": {"isRestDay": true, "exercises": []},
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Legs", "subtitle": "Seated leg curl", "body": "", "rpe": "8"},
+          {"order": 2, "title": "Legs", "subtitle": "Barbell squats", "body": "", "rpe": "7"},
+          {"order": 3, "title": "Legs", "subtitle": "Leg press", "body": "", "rpe": "8"},
+          {"order": 4, "title": "Legs", "subtitle": "Dumbell stiff legged deadlifts", "body": "", "rpe": "8"}
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Biceps", "subtitle": "Seated dumbell curl", "body": "", "rpe": "8"},
+          {"order": 2, "title": "Biceps", "subtitle": "Barbell curls", "body": "", "rpe": "8"},
+          {"order": 3, "title": "Biceps", "subtitle": "Preacher curl", "body": "", "rpe": "8"},
+          {"order": 4, "title": "Triceps", "subtitle": "Pushdown", "body": "", "rpe": "8"},
+          {"order": 5, "title": "Triceps", "subtitle": "Bent over extensions", "body": "", "rpe": "8"},
+          {"order": 6, "title": "Triceps", "subtitle": "Dumbell overhead extension", "body": "", "rpe": "8"},
+          {"order": 7, "title": "Abs", "subtitle": "Rope crunches", "body": "", "rpe": "9"},
+          {"order": 8, "title": "Calves", "subtitle": "Seated toe raises", "body": "", "rpe": "9-10"}
+        ]
+      },
+      "saturday": {"isRestDay": true, "exercises": []},
+      "sunday": {"isRestDay": true, "exercises": []}
+    }
+  },
+  {
+    "week": 9,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Legs", "subtitle": "Seated leg curls", "body": "", "rpe": "11"},
+          {"order": 2, "title": "Legs", "subtitle": "Squats", "body": "", "rpe": "8-9"},
+          {"order": 3, "title": "Legs", "subtitle": "Leg press", "body": "", "rpe": "8"},
+          {"order": 4, "title": "Legs", "subtitle": "Barbell stiff legged deadlift", "body": "", "rpe": "9"},
+          {"order": 5, "title": "Calves", "subtitle": "Standing raises", "body": "", "rpe": "10-11"}
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Chest", "subtitle": "Machine press", "body": "", "rpe": "8-10"},
+          {"order": 2, "title": "Chest", "subtitle": "Incline barbell press", "body": "", "rpe": "8-10"},
+          {"order": 3, "title": "Chest", "subtitle": "Flat bench press", "body": "", "rpe": "9"},
+          {"order": 4, "title": "Chest", "subtitle": "Stretch pushups", "body": "", "rpe": "10"},
+          {"order": 5, "title": "Shoulders", "subtitle": "Seated smith press", "body": "", "rpe": "9"},
+          {"order": 6, "title": "Shoulders", "subtitle": "Reverse pec deck", "body": "", "rpe": "11"},
+          {"order": 7, "title": "Shoulders", "subtitle": "6 ways", "body": "", "rpe": "10"}
+        ]
+      },
+      "wednesday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Back", "subtitle": "One arm barbell row", "body": "", "rpe": "9"},
+          {"order": 2, "title": "Back", "subtitle": "Smith machine row", "body": "", "rpe": "9"},
+          {"order": 3, "title": "Back", "subtitle": "Deadlift and shrug", "body": "", "rpe": "8-9"},
+          {"order": 4, "title": "Back", "subtitle": "Chins", "body": "", "rpe": "12"},
+          {"order": 5, "title": "Abs", "subtitle": "Leg raise and incline sit up combo", "body": "", "rpe": "9"}
+        ]
+      },
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Legs", "subtitle": "Seated leg curls (Giant Set)", "body": "", "rpe": "8-9"},
+          {"order": 2, "title": "Legs", "subtitle": "Dumbell stiff legged deads (Giant Set)", "body": "", "rpe": "8-9"},
+          {"order": 3, "title": "Legs", "subtitle": "Leg extensions (Giant Set)", "body": "", "rpe": "8-9"},
+          {"order": 4, "title": "Legs", "subtitle": "Kettlebell or dumbell squat (Giant Set)", "body": "", "rpe": "8-9"}
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Biceps", "subtitle": "Seated palms up dumbell curls", "body": "", "rpe": "9"},
+          {"order": 2, "title": "Biceps", "subtitle": "Preacher hammer curl", "body": "", "rpe": "9"},
+          {"order": 3, "title": "Biceps", "subtitle": "Barbell curl", "body": "", "rpe": "9"},
+          {"order": 4, "title": "Triceps", "subtitle": "Dual rope triceps extensions", "body": "", "rpe": "9"},
+          {"order": 5, "title": "Triceps", "subtitle": "Dip Machine", "body": "", "rpe": "9"},
+          {"order": 6, "title": "Triceps", "subtitle": "Seated overhead rope extensions", "body": "", "rpe": "9"},
+          {"order": 7, "title": "Abs", "subtitle": "Leg raises", "body": "", "rpe": "9"},
+          {"order": 8, "title": "Calves", "subtitle": "Seated toe raises", "body": "", "rpe": "9-10"}
+        ]
+      },
+      "saturday": {"isRestDay": true, "exercises": []},
+      "sunday": {"isRestDay": true, "exercises": []}
+    }
+  },
+  {
+    "week": 10,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Legs", "subtitle": "Lying leg curls", "body": "", "rpe": "8-12"},
+          {"order": 2, "title": "Legs", "subtitle": "Leg press", "body": "", "rpe": "8-9"},
+          {"order": 3, "title": "Legs", "subtitle": "Front squat extended set", "body": "", "rpe": "8-9"},
+          {"order": 4, "title": "Legs", "subtitle": "Lunge", "body": "", "rpe": "8-9"},
+          {"order": 5, "title": "Legs", "subtitle": "Barbell stiff legged deadlift", "body": "", "rpe": "9"},
+          {"order": 6, "title": "Calves", "subtitle": "Standing raises", "body": "", "rpe": "10-11"}
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Chest", "subtitle": "Flat dumbell press", "body": "", "rpe": "8-12"},
+          {"order": 2, "title": "Chest", "subtitle": "Incline barbell press", "body": "", "rpe": "9-10"},
+          {"order": 3, "title": "Chest", "subtitle": "Incline dumbell press", "body": "", "rpe": "9"},
+          {"order": 4, "title": "Chest", "subtitle": "Machine flyes", "body": "", "rpe": "10"},
+          {"order": 5, "title": "Shoulders", "subtitle": "Seated dumbell press", "body": "", "rpe": "9"},
+          {"order": 6, "title": "Shoulders", "subtitle": "Bent over dumbell flyes", "body": "", "rpe": "9-10"},
+          {"order": 7, "title": "Shoulders", "subtitle": "6 ways", "body": "", "rpe": "9-10"}
+        ]
+      },
+      "wednesday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Back", "subtitle": "Meadows row", "body": "", "rpe": "9"},
+          {"order": 2, "title": "Back", "subtitle": "Pronated cable low row", "body": "", "rpe": "9"},
+          {"order": 3, "title": "Back", "subtitle": "Rack pulls", "body": "", "rpe": "8-9"},
+          {"order": 4, "title": "Back", "subtitle": "Chins", "body": "", "rpe": "9"},
+          {"order": 5, "title": "Back", "subtitle": "Hyperextensions", "body": "", "rpe": "7-8"},
+          {"order": 6, "title": "Abs", "subtitle": "Leg raise and incline sit up combo", "body": "", "rpe": "9-10"}
+        ]
+      },
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Legs", "subtitle": "Seated leg curls (Tri-Set)", "body": "", "rpe": "9"},
+          {"order": 2, "title": "Legs", "subtitle": "Dumbell stiff legged deads (Tri-Set)", "body": "", "rpe": "9"},
+          {"order": 3, "title": "Legs", "subtitle": "Leg extensions (Tri-Set)", "body": "", "rpe": "9"},
+          {"order": 4, "title": "Legs", "subtitle": "Hack squat 1.5s", "body": "", "rpe": "9"}
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Biceps", "subtitle": "Dumbell hammer curls", "body": "", "rpe": "8-9"},
+          {"order": 2, "title": "Biceps", "subtitle": "Barbell curl 1.5s", "body": "", "rpe": "9"},
+          {"order": 3, "title": "Biceps", "subtitle": "Preacher curl", "body": "", "rpe": "9"},
+          {"order": 4, "title": "Triceps", "subtitle": "Tricep pushdowns", "body": "", "rpe": "9"},
+          {"order": 5, "title": "Triceps", "subtitle": "Bent over tricep extensions", "body": "", "rpe": "9"},
+          {"order": 6, "title": "Triceps", "subtitle": "Seated overhead rope extensions", "body": "", "rpe": "9"},
+          {"order": 7, "title": "Abs", "subtitle": "Leg raises", "body": "", "rpe": "9"},
+          {"order": 8, "title": "Calves", "subtitle": "Seated toe raises", "body": "", "rpe": "9-10"}
+        ]
+      },
+      "saturday": {"isRestDay": true, "exercises": []},
+      "sunday": {"isRestDay": true, "exercises": []}
+    }
+  },
+  {
+    "week": 11,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Legs", "subtitle": "Seated leg curls", "body": "Once you are warmed up here, I want 5 sets of 8. On all 5 sets I want someone to apply some eccentric pressure for you to resist as you lower the weight. If you are on your own, just do a 4 second count on the way down. 5 total work sets.", "rpe": "11"},
+          {"order": 2, "title": "Legs", "subtitle": "Squat", "body": "I would love for you to use a safety squat bar this week if you have one. If not, that is ok, just use a regular bar. Do sets of 8 up until you can barely get 8, and as always, lower slowly and then blast the weight up. We will count this as 3 work sets.", "rpe": "8-10"},
+          {"order": 3, "title": "Legs", "subtitle": "Hack squat", "body": "Do 4 sets of 8 here. These sets should all be tough. I want these done rest pause style, so stop at the bottom for a second and drive the weight up. If you don't have a good hack squat, replace with front squats. 4 total work sets.", "rpe": "9"},
+          {"order": 4, "title": "Legs", "subtitle": "Leg extension", "body": "On these, just like we did with your leg curls, I want someone to apply some extra pressure while you are lowering the weight only. Do 4 sets of 8 like this. 4 total work sets.", "rpe": "9"},
+          {"order": 5, "title": "Legs", "subtitle": "Dumbell stiff legged deadlift", "body": "Let's finish up with 4 sets of 10 here coming up all the way and flexing your glutes on each rep. 3 total work set.", "rpe": "9"},
+          {"order": 6, "title": "Calves", "subtitle": "Standing raises", "body": "We are doing medium reps this week. I want 6 sets of 15. 6 total work set.", "rpe": "9-10"}
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Chest", "subtitle": "Flat dumbell press", "body": "Normally we work up to our heaviest set and stop. Today I want you to do something a little different. I want you to work up to the set, and stay there for 4 sets. The target is 8 reps per set, but if you find that you lose a rep or two as you go, that's ok, it's just fatigue from working hard with heavy weight. 3 total work sets.", "rpe": "9-10"},
+          {"order": 2, "title": "Chest", "subtitle": "Incline barbell press", "body": "Let's take the reps even higher today on these! Do 3 sets of 12. 3 total work sets.", "rpe": "9-10"},
+          {"order": 3, "title": "Chest", "subtitle": "Machine press", "body": "On these I want you to do 4 sets of 8. I want you to take these to 3/4 lockout. Your triceps will probably be a little fried from the previous two exercises, so let's keep the tension on the chest. 4 total work set.", "rpe": "9"},
+          {"order": 4, "title": "Chest", "subtitle": "Machine flyes", "body": "Do 4 hard sets of 8 here. Flex hard on every rep! 4 total work sets.", "rpe": "10"},
+          {"order": 5, "title": "Shoulders", "subtitle": "Seated dumbell side laterals", "body": "Do 3 sets of 10 here. Bring the dumbells up to eye level. 3 total work sets.", "rpe": "9"},
+          {"order": 6, "title": "Shoulders", "subtitle": "Bent over dumbell flyes", "body": "You can stay seated if you like as we transition to your rear delts. Do 3 sets of 15 here. 3 total work sets.", "rpe": "9"},
+          {"order": 7, "title": "Shoulders", "subtitle": "Wide grip upright rows", "body": "Do these nice and slow and only come up to the bottom of your chest. Do not go higher than that. Do 3 sets of 12 here. 3 total work sets.", "rpe": "8"}
+        ]
+      },
+      "wednesday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Back", "subtitle": "Meadows row", "body": "We are going to stick with these this week, but bump the reps up to 10. Once you find the weight for a tough 10, stick with it and do 4 sets. 4 total work sets.", "rpe": "9"},
+          {"order": 2, "title": "Back", "subtitle": "Low cable row", "body": "Use a close grip attachment on these. Pull the attachment into your low abs, and flex your lats as hard as you can. Do 4 sets of 8 here. 4 total work sets.", "rpe": "9"},
+          {"order": 3, "title": "Back", "subtitle": "Banded pullovers", "body": "Time to get back to these! Do 4 sets of 10 here using a band. 4 total work set.", "rpe": "8-9"},
+          {"order": 4, "title": "Back", "subtitle": "Supported chest row", "body": "Use a machine that allows you to place your chest on the pad. Use a pronated grip as we are going to target upper back now. Do 4 sets of 10. 4 total work sets.", "rpe": "9"},
+          {"order": 5, "title": "Back", "subtitle": "Banded hyperextensions", "body": "If your lower back is strong enough, I would like for you to use bands here. You could also just hold weight in your arms as you do these, but I prefer the band as it applies the most pressure as you approach the peak contraction. Do 4 sets of 10. 4 total work sets.", "rpe": "9"},
+          {"order": 6, "title": "Abs", "subtitle": "Leg raise and incline sit up combo", "body": "Adding a round this week. Do 4 rounds to failure here. 8 total work sets.", "rpe": "9-10"}
+        ]
+      },
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Legs", "subtitle": "Leg extensions", "body": "Do 6 sets of 15 here. I want your quads smoking and ready for the next exercise. 6 total work sets.", "rpe": "9"},
+          {"order": 2, "title": "Legs", "subtitle": "Leg press ascending set", "body": "You are going to start with 1 plate per side, and do 8 reps. After every 8 reps you add a plate and do it again. You keep going until you can barely get your 8. Ideally you have a workout partner who can slap the weight on for you. 1 total work set.", "rpe": "12"},
+          {"order": 3, "title": "Legs", "subtitle": "Leg press drop set", "body": "Since we have weight on here, why not now do a drop set. Start at 8, and work in reverse. You will have to take 2 plates off on the first drop though, or you won't be able to get many reps. Just do what you can as you keep dropping the weight. 1 total work set.", "rpe": "12"},
+          {"order": 4, "title": "Legs", "subtitle": "Lying leg curls", "body": "Do 3 sets of 15 to wrap up for the day. This is a short but painful day! 3 total work sets.", "rpe": "9"}
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Biceps", "subtitle": "EZ bar reverse curls", "body": "Do 4 sets of 12 here to get you started. 4 total work sets.", "rpe": "8-9"},
+          {"order": 2, "title": "Biceps", "subtitle": "Hammer curls", "body": "To continue the emphasis on brachialis, we do these. Do 4 sets of 12. 4 total work sets.", "rpe": "9"},
+          {"order": 3, "title": "Biceps", "subtitle": "Dumbell preacher curl", "body": "I want 3 sets of 8 on here today. Lower the dumbell very slow, 3 seconds, before curling back up. On your 4th set, I want you to do a drop set. Drop 2 times. Shoot for 8 reps roughly per drop. 4 total work set.", "rpe": "9-11"},
+          {"order": 4, "title": "Triceps", "subtitle": "Tricep pushdowns", "body": "We are doing the single handle version again. Do 4 sets of 20 to start. We are going to jack the reps up, and blow your triceps up. 4 total work sets.", "rpe": "9"},
+          {"order": 5, "title": "Triceps", "subtitle": "Bent over tricep extensions", "body": "Do 4 sets of 20 with the single handles here too! 4 total work sets.", "rpe": "9"},
+          {"order": 6, "title": "Triceps", "subtitle": "Dip machine", "body": "Do 3 sets of 8 here, and then do a big drop set. I want 8, and then 2 more drops where you shoot for another 8 or so reps each time. 4 total work sets.", "rpe": "9-11"},
+          {"order": 7, "title": "Abs", "subtitle": "Leg raises", "body": "Do 5 sets to failure here. 5 total work sets.", "rpe": "9"},
+          {"order": 8, "title": "Calves", "subtitle": "Seated toe raises", "body": "Do 6 sets of 10 here after you are very warmed up. Continue to work in 20 of those tibialis raises in between each set. 6 total work sets.", "rpe": "9-10"}
+        ]
+      },
+      "saturday": {"isRestDay": true, "exercises": []},
+      "sunday": {"isRestDay": true, "exercises": []}
+    }
+  },
+  {
+    "week": 12,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Legs", "subtitle": "Lying leg curls", "body": "Once you are warmed up here, do 4 top end sets where you do 8 full reps, immediately followed by 10 bottom half partials. This should be such a strong pump to start your day off right. 4 total work sets.", "rpe": "11"},
+          {"order": 2, "title": "Legs", "subtitle": "Adductor machine", "body": "Take your time warming up here because I don't want you tearing anything. Once you find a good working weight give me 3 sets to failure, ideally in the 8-12 rep range. 3 total work sets.", "rpe": "8-9"},
+          {"order": 3, "title": "Legs", "subtitle": "Squat", "body": "After using the yoke bar last week, lets switch back to traditional barbell back squats but add a pause in the hole for a 2 count. Lower the weight ultra-controlled, pause, then fire up as explosively as possible. I want 4 working sets here of 8. 4 total work sets.", "rpe": "8-9"},
+          {"order": 4, "title": "Legs", "subtitle": "Leg press", "body": "After knocking out 1-2 feeder sets, get to a weight that you can pump 30 without stopping. Rest 2 minutes, add a plate per side and hit 30 again. Rest another 2 minutes, add a plate per side and gut out 30 any way you can get it. 3 total work sets.", "rpe": "11"},
+          {"order": 5, "title": "Legs", "subtitle": "Leg extension", "body": "Put on your working weight, fire the weight up, hold the contraction for a 2 count, then lower these at a snails pace (at least 5 seconds). 3 sets of 6 here and your legs should be toast. 3 total work set.", "rpe": "9"},
+          {"order": 6, "title": "Legs", "subtitle": "Dumbell stiff legged deadlift", "body": "Time to stretch everything out. 3 sets of 8 reps where you come all the way up and flex your glutes at the top. 3 total work sets.", "rpe": "9"},
+          {"order": 7, "title": "Calves", "subtitle": "Standing raises", "body": "Back to heavy weight here this week. Remember, no bouncing out of the stretched position, we don't want to have your Achilles tendon dragging the floor. I want 6 sets of 10. 6 total work set.", "rpe": "9-10"}
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Chest", "subtitle": "Incline dumbell press", "body": "After a thorough warm-up and some feeder sets, I need 4 working sets of a weight that is going to challenge you for 12 reps. You will lower it controlled, pause the dumbells by your chest, drive up hard to contraction and FLEX your chest. 4 total work sets.", "rpe": "9-10"},
+          {"order": 2, "title": "Chest", "subtitle": "Incline press (barbell)", "body": "We have been cranking the reps on this exercise, time to lower the reps and add some weight to the bar. Do 3 sets of 6. The last set should be a very tough 6. 3 total work sets.", "rpe": "9-10"},
+          {"order": 3, "title": "Chest", "subtitle": "Pec-dec flyes", "body": "Do 4 hard sets of 10 here. Lower the weight, feel all those chest fibers stretch out, then FLEX at the contraction. 4 total work set.", "rpe": "10"},
+          {"order": 4, "title": "Chest", "subtitle": "Machine press", "body": "If you have access to the Decline Hammer Strength press and can put bands on this great. I want 4 hard sets of 8 here so that your chest is fully cramping going into training shoulders. 4 total work sets.", "rpe": "9"},
+          {"order": 5, "title": "Shoulders", "subtitle": "Dumbell side laterals", "body": "Do 3 sets of 12 here. Bring the dumbells up to eye level. 3 total work sets.", "rpe": "9"},
+          {"order": 6, "title": "Shoulders", "subtitle": "Heavy dumbbell partial side laterals", "body": "So whatever weight you used for your side laterals, double it for this exercise. Stand really tall, tilt your chin up and only do the bottom third of the side raise. 3 sets of 20 here. 3 total work sets.", "rpe": "9"},
+          {"order": 7, "title": "Shoulders", "subtitle": "Reverse pec deck", "body": "Last exercise of the day, let's make sure we drive all the blood that is left into your rear delts. Do 3 sets of 30 here. 3 total work sets.", "rpe": "8"}
+        ]
+      },
+      "wednesday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Back", "subtitle": "Dumbell rows", "body": "After 2 weeks of meadows rows, it's time for a mix up. We are going to work up to a ball busting heavy set of 8 reps here. After a couple warm ups and 3-4 feeder sets its time to pull some heavy iron. Only make 10 pound jumps so you get some good working sets in. 4 total work sets.", "rpe": "9"},
+          {"order": 2, "title": "Back", "subtitle": "D.Y. hammer row", "body": "This is a great exercise for lower lats. Push your hips back and drive your upper chest into the pad. Think about really getting your elbows back on these. Do 4 sets of 8 here. 4 total work sets.", "rpe": "9"},
+          {"order": 3, "title": "Back", "subtitle": "Straight arm cable pullovers", "body": "Let's give your arms a break here and stretch those lats out. Using the rope or straight bar attachment and give me 4 sets of 12 reps. 4 total work set.", "rpe": "8-9"},
+          {"order": 4, "title": "Back", "subtitle": "Seated cable row", "body": "Grab your favorite attachment here and try to really focus on only pulling with your lats to get the handle all the way to your belly button. Do not lose tension anywhere in the range of motion. Do 4 sets of 10. 4 total work sets.", "rpe": "9"},
+          {"order": 5, "title": "Back", "subtitle": "Barbell hyperextensions", "body": "Come up and really squeeze your entire back. Do 4 sets of 8 and on your last set after you reach 8 reps, drop the bar and crank body weight reps to failure. 4 total work sets.", "rpe": "9"},
+          {"order": 6, "title": "Abs", "subtitle": "Leg raise and rope crunch combo", "body": "A superset for abs, but changing out the second exercise. Do 4 rounds to failure here. 8 total work sets.", "rpe": "9-10"}
+        ]
+      },
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Legs", "subtitle": "Standing leg curl", "body": "Since this is single leg, really focus on a massive contraction. I want 4 sets of 10 each leg and if you don't have one of these machines, simply do the lying leg curl, one leg at a time. 6 total work sets.", "rpe": "9"},
+          {"order": 2, "title": "Legs", "subtitle": "Machine leg press", "body": "Today lets hop on a cable/machine leg press and change our stance to mid-way up on the platform, but feet to the far outside of the plate. I want you to do 5 sets of 10 reps with 45 second rest periods. This may start off easy but should be brutal by set 5. 5 total work sets.", "rpe": "10"},
+          {"order": 3, "title": "Legs", "subtitle": "Hack squat", "body": "On hack squat today I want you to lower the weight very low. Once in that position fire back up to 3/4 lockout and right back into the next. Give me one heavy set in the 8-10 rep range. Rest 3 minutes, cut the weight in half and give me an all out set of 20-30. 2 total work sets.", "rpe": "12"},
+          {"order": 4, "title": "Legs", "subtitle": "Seated leg curls", "body": "All we are working here is the top half of the range of motion, so the stretch position. Put a pretty challenging weight on the machine, lock your body in stone and only using your hams move the leg of the machine to the half way point. 3 sets of 12 here please. 3 total work sets.", "rpe": "9"}
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Biceps", "subtitle": "Cable curls", "body": "After a few warm ups let's do a pyramid for your work sets. The working rep ranges should be 20, 15, 12, 10. 4 total work sets.", "rpe": "8-9"},
+          {"order": 2, "title": "Biceps", "subtitle": "E-Z bar preacher curls", "body": "You should be fully pumped at this point, so now onto my favorite bicep exercise. Lower the weight controlled, duck your head and bring the bar all the way up. Do 4 sets of 10. 4 total work sets.", "rpe": "9"},
+          {"order": 3, "title": "Biceps", "subtitle": "Rope hammer curl", "body": "We have 4 sets here but I want your rest breaks SHORT, 25 seconds each. Select a medium weight and do as many reps as you can for all 4 sets. 4 total work set.", "rpe": "9-11"},
+          {"order": 4, "title": "Triceps", "subtitle": "Dual rope pushdowns", "body": "What a great way to drive tons of blood into your triceps. I want you to find a great 15 rep weight and give me 4 sets with it. 4 total work sets.", "rpe": "9"},
+          {"order": 5, "title": "Triceps", "subtitle": "Overhead rope extensions", "body": "Simply remove one of the ropes and flip around, with your back to the weight stack. I want to work your pumped triceps from the stretched position now. Same reps and set scheme, 4 by 15 reps. 4 total work sets.", "rpe": "9"},
+          {"order": 6, "title": "Triceps", "subtitle": "Incline dumbbell skull crushers", "body": "Using a slight incline bench, let the dumbells sink low and really stretch your triceps out. Drive up to 3/4 lockout and then right into the next rep. 4 sets of 12 here should finish your arms off nicely. 4 total work sets.", "rpe": "9-11"},
+          {"order": 7, "title": "Abs", "subtitle": "Machine crunches", "body": "Do 6 sets to failure here. 6 total work sets.", "rpe": "9"},
+          {"order": 8, "title": "Calves", "subtitle": "Seated toe raises", "body": "Do 6 sets of 10 here after you are very warmed up. Continue to work in 20 of those tibialis raises in between each set. 6 total work sets.", "rpe": "9-10"}
+        ]
+      },
+      "saturday": {"isRestDay": true, "exercises": []},
+      "sunday": {"isRestDay": true, "exercises": []}
+    }
+  },
+  {
+    "week": 13,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Legs", "subtitle": "Lying leg curls", "body": "Once you are warmed up here, work up to a very hard 8 reps. On this last set, give me 8 reps, drop the weight do another 8 reps, drop the weight one last time and hit 8 more reps followed by 35 bottom half partials. You should be hobbling to the adductor machine after this. 4 total work sets.", "rpe": "8-13"},
+          {"order": 2, "title": "Legs", "subtitle": "Adductor machine", "body": "Take your time warming up here because I don't want you tearing anything. Once you find a good working weight do 3 sets of 8 here. 3 total work sets.", "rpe": "8-9"},
+          {"order": 3, "title": "Legs", "subtitle": "Leg press", "body": "Place your feet high on the platform to get some additional ham work and lets do sets of 8 till you can't get 8 anymore. Make sure you aren't making huge jumps in weight because I want you to get some good sets in here. We will call this 4 work sets. 4 total work sets.", "rpe": "8-10"},
+          {"order": 4, "title": "Legs", "subtitle": "Leg extensions", "body": "3 sets of 20 reps of leg extensions where you really use a full range of motion. On your 4th set, complete 20 reps, then give me 20 more bottom half partials to really hammer your VMO (teardrop). 4 total work sets.", "rpe": "9-11"},
+          {"order": 5, "title": "Legs", "subtitle": "Smith machine squats", "body": "With your legs completely full of blood let's get some deep squats in. Force your knees out and give me 4 sets of 6 reps here using a very slow decent, preferably 3 to 4 seconds. 4 total work sets.", "rpe": "9"},
+          {"order": 6, "title": "Legs", "subtitle": "Barbell stiff legged deadlift", "body": "Focus on pushing your hips back as you go down and only come up 3/4 of the way. 3 total work sets.", "rpe": "9"},
+          {"order": 7, "title": "Calves", "subtitle": "Standing raises", "body": "Staying with heavy weight again this week. Remember, NO bouncing out of the stretched position, we don't want to have your Achilles tendon hanging off your lower leg. I want 6 sets of 10. 6 total work set.", "rpe": "9-10"}
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Chest", "subtitle": "Machine press", "body": "Work up in weight here until you miss 10 reps and then you are onto the next one. Machine press is a great first exercise and ideal for going into a hard free weight press. 4 total work sets.", "rpe": "9-10"},
+          {"order": 2, "title": "Chest", "subtitle": "Incline press (barbell)", "body": "After the machine press, these incline barbell presses should be flying off your chest. I want sets of 8 here, but pause every single rep 2 inches above your chest before firing the bar up hard and fast. There should be no grinding of reps, speed, speed, and more speed this week. 3 total work sets.", "rpe": "8"},
+          {"order": 3, "title": "Chest", "subtitle": "Flat dumbbell press", "body": "Do 4 hard sets of 8 with a squeeze at the contraction. 4 total work set.", "rpe": "10"},
+          {"order": 4, "title": "Chest", "subtitle": "Stretch pushups", "body": "If you have access to chains, throw a couple on your back for these, if not no big deal. Keep your chin up, get a deep stretch then press up and squeeze. 4 sets to failure should finish your chest off. 4 total work sets.", "rpe": "9"},
+          {"order": 5, "title": "Shoulders", "subtitle": "Dumbell bent rear laterals", "body": "Do 3 sets of 15 here. Don't let your traps and lats do any of the work here. It will be a short range of motion but keep all the tension on the rear delt. 3 total work sets.", "rpe": "9"},
+          {"order": 6, "title": "Shoulders", "subtitle": "Dumbell side laterals", "body": "Give me 3 sets of 15 but only take 20 second rest breaks. 3 total work sets.", "rpe": "9"},
+          {"order": 7, "title": "Shoulders", "subtitle": "Reverse pec deck", "body": "Finishing up like last week but adding 5 more reps to the sets. Do 3 sets of 35 here. 3 total work sets.", "rpe": "8"}
+        ]
+      },
+      "wednesday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Back", "subtitle": "Incline dumbell row", "body": "Lay face down on an incline bench. With a neutral grip on both dumbells drive your elbows up hard and fast. Bring the dumbells down till they are resting on the ground, then fire right back up. You should really be able to focus on rowing heavy since your lower back is fully supported. 4 total work sets.", "rpe": "9"},
+          {"order": 2, "title": "Back", "subtitle": "1-arm barbell row", "body": "Time to get to work. Find a weight that is tough for 8 and give me 4 sets of 8. These should all be ball busting sets. 4 total work sets.", "rpe": "9"},
+          {"order": 3, "title": "Back", "subtitle": "Dumbell pullovers", "body": "Get on a slight decline bench today, lift your chest and really get a good stretch on your lats. Do not turn this into a tricep extension. 4 sets of 10 reps with each set getting a little deeper. 4 total work set.", "rpe": "8-9"},
+          {"order": 4, "title": "Back", "subtitle": "Rack pulls", "body": "After a couple feeder sets to find the perfect weight I want you to give me 3 sets of 8 reps. Really lock in your entire back and feel it from your traps to your glutes. Pull from mid shin. 3 total work sets.", "rpe": "9"},
+          {"order": 5, "title": "Back", "subtitle": "Seated cable row", "body": "This week I want you to change up the attachment, but the exact same coaching cues. Really focus on only pulling with your lats to get the handle all the way to your belly button. Do not lose tension anywhere in the range of motion. Do 3 sets of 10. 4 total work sets.", "rpe": "9"},
+          {"order": 6, "title": "Back", "subtitle": "Bodyweight hyperextensions", "body": "Do whatever it takes to get to 125 total reps. This may take 3-7 sets depending on how hard you push. We will call this 4 sets. 4 total work sets.", "rpe": "9"},
+          {"order": 7, "title": "Abs", "subtitle": "Hanging leg raises", "body": "This is a ton of sets but focus on contraction and while you are in the stretch position try to do a vacuum with every rep. 8 sets to failure here. 8 total work sets.", "rpe": "9-10"}
+        ]
+      },
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Legs", "subtitle": "Leg extensions (occluded)", "body": "After the warm up is complete, wrap knee wraps around your upper thighs and lets do occluded leg extensions for 4 sets to failure. So use 30 second rest breaks between sets and do not remove the wraps till the 4th set is complete. 4 total work sets.", "rpe": "9"},
+          {"order": 2, "title": "Legs", "subtitle": "Reverse band squats", "body": "Attach average (orange or gray EliteFTS bands) to the top of your power rack and squat. This is a great exercise to really generate speed. I want 4 sets of 6-8 reps and to cut it off when you lose speed on these. If you cannot do reverse banding, that ok, just use speed reps with 55% of your 1 rep max. 4 total work sets.", "rpe": "9"},
+          {"order": 3, "title": "Legs", "subtitle": "Dumbell walking lunges", "body": "I want you to pick a medium weight and give me 40 total steps (20 each leg) and that's one set. I need 3 more of those for a total of 4 working sets. 4 total work sets.", "rpe": "10"},
+          {"order": 4, "title": "Legs", "subtitle": "Sissy squats", "body": "Give me 4 nice and slow sets of 8 here not hitting failure here with 1-minute rest breaks. If you have any knee issues, skip these. 4 total work sets.", "rpe": "8"}
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Biceps and Triceps", "subtitle": "Cable curls and rope pressdowns (Superset)", "body": "After plenty of warm ups give me 4 sets of 15 on both exercises. 4 rounds for 8 total work sets.", "rpe": "8-9"},
+          {"order": 2, "title": "Biceps and Triceps", "subtitle": "E-Z bar preacher curls and dumbell kickbacks (Superset)", "body": "Get right into your work sets and do 8 reps on the preacher curls followed by 8 reps on dumbbell kickbacks. 4 rounds for 8 total work sets.", "rpe": "9"},
+          {"order": 3, "title": "Biceps and Triceps", "subtitle": "E-Z bar curls and decline e-z bar skull crushers (Superset)", "body": "Stand behind the decline bench and curl for sets of 12 then sit right down on the bench with the same bar and hit tricep extensions to failure. 3 rounds for 6 total work sets.", "rpe": "9-11"},
+          {"order": 4, "title": "Biceps and Triceps", "subtitle": "Dumbell hammer curls and v-bar pushdowns (Superset)", "body": "Take a set of dumbells over to the cable station and do 10 hammer curls then right into sets of 20 on v-bar pushdowns. 3 rounds for 6 total work sets.", "rpe": "9-11"},
+          {"order": 5, "title": "Abs", "subtitle": "V-ups", "body": "Do 6 sets to failure here. 6 total work sets.", "rpe": "9"},
+          {"order": 6, "title": "Calves", "subtitle": "Leg press toe raises", "body": "Do 6 sets of 30 reps. These are going to be very painful, don't quit, get all 30 reps on all 6 sets. 6 total work sets.", "rpe": "9-10"}
+        ]
+      },
+      "saturday": {"isRestDay": true, "exercises": []},
+      "sunday": {"isRestDay": true, "exercises": []}
+    }
+  },
+  {
+    "week": 14,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Legs", "subtitle": "Banded stiff leg deadlifts", "body": "Do not rush the warm up process with these as we typically do them last on a leg day. But I want you to get after these when you are fresh and not on shaky legs. Hit a few sets without the band, then add the band and work your way up to a top end set. Do not make big jumps as I want you to get some good quality work sets in here. 4 total work sets.", "rpe": "10"},
+          {"order": 2, "title": "Legs", "subtitle": "Adductor machine", "body": "I'm taking the governor off you here today. Work your way up to a hard 10 reps. From there I want you to do 3 drops in weight. Even if you have to use your hands to self-spot. Go ape shit here on the adductor machine. 4 total work sets.", "rpe": "8-12"},
+          {"order": 3, "title": "Legs", "subtitle": "Banded leg press", "body": "Place your feet high on the platform to get some additional ham work and lets do sets of 8 till you can't get 8 anymore. Make sure you aren't making huge jumps in weight because I want you to get some good sets in here. We will call this 4 work sets. 4 total work sets.", "rpe": "8-10"},
+          {"order": 4, "title": "Legs", "subtitle": "Hack squat", "body": "We are going to really push hard on the hack squat today. As we build weight, the reps lower but the negative time increases. We need 4 sets here. Example: 2 plates/15 reps (2 second negative), 3 plates/12 reps (3 second negative), 4 plates/10 reps (4 second negative), 5 plates/8 reps (5 second negative). 4 total work sets.", "rpe": "8-11"},
+          {"order": 5, "title": "Legs", "subtitle": "Bulgarian split squats", "body": "No death set here today, but that doesn't mean I want this to be easy. Really push yourself and work up to a heavy set. Do sets of 8 working up to a weight that kinda scares you and go bananas! 4 total work set.", "rpe": "9-13"},
+          {"order": 6, "title": "Legs", "subtitle": "Lying leg curl", "body": "To finish off your legs today I want 4 sets of 12 done rest-pause style. 4 total work set.", "rpe": "9"},
+          {"order": 7, "title": "Calves", "subtitle": "Seated calve raises", "body": "Really move some weight here. As always do not rush the stretch portion of the rep because that's where the growth happens. I want 4 sets of 10. 4 total work set.", "rpe": "9-10"},
+          {"order": 8, "title": "Calves", "subtitle": "Standing raises", "body": "After your heavy seated raises, these high-rep standing will take your pump to the next level. I want 4 sets of 20. 4 total work set.", "rpe": "9-10"}
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Chest", "subtitle": "Flat dumbell press", "body": "Work up in weight here until you miss 8 reps. Lock into these and only let your chest do the work. Drive up to 3/4 lockout. 4 total work sets.", "rpe": "9-10"},
+          {"order": 2, "title": "Chest", "subtitle": "Incline press (barbell)", "body": "Last week we did these with a pause, this week we are going to work up to a drop set. Do sets of 6 till you reach a weight that would be tough 8. Drop set example: 275 lbs x 8 -> 225 x 6 -> 185 x 10. 3 total work sets.", "rpe": "12"},
+          {"order": 3, "title": "Chest", "subtitle": "Neutral grip machine press", "body": "Sink these as deep as your shoulders allow. Open your chest up, then press into a hard contraction. 4 total sets of 10 reps.", "rpe": "10"},
+          {"order": 4, "title": "Chest", "subtitle": "Incline dumbbell flyes", "body": "Do 4 hard sets of 8 with a squeeze at the contraction. Feel free to do these either pronated or palms facing, whichever you feel more in your upper chest. 4 total work set.", "rpe": "10"},
+          {"order": 5, "title": "Chest", "subtitle": "Stretch pushups", "body": "Same finisher as last week for chest. Keep your chin up, get a deep stretch then press up and squeeze. 3 sets to failure should finish your chest off. 3 total work sets.", "rpe": "9"},
+          {"order": 6, "title": "Shoulders", "subtitle": "Reverse pec deck", "body": "Find a good working weight and give me 4 sets of 15 reps with a 1 second squeeze at the contraction. 4 total work sets.", "rpe": "9"},
+          {"order": 7, "title": "Shoulders", "subtitle": "Seated dumbell side laterals", "body": "Sit up tall and raise these up to 10 and 2 O'clock. Not only will this get your side delt, but also your front. 4 sets of 12 here should have you looking wide. 4 total work sets.", "rpe": "9"},
+          {"order": 8, "title": "Shoulders", "subtitle": "Machine shoulder press", "body": "Nail 3 sets of 10 on your favorite shoulder press machine. Could be a Hammer strength, cable or Smith machine. 3 total work sets.", "rpe": "8"}
+        ]
+      },
+      "wednesday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Back", "subtitle": "D-handle seated cable row", "body": "We have been finishing with these for our rowing but start here today. One singular goal, drive as much blood into your lats as possible. Give me 4 sets of 10. 4 total work sets.", "rpe": "9"},
+          {"order": 2, "title": "Back", "subtitle": "1-arm barbell row", "body": "Keeping this in here from last week. Find a weight that is tough for 8 and give me 4 sets of 8. These should all be ball busting sets. 4 total work sets.", "rpe": "9"},
+          {"order": 3, "title": "Back", "subtitle": "Meadows rows", "body": "Let's move right into a different hand position on the same place. Use the same weight you used for the 1-arm barbell row and give me 4 sets of 8. These should also be ball busting. 4 total work set.", "rpe": "9"},
+          {"order": 4, "title": "Back", "subtitle": "Dumbell pullovers", "body": "I want to give your arms a break after 3 straight rowing movements. 4 sets of 12 reps here. 4 total work sets.", "rpe": "8-9"},
+          {"order": 5, "title": "Back", "subtitle": "Assisted pull-ups", "body": "Use a wider overhand grip and really focus on the stretch on these. Only come up 3/4 of the way, lower in a slow 3 count, pause in the bottom to feel your lats stretch out, then only using your lats, drive up. 4 sets of 10 here. 4 total work sets.", "rpe": "9"},
+          {"order": 6, "title": "Back", "subtitle": "Banded hyperextensions", "body": "Use 2 red bands here today and give me 4 sets to failure. On the last set do failure with the bands and then bodyweight to failure. 4 total work sets.", "rpe": "9"},
+          {"order": 7, "title": "Abs", "subtitle": "Hanging leg raises and rope crunches", "body": "Do 4 rounds here for a total of 8 sets. 8 total work sets.", "rpe": "9-10"}
+        ]
+      },
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Legs", "subtitle": "Seated leg curls", "body": "After the warm up is complete, let's crank hard on those hamstrings. Make every single rep perfect. Big stretch, crazy contraction, and with each set go heavier than the previous. I want sets in the 8-12 range please. 4 total work sets.", "rpe": "9"},
+          {"order": 2, "title": "Legs", "subtitle": "Glute machine", "body": "Don't think lightly of this machine, go to work on it and your squats will feel great afterwards. 4 sets of 10 reps. 4 total work sets.", "rpe": "9"},
+          {"order": 3, "title": "Legs", "subtitle": "Reverse band squats", "body": "Same as last week since we attacked hypers hard and your low back may need a little break. Attach average orange or gray EliteFTS bands to the top of your power rack and squat. I want 4 sets of 6-8 reps and to cut it off when you lose speed on these. 4 total work sets.", "rpe": "9"},
+          {"order": 4, "title": "Legs", "subtitle": "Single-leg leg press", "body": "Sink these deep and drive your knee outside of your rib cage. 4 sets of 10 on each leg should be really hard after the squats. 3 total work sets.", "rpe": "10"},
+          {"order": 5, "title": "Legs", "subtitle": "Ham killers", "body": "Do these or feel free to use a GHR, whichever makes your hams hurt the worst. Shoot your hips forward, do NOT use your lower back and really squeeze your hamstrings hard. 3 sets of 8-10 will be a perfect way to finish. 3 total work sets.", "rpe": "10"}
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {"order": 1, "title": "Triceps and Biceps", "subtitle": "Straight bar pressdown and dumbell curls (Superset)", "body": "After plenty of warm ups give me 4 sets of 12 on the pressdowns and then 8 reps on the dumbell curls, but use 3 second negatives and your palms up the entire time on the curls. 4 rounds for 8 total work sets.", "rpe": "8-9"},
+          {"order": 2, "title": "Triceps and Biceps", "subtitle": "Rope pressdowns and E-Z bar preacher curls (Superset)", "body": "Another cable movement and free weight bicep exercise. For the pressdowns do 12 reps and for the preacher curls do 10 reps. 4 rounds for 8 total work sets.", "rpe": "9"},
+          {"order": 3, "title": "Triceps and Biceps", "subtitle": "E-z bar skull crushers and dumbbell hammer curls (Superset)", "body": "After two cable movements, your tris should be ready and warmed up for the skull crushers. I want you to do sets of 10 here, then stand right up, grab some dumbells and do cross-body hammer curls for 10 reps as well. 4 rounds for 8 total work sets.", "rpe": "9-11"},
+          {"order": 4, "title": "Triceps and Biceps", "subtitle": "Dip Machine and e-z bar reverse curls (Superset)", "body": "Feel free to use a machine or benches for your dips today. I want sets of 15 here and then sets of 15 on the reverse curls too. Your arms should be massively pumped at this point. 4 rounds for 8 total work sets.", "rpe": "9-11"},
+          {"order": 5, "title": "Abs", "subtitle": "V-ups and machine crunches", "body": "Do 4 rounds of 15 on each exercise here today. 8 total work sets.", "rpe": "9"},
+          {"order": 6, "title": "Calves", "subtitle": "Standing calf raises", "body": "I want 8 sets of 10 with 20 second rest breaks......burn baby burn. 8 total work sets.", "rpe": "9-10"}
+        ]
+      },
+      "saturday": {"isRestDay": true, "exercises": []},
+      "sunday": {"isRestDay": true, "exercises": []}
+    }
+  }
+]
