@@ -15,6 +15,11 @@ function getDb() {
 
     const schema = fs.readFileSync(SCHEMA_PATH, 'utf8');
     db.exec(schema);
+
+    const cols = db.prepare('PRAGMA table_info(workout_logs)').all();
+    if (!cols.find((c) => c.name === 'completed')) {
+      db.exec('ALTER TABLE workout_logs ADD COLUMN completed INTEGER NOT NULL DEFAULT 0');
+    }
   }
   return db;
 }

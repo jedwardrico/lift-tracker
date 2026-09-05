@@ -10,10 +10,10 @@ function getLogWithSets(db, logId) {
 }
 
 // POST /logs — create a log with sets inline
-// Body: { exercise_id, logged_at?, sets: [{ set_number, reps, weight, weight_unit? }] }
+// Body: { exercise_id, logged_at?, completed?, sets: [{ set_number, reps, weight, weight_unit? }] }
 router.post('/', (req, res) => {
   const db = getDb();
-  const { exercise_id, logged_at, sets = [] } = req.body;
+  const { exercise_id, logged_at, completed = 0, sets = [] } = req.body;
 
   if (!exercise_id) return res.status(400).json({ error: 'exercise_id is required' });
 
@@ -21,14 +21,14 @@ router.post('/', (req, res) => {
   if (!exercise) return res.status(404).json({ error: 'Exercise not found' });
 
   const insertLog = db.prepare(
-    'INSERT INTO workout_logs (exercise_id, logged_at) VALUES (?, ?)'
+    'INSERT INTO workout_logs (exercise_id, logged_at, completed) VALUES (?, ?, ?)'
   );
   const insertSet = db.prepare(
     'INSERT INTO sets (workout_log_id, set_number, reps, weight, weight_unit) VALUES (?, ?, ?, ?, ?)'
   );
 
   const create = db.transaction(() => {
-    const result = insertLog.run(exercise_id, logged_at ?? new Date().toISOString());
+    const result = insertLog.run(exercise_id, logged_at ?? new Date().toISOString(), completed ? 1 : 0);
     const logId = result.lastInsertRowid;
     for (const s of sets) {
       insertSet.run(logId, s.set_number, s.reps ?? null, s.weight ?? null, s.weight_unit ?? 'lbs');
@@ -55,11 +55,14 @@ router.put('/:id', (req, res) => {
   const existing = db.prepare('SELECT * FROM workout_logs WHERE id = ?').get(req.params.id);
   if (!existing) return res.status(404).json({ error: 'Log not found' });
 
-  const { logged_at, sets } = req.body;
+  const { logged_at, completed, sets } = req.body;
 
   const update = db.transaction(() => {
     if (logged_at !== undefined) {
       db.prepare('UPDATE workout_logs SET logged_at = ? WHERE id = ?').run(logged_at, req.params.id);
+    }
+    if (completed !== undefined) {
+      db.prepare('UPDATE workout_logs SET completed = ? WHERE id = ?').run(completed ? 1 : 0, req.params.id);
     }
     if (sets !== undefined) {
       db.prepare('DELETE FROM sets WHERE workout_log_id = ?').run(req.params.id);
