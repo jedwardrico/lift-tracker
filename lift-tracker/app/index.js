@@ -49,9 +49,11 @@ export default function WorkoutScreen() {
     { id: 2, reps: '8', weight: '', completed: false },
   ]);
   const [note, setNote] = useState('');
+  const [completedLogs, setCompletedLogs] = useState([]);
   const [timerSeconds, setTimerSeconds] = useState(0);
   const timerRef = useRef(null);
   const savedSetsMap = useRef({});
+  const loggedIds = useRef([]);
 
   useEffect(() => {
     fetch(`${BASE_URL}/weeks/1`)
@@ -128,34 +130,71 @@ export default function WorkoutScreen() {
     setExerciseIndex(targetIndex);
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
+    const isLast = exerciseIndex === exercises.length - 1;
+    const localSets = [...sets];
+    let logEntry = null;
+
     if (exercise) {
-      const allDone = sets.every((s) => s.completed);
+      const allDone = localSets.every((s) => s.completed);
       setCompletedExercises((prev) => {
         const next = new Set(prev);
-        if (allDone) next.add(exerciseIndex); else next.delete(exerciseIndex);
+        if (allDone || isLast) next.add(exerciseIndex); else next.delete(exerciseIndex);
         return next;
       });
-      fetch(`${BASE_URL}/logs`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          exercise_id: exercise.id,
-          sets: sets.map((s, i) => ({
-            set_number: i + 1,
-            reps: parseInt(s.reps) || null,
-            weight: parseFloat(s.weight) || null,
-          })),
-        }),
-      }).catch((err) => console.error('Failed to log exercise:', err));
+
+      try {
+        const res = await fetch(`${BASE_URL}/logs`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            exercise_id: exercise.id,
+            sets: localSets.map((s, i) => ({
+              set_number: i + 1,
+              reps: parseInt(s.reps) || null,
+              weight: parseFloat(s.weight) || null,
+            })),
+          }),
+        });
+        const data = await res.json();
+        if (data.id) {
+          loggedIds.current.push(data.id);
+          logEntry = {
+            exercise,
+            logId: data.id,
+            sets: (data.sets ?? []).map((dbSet, i) => ({
+              ...dbSet,
+              completed: localSets[i]?.completed ?? false,
+            })),
+            note,
+          };
+        }
+      } catch (err) {
+        console.error('Failed to log exercise:', err);
+        logEntry = { exercise, logId: null, sets: localSets, note };
+      }
+
+      if (logEntry) setCompletedLogs((prev) => [...prev, logEntry]);
     }
 
-    const nextIndex = exerciseIndex + 1;
-    if (nextIndex < exercises.length) {
-      navigateTo(nextIndex);
-    } else {
+    if (isLast) {
       clearInterval(timerRef.current);
-      router.replace({ pathname: '/complete', params: { elapsed: timerSeconds } });
+      await Promise.all(
+        loggedIds.current.map((id) =>
+          fetch(`${BASE_URL}/logs/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ completed: true }),
+          }).catch((err) => console.error('Failed to mark log complete:', err))
+        )
+      );
+      const allLogs = logEntry ? [...completedLogs, logEntry] : completedLogs;
+      router.replace({
+        pathname: '/complete',
+        params: { elapsed: timerSeconds, logs: JSON.stringify(allLogs) },
+      });
+    } else {
+      navigateTo(exerciseIndex + 1);
     }
   };
 
@@ -301,6 +340,23 @@ export default function WorkoutScreen() {
             keyboardAppearance="dark"
           />
         </View>
+
+        {completedLogs.length > 0 && (
+          <View style={styles.liftLog}>
+            <Text style={styles.liftLogTitle}>Lift Log</Text>
+            {completedLogs.map((log, i) => (
+              <View key={i} style={styles.liftLogEntry}>
+                <Text style={styles.liftLogExName}>{log.exercise?.subtitle ?? '—'}</Text>
+                {log.sets.map((s, j) => (
+                  <Text key={s.id ?? j} style={styles.liftLogSet}>
+                    {s.set_number ?? j + 1}{'  '}{s.reps ?? '—'} reps{s.weight ? `  ×  ${s.weight} lb` : ''}
+                    {s.completed ? '  ✓' : ''}
+                  </Text>
+                ))}
+              </View>
+            ))}
+          </View>
+        )}
 
         <View style={{ height: 100 }} />
       </ScrollView>
@@ -565,5 +621,37 @@ const styles = StyleSheet.create({
     color: COLORS.blue,
     fontSize: 15,
     fontWeight: '600',
+  },
+  liftLog: {
+    marginHorizontal: 16,
+    marginTop: 24,
+    gap: 12,
+  },
+  liftLogTitle: {
+    color: COLORS.textMuted,
+    fontSize: 12,
+    fontWeight: '700',
+    letterSpacing: 1.5,
+    textTransform: 'uppercase',
+    marginBottom: 4,
+  },
+  liftLogEntry: {
+    backgroundColor: COLORS.surface,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    padding: 12,
+    gap: 4,
+  },
+  liftLogExName: {
+    color: COLORS.text,
+    fontSize: 14,
+    fontWeight: '700',
+    marginBottom: 6,
+  },
+  liftLogSet: {
+    color: COLORS.textMuted,
+    fontSize: 13,
+    fontVariant: ['tabular-nums'],
   },
 });
