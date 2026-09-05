@@ -1,385 +1,219 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
-  TextInput,
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
 const COLORS = {
   bg: '#0a0a0a',
-  surface: '#1a1a1a',
+  surface: '#141414',
+  surfaceHigh: '#1e1e1e',
   border: '#2a2a2a',
   text: '#ffffff',
-  textMuted: '#888888',
-  textDim: '#555555',
-  green: '#4ade80',
-  blue: '#3b82f6',
-  yellow: '#facc15',
-  inputBg: '#1e1e1e',
+  textMuted: '#666666',
+  textDim: '#3a3a3a',
+  accent: '#6366f1',
+  accentDim: '#312e81',
 };
 
-// Change to your machine's local IP when testing on a physical device
 const BASE_URL = 'http://localhost:3000';
 
-function buildInitialSets(count, repRange) {
-  const reps = repRange ? repRange.split('-')[0] : '8';
-  return Array.from({ length: count || 2 }, (_, i) => ({
-    id: i + 1,
-    reps,
-    weight: '',
-    completed: false,
-  }));
+const DAY_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+const API_DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEPT', 'OCT', 'NOV', 'DEC'];
+
+function getWeekDates() {
+  const today = new Date();
+  const dow = today.getDay(); // 0=Sun
+  const monday = new Date(today);
+  monday.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1));
+  return Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    return d;
+  });
 }
 
-export default function WorkoutScreen() {
+function todayDayIndex() {
+  const dow = new Date().getDay();
+  return dow === 0 ? 6 : dow - 1; // Mon=0 … Sun=6
+}
+
+export default function HomeScreen() {
   const router = useRouter();
+  const weekDates = getWeekDates();
+  const todayIdx = todayDayIndex();
+  const [selectedIdx, setSelectedIdx] = useState(todayIdx);
   const [weekData, setWeekData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [exerciseIndex, setExerciseIndex] = useState(0);
-  const [completedExercises, setCompletedExercises] = useState(new Set());
-  const [sets, setSets] = useState([
-    { id: 1, reps: '8', weight: '', completed: false },
-    { id: 2, reps: '8', weight: '', completed: false },
-  ]);
-  const [note, setNote] = useState('');
-  const [completedLogs, setCompletedLogs] = useState([]);
-  const [timerSeconds, setTimerSeconds] = useState(0);
-  const timerRef = useRef(null);
-  const savedSetsMap = useRef({});
-  const loggedIds = useRef([]);
 
   useEffect(() => {
     fetch(`${BASE_URL}/weeks/1`)
       .then((r) => r.json())
-      .then((data) => {
-        setWeekData(data);
-        const firstActiveDay = data.days?.find((d) => !d.is_rest_day);
-        const firstExercise = firstActiveDay?.exercises?.[0];
-        if (firstExercise) {
-          setSets(buildInitialSets(firstExercise.sets, firstExercise.rep_range));
-        }
-      })
+      .then((data) => setWeekData(data))
       .catch((err) => console.error('Failed to load week:', err))
       .finally(() => setLoading(false));
   }, []);
 
-  useEffect(() => {
-    timerRef.current = setInterval(() => setTimerSeconds((s) => s + 1), 1000);
-    return () => clearInterval(timerRef.current);
-  }, []);
+  const selectedDate = weekDates[selectedIdx];
+  const monthLabel = `${MONTHS[selectedDate.getMonth()]} '${selectedDate.getFullYear().toString().slice(2)}`;
 
-  const formatTimer = (s) => {
-    const m = Math.floor(s / 60);
-    const sec = s % 60;
-    return `${m}:${sec.toString().padStart(2, '0')}`;
-  };
+  const dayData = weekData?.days?.[selectedIdx];
+  const isRestDay = dayData?.is_rest_day ?? false;
+  const exercises = dayData?.exercises ?? [];
 
-  const addSet = () => {
-    setSets((prev) => [
-      ...prev,
-      { id: Date.now(), reps: '8', weight: '', completed: false },
-    ]);
-  };
-
-  const removeSet = () => {
-    if (sets.length > 1) setSets((prev) => prev.slice(0, -1));
-  };
-
-  const toggleComplete = (id) => {
-    setSets((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, completed: !s.completed } : s))
-    );
-  };
-
-  const updateReps = (id, val) => {
-    setSets((prev) => prev.map((s) => (s.id === id ? { ...s, reps: val } : s)));
-  };
-
-  const updateWeight = (id, val) => {
-    setSets((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, weight: val } : s))
-    );
-  };
-
-  const totalReps = sets.reduce(
-    (acc, s) => acc + (s.completed ? parseInt(s.reps) || 0 : 0),
-    0
-  );
-  const totalWeight = sets.reduce(
-    (acc, s) => acc + (s.completed ? parseFloat(s.weight) || 0 : 0),
-    0
-  );
-
-  const firstActiveDay = weekData?.days?.find((d) => !d.is_rest_day);
-  const exercises = firstActiveDay?.exercises ?? [];
-  const exercise = exercises[exerciseIndex];
-  const totalSets = sets.length;
-
-  const navigateTo = (targetIndex) => {
-    savedSetsMap.current[exerciseIndex] = sets;
-    const targetExercise = exercises[targetIndex];
-    setSets(savedSetsMap.current[targetIndex] ?? buildInitialSets(targetExercise.sets, targetExercise.rep_range));
-    setNote('');
-    setExerciseIndex(targetIndex);
-  };
-
-  const handleNext = async () => {
-    const isLast = exerciseIndex === exercises.length - 1;
-    const localSets = [...sets];
-    let logEntry = null;
-
-    if (exercise) {
-      const allDone = localSets.every((s) => s.completed);
-      setCompletedExercises((prev) => {
-        const next = new Set(prev);
-        if (allDone || isLast) next.add(exerciseIndex); else next.delete(exerciseIndex);
-        return next;
-      });
-
-      try {
-        const res = await fetch(`${BASE_URL}/logs`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            exercise_id: exercise.id,
-            sets: localSets.map((s, i) => ({
-              set_number: i + 1,
-              reps: parseInt(s.reps) || null,
-              weight: parseFloat(s.weight) || null,
-            })),
-          }),
-        });
-        const data = await res.json();
-        if (data.id) {
-          loggedIds.current.push(data.id);
-          logEntry = {
-            exercise,
-            logId: data.id,
-            sets: (data.sets ?? []).map((dbSet, i) => ({
-              ...dbSet,
-              completed: localSets[i]?.completed ?? false,
-            })),
-            note,
-          };
-        }
-      } catch (err) {
-        console.error('Failed to log exercise:', err);
-        logEntry = { exercise, logId: null, sets: localSets, note };
-      }
-
-      if (logEntry) setCompletedLogs((prev) => [...prev, logEntry]);
-    }
-
-    if (isLast) {
-      clearInterval(timerRef.current);
-      await Promise.all(
-        loggedIds.current.map((id) =>
-          fetch(`${BASE_URL}/logs/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ completed: true }),
-          }).catch((err) => console.error('Failed to mark log complete:', err))
-        )
-      );
-      const allLogs = logEntry ? [...completedLogs, logEntry] : completedLogs;
-      router.replace({
-        pathname: '/complete',
-        params: { elapsed: timerSeconds, logs: JSON.stringify(allLogs) },
-      });
-    } else {
-      navigateTo(exerciseIndex + 1);
-    }
-  };
-
-  const handleBack = () => {
-    if (exerciseIndex > 0) navigateTo(exerciseIndex - 1);
-  };
-
-  if (loading) {
-    return (
-      <SafeAreaView style={styles.container}>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={{ color: COLORS.textMuted, fontSize: 16 }}>Loading week 1…</Text>
-        </View>
-      </SafeAreaView>
-    );
-  }
+  const groupedExercises = exercises.reduce((acc, ex) => {
+    if (!acc[ex.title]) acc[ex.title] = [];
+    acc[ex.title].push(ex);
+    return acc;
+  }, {});
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.bg} />
+      <StatusBar barStyle="light-content" />
 
       {/* Header */}
       <View style={styles.header}>
-        <View style={styles.dotsRow}>
-          {exercises.map((_, i) => (
-            <View
+        <TouchableOpacity style={styles.monthPicker}>
+          <Text style={styles.monthText}>{monthLabel}</Text>
+          <Text style={styles.chevron}>{'  ›'}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.todayBtn}
+          onPress={() => setSelectedIdx(todayIdx)}
+        >
+          <Text style={styles.todayBtnText}>TODAY</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Week day strip */}
+      <View style={styles.weekStrip}>
+        {weekDates.map((date, i) => {
+          const day = weekData?.days?.[i];
+          const hasWorkout = day && !day.is_rest_day && (day.exercises?.length ?? 0) > 0;
+          const isSelected = i === selectedIdx;
+          const isToday = i === todayIdx;
+
+          return (
+            <TouchableOpacity
               key={i}
-              style={[
-                styles.dot,
-                completedExercises.has(i) && styles.dotCompleted,
-                i === exerciseIndex && styles.dotCurrent,
-              ]}
-            />
-          ))}
-        </View>
-
-        <TouchableOpacity>
-          <Text style={styles.timerText}>{formatTimer(timerSeconds)}</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Rep / Weight summary */}
-      <View style={styles.summaryRow}>
-        <Text style={styles.summaryText}>
-          <Text style={styles.summaryValue}>{totalReps}</Text>
-          <Text style={styles.summaryLabel}> REPS</Text>
-          {'    '}
-          <Text style={styles.summaryValue}>{totalWeight || 0}</Text>
-          <Text style={styles.summaryLabel}> LB</Text>
-        </Text>
-      </View>
-
-      <View style={styles.divider} />
-
-      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-        {/* Category + Exercise */}
-        <View style={styles.exerciseHeader}>
-          <Text style={styles.categoryText}>{exercise?.title ?? ''}</Text>
-          <View style={styles.exerciseTitleRow}>
-            <View style={styles.exerciseTitleLeft}>
-              <Text style={styles.exerciseName}>{exercise?.subtitle ?? '—'}</Text>
-            </View>
-            <TouchableOpacity style={styles.moreButton}>
-              <Text style={styles.moreButtonText}>•••</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Exercise parameters */}
-        {exercise?.rep_range || exercise?.rpe ? (
-          <View style={styles.paramsBlock}>
-            {exercise.rep_range ? (
-              <Text style={styles.paramText}>Reps {exercise.rep_range}</Text>
-            ) : null}
-            {exercise.rpe != null ? (
-              <Text style={styles.paramText}>RPE {exercise.rpe}</Text>
-            ) : null}
-          </View>
-        ) : null}
-
-        {/* Sets table */}
-        <View style={styles.setsTable}>
-          <View style={styles.setsHeaderRow}>
-            <Text style={[styles.setColHeader, { width: 36 }]}>Sets</Text>
-            <Text style={[styles.setColHeader, { flex: 1, textAlign: 'center' }]}>Reps</Text>
-            <Text style={[styles.setColHeader, { flex: 1, textAlign: 'center' }]}>Lb</Text>
-            <View style={{ width: 44 }} />
-          </View>
-
-          {sets.map((set, idx) => (
-            <View key={set.id} style={styles.setRow}>
-              <Text style={styles.setNumber}>{idx + 1}</Text>
-              <TextInput
-                style={styles.setInput}
-                value={set.reps}
-                onChangeText={(v) => updateReps(set.id, v)}
-                keyboardType="numeric"
-                keyboardAppearance="dark"
-                selectTextOnFocus
-              />
-              <TextInput
-                style={styles.setInput}
-                value={set.weight}
-                onChangeText={(v) => updateWeight(set.id, v)}
-                keyboardType="numeric"
-                keyboardAppearance="dark"
-                placeholder=""
-                placeholderTextColor={COLORS.textDim}
-                selectTextOnFocus
-              />
-              <TouchableOpacity
-                style={[styles.completeDot, set.completed && styles.completeDotFilled]}
-                onPress={() => toggleComplete(set.id)}
+              style={styles.dayCell}
+              onPress={() => setSelectedIdx(i)}
+            >
+              <Text style={[styles.dayLabel, isSelected && styles.dayLabelActive]}>
+                {DAY_LABELS[i]}
+              </Text>
+              <Text
+                style={[
+                  styles.dateNum,
+                  isSelected && styles.dateNumActive,
+                  isToday && !isSelected && styles.dateNumToday,
+                ]}
               >
-                {set.completed && (
-                  <Ionicons name="checkmark" size={16} color={COLORS.bg} />
+                {date.getDate()}
+              </Text>
+              <View style={styles.dotSlot}>
+                {hasWorkout && (
+                  <View style={[styles.dot, isSelected && styles.dotActive]} />
                 )}
-              </TouchableOpacity>
-            </View>
-          ))}
-
-          {/* Add/Remove set controls */}
-          <View style={styles.setControls}>
-            <TouchableOpacity style={styles.setControlBtn} onPress={removeSet}>
-              <Ionicons name="remove" size={22} color={COLORS.text} />
-            </TouchableOpacity>
-            <Text style={styles.setControlLabel}>Set</Text>
-            <TouchableOpacity style={[styles.setControlBtn, styles.setControlBtnBlue]} onPress={addSet}>
-              <Ionicons name="add" size={22} color={COLORS.blue} />
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Note input */}
-        <View style={styles.noteContainer}>
-          <TextInput
-            style={styles.noteInput}
-            placeholder="Add exercise note"
-            placeholderTextColor={COLORS.textDim}
-            value={note}
-            onChangeText={setNote}
-            multiline
-            keyboardAppearance="dark"
-          />
-        </View>
-
-        {completedLogs.length > 0 && (
-          <View style={styles.liftLog}>
-            <Text style={styles.liftLogTitle}>Lift Log</Text>
-            {completedLogs.map((log, i) => (
-              <View key={i} style={styles.liftLogEntry}>
-                <Text style={styles.liftLogExName}>{log.exercise?.subtitle ?? '—'}</Text>
-                {log.sets.map((s, j) => (
-                  <Text key={s.id ?? j} style={styles.liftLogSet}>
-                    {s.set_number ?? j + 1}{'  '}{s.reps ?? '—'} reps{s.weight ? `  ×  ${s.weight} lb` : ''}
-                    {s.completed ? '  ✓' : ''}
-                  </Text>
-                ))}
               </View>
-            ))}
-          </View>
-        )}
-
-        <View style={{ height: 100 }} />
-      </ScrollView>
-
-      {/* Bottom nav */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navBtn} onPress={handleBack} disabled={exerciseIndex === 0}>
-          <Ionicons name="arrow-back" size={20} color={exerciseIndex === 0 ? COLORS.textDim : COLORS.blue} />
-          <Text style={[styles.navBtnText, exerciseIndex === 0 && { color: COLORS.textDim }]}>Back</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.navCenter}>
-          <Ionicons name="timer-outline" size={20} color={COLORS.blue} />
-          <Text style={styles.navCenterText}>Select Timer</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.navBtn} onPress={handleNext}>
-          <Text style={styles.navBtnText}>
-            {exerciseIndex < exercises.length - 1 ? 'Next' : 'Finish'}
-          </Text>
-          <Ionicons name="arrow-forward" size={20} color={COLORS.blue} />
-        </TouchableOpacity>
+              {isSelected && <View style={styles.selectedBar} />}
+            </TouchableOpacity>
+          );
+        })}
       </View>
+
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        {loading ? (
+          <View style={styles.centeredMsg}>
+            <Text style={styles.mutedText}>Loading…</Text>
+          </View>
+        ) : isRestDay ? (
+          <View style={styles.centeredMsg}>
+            <Text style={styles.restTitle}>Rest Day</Text>
+            <Text style={styles.mutedText}>Recovery & regeneration</Text>
+          </View>
+        ) : exercises.length === 0 ? (
+          <View style={styles.centeredMsg}>
+            <Text style={styles.mutedText}>No workout scheduled</Text>
+          </View>
+        ) : (
+          <>
+            {/* Day name + count */}
+            <View style={styles.dayTitleRow}>
+              <Text style={styles.dayName}>
+                {API_DAYS[selectedIdx].charAt(0).toUpperCase() +
+                  API_DAYS[selectedIdx].slice(1)}
+              </Text>
+              <Text style={styles.exerciseCount}>
+                {exercises.length} exercises
+              </Text>
+            </View>
+
+            {/* Start Workout CTA */}
+            <TouchableOpacity
+              style={styles.startBtn}
+              onPress={() => router.push('/workout')}
+              activeOpacity={0.85}
+            >
+              <Text style={styles.startBtnText}>Start Workout</Text>
+            </TouchableOpacity>
+
+            {/* Day description */}
+            <View style={styles.descCard}>
+              <Text style={styles.descTitle}>Today's Focus</Text>
+              <Text style={styles.descBody}>
+                {dayData?.description ??
+                  'Session notes and coach instructions will appear here once added to your program.'}
+              </Text>
+            </View>
+
+            {/* Exercise list */}
+            <View style={styles.exerciseList}>
+              {Object.entries(groupedExercises).map(([bodyPart, exList]) => (
+                <View key={bodyPart} style={styles.exerciseGroup}>
+                  <Text style={styles.bodyPartLabel}>{bodyPart.toUpperCase()}</Text>
+                  {exList.map((ex) => {
+                    const setsReps =
+                      ex.sets && ex.rep_range
+                        ? `${ex.sets} × ${ex.rep_range}`
+                        : ex.rpe
+                        ? `RPE ${ex.rpe}`
+                        : null;
+
+                    return (
+                      <View key={ex.id} style={styles.exerciseRow}>
+                        <View style={styles.exerciseIcon}>
+                          <Text style={styles.exerciseIconText}>
+                            {bodyPart.charAt(0).toUpperCase()}
+                          </Text>
+                        </View>
+                        <View style={styles.exerciseInfo}>
+                          <Text style={styles.exerciseName}>{ex.subtitle}</Text>
+                          {setsReps && (
+                            <Text style={styles.setsReps}>{setsReps}</Text>
+                          )}
+                        </View>
+                      </View>
+                    );
+                  })}
+                </View>
+              ))}
+            </View>
+          </>
+        )}
+        <View style={{ height: 32 }} />
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -389,269 +223,233 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.bg,
   },
+
+  // Header
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-  },
-  dotsRow: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 5,
-  },
-  dot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    borderWidth: 1.5,
-    borderColor: COLORS.green,
-    backgroundColor: 'transparent',
-  },
-  dotCompleted: {
-    backgroundColor: COLORS.green,
-  },
-  dotCurrent: {
-    width: 14,
-    height: 14,
-    borderRadius: 7,
-    borderWidth: 2,
-    borderColor: COLORS.green,
-    backgroundColor: 'transparent',
-  },
-  timerText: {
-    color: COLORS.blue,
-    fontSize: 17,
-    fontWeight: '600',
-  },
-  summaryRow: {
-    alignItems: 'center',
-    paddingVertical: 4,
-  },
-  summaryText: {
-    fontSize: 18,
-  },
-  summaryValue: {
-    color: COLORS.text,
-    fontWeight: '800',
-    fontStyle: 'italic',
-    fontSize: 22,
-  },
-  summaryLabel: {
-    color: COLORS.textMuted,
-    fontWeight: '600',
-    fontSize: 14,
-  },
-  divider: {
-    height: 1,
-    backgroundColor: COLORS.border,
-    marginTop: 6,
-  },
-  scroll: {
-    flex: 1,
-  },
-  exerciseHeader: {
-    paddingHorizontal: 16,
-    paddingTop: 16,
-    paddingBottom: 4,
-  },
-  categoryText: {
-    color: COLORS.textMuted,
-    fontSize: 14,
-    marginBottom: 6,
-  },
-  exerciseTitleRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  exerciseTitleLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  exerciseName: {
-    color: COLORS.text,
-    fontSize: 22,
-    fontWeight: '800',
-  },
-  moreButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: COLORS.surface,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  moreButtonText: {
-    color: COLORS.textMuted,
-    fontSize: 13,
-    letterSpacing: 1,
-  },
-  paramsBlock: {
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    gap: 4,
-  },
-  paramText: {
-    color: COLORS.textMuted,
-    fontSize: 14,
-    lineHeight: 22,
-  },
-  setsTable: {
-    paddingHorizontal: 16,
-  },
-  setsHeaderRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  setColHeader: {
-    color: COLORS.text,
-    fontWeight: '700',
-    fontSize: 15,
-  },
-  setRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-    gap: 8,
-  },
-  setNumber: {
-    width: 28,
-    color: COLORS.textMuted,
-    fontSize: 16,
-    textAlign: 'center',
-  },
-  setInput: {
-    flex: 1,
-    height: 48,
-    backgroundColor: COLORS.inputBg,
-    borderRadius: 8,
-    color: COLORS.text,
-    fontSize: 18,
-    fontWeight: '600',
-    textAlign: 'center',
-    borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  completeDot: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    borderWidth: 2,
-    borderColor: COLORS.green,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  completeDotFilled: {
-    backgroundColor: COLORS.green,
-  },
-  setControls: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 8,
-    gap: 20,
-  },
-  setControlBtn: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    borderWidth: 2,
-    borderColor: COLORS.textMuted,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  setControlBtnBlue: {
-    borderColor: COLORS.blue,
-  },
-  setControlLabel: {
-    color: COLORS.text,
-    fontSize: 16,
-    fontWeight: '600',
-    width: 40,
-    textAlign: 'center',
-  },
-  noteContainer: {
-    marginHorizontal: 16,
-    marginTop: 16,
-    borderRadius: 12,
-    backgroundColor: COLORS.surface,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  noteInput: {
-    padding: 14,
-    color: COLORS.textMuted,
-    fontSize: 14,
-    minHeight: 48,
-  },
-  bottomNav: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.border,
-    backgroundColor: COLORS.bg,
+    paddingTop: 8,
+    paddingBottom: 12,
   },
-  navBtn: {
+  monthPicker: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
   },
-  navBtnText: {
-    color: COLORS.blue,
-    fontSize: 16,
-    fontWeight: '600',
+  monthText: {
+    color: COLORS.text,
+    fontSize: 24,
+    fontWeight: '800',
+    fontStyle: 'italic',
+    letterSpacing: 0.5,
   },
-  navCenter: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  navCenterText: {
-    color: COLORS.blue,
-    fontSize: 15,
-    fontWeight: '600',
-  },
-  liftLog: {
-    marginHorizontal: 16,
-    marginTop: 24,
-    gap: 12,
-  },
-  liftLogTitle: {
+  chevron: {
     color: COLORS.textMuted,
+    fontSize: 20,
+    fontWeight: '300',
+  },
+  todayBtn: {
+    borderWidth: 1,
+    borderColor: COLORS.text,
+    borderRadius: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+  },
+  todayBtnText: {
+    color: COLORS.text,
     fontSize: 12,
     fontWeight: '700',
-    letterSpacing: 1.5,
-    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
+
+  // Week strip
+  weekStrip: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.border,
+  },
+  dayCell: {
+    flex: 1,
+    alignItems: 'center',
+    paddingTop: 6,
+    paddingBottom: 0,
+    position: 'relative',
+  },
+  dayLabel: {
+    color: COLORS.textMuted,
+    fontSize: 12,
+    fontWeight: '600',
     marginBottom: 4,
   },
-  liftLogEntry: {
+  dayLabelActive: {
+    color: COLORS.text,
+  },
+  dateNum: {
+    color: COLORS.textMuted,
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  dateNumActive: {
+    color: COLORS.text,
+    fontWeight: '700',
+  },
+  dateNumToday: {
+    color: COLORS.accent,
+    fontWeight: '700',
+  },
+  dotSlot: {
+    height: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 4,
+  },
+  dot: {
+    width: 4,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: COLORS.textMuted,
+  },
+  dotActive: {
+    backgroundColor: COLORS.accent,
+  },
+  selectedBar: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 2,
+    backgroundColor: COLORS.text,
+  },
+
+  // Scroll
+  scroll: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
+
+  // Day title row
+  dayTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    justifyContent: 'space-between',
+    marginBottom: 16,
+  },
+  dayName: {
+    color: COLORS.text,
+    fontSize: 20,
+    fontWeight: '800',
+  },
+  exerciseCount: {
+    color: COLORS.textMuted,
+    fontSize: 13,
+  },
+
+  // Start button
+  startBtn: {
+    backgroundColor: COLORS.accent,
+    borderRadius: 12,
+    paddingVertical: 16,
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  startBtnText: {
+    color: COLORS.text,
+    fontSize: 17,
+    fontWeight: '700',
+    letterSpacing: 0.3,
+  },
+
+  // Description card
+  descCard: {
     backgroundColor: COLORS.surface,
-    borderRadius: 10,
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 24,
     borderWidth: 1,
     borderColor: COLORS.border,
-    padding: 12,
-    gap: 4,
   },
-  liftLogExName: {
+  descTitle: {
     color: COLORS.text,
     fontSize: 14,
     fontWeight: '700',
     marginBottom: 6,
+    letterSpacing: 0.5,
   },
-  liftLogSet: {
+  descBody: {
     color: COLORS.textMuted,
+    fontSize: 14,
+    lineHeight: 21,
+  },
+
+  // Exercise list
+  exerciseList: {
+    gap: 8,
+  },
+  exerciseGroup: {
+    marginBottom: 12,
+  },
+  bodyPartLabel: {
+    color: COLORS.textMuted,
+    fontSize: 11,
+    fontWeight: '700',
+    letterSpacing: 1.5,
+    marginBottom: 8,
+  },
+  exerciseRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.border,
+    gap: 12,
+  },
+  exerciseIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: COLORS.surfaceHigh,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+  exerciseIconText: {
+    color: COLORS.textMuted,
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  exerciseInfo: {
+    flex: 1,
+  },
+  exerciseName: {
+    color: COLORS.text,
+    fontSize: 15,
+    fontWeight: '600',
+  },
+  setsReps: {
+    color: COLORS.accent,
     fontSize: 13,
-    fontVariant: ['tabular-nums'],
+    marginTop: 2,
+    fontWeight: '500',
+  },
+
+  // States
+  centeredMsg: {
+    paddingTop: 60,
+    alignItems: 'center',
+    gap: 8,
+  },
+  restTitle: {
+    color: COLORS.text,
+    fontSize: 20,
+    fontWeight: '700',
+  },
+  mutedText: {
+    color: COLORS.textMuted,
+    fontSize: 15,
   },
 });
