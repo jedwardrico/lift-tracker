@@ -1,8 +1,8 @@
-import { configs } from '@eslint/js';
-import prettierConfig from 'eslint-config-prettier';
+const js = require('@eslint/js');
+const prettierConfig = require('eslint-config-prettier');
 
-export default [
-  configs.recommended,
+module.exports = [
+  js.configs.recommended,
   prettierConfig,
   {
     languageOptions: {
