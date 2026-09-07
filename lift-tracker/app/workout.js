@@ -25,8 +25,7 @@ const COLORS = {
   inputBg: '#1e1e1e',
 };
 
-// Change to your machine's local IP when testing on a physical device
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000';
 
 function buildInitialSets(count, repRange) {
   const reps = repRange ? repRange.split('-')[0] : '8';
