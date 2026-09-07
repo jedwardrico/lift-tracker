@@ -12,6 +12,7 @@
     "@expo/vector-icons": "^15.0.2",
     "expo": "~57.0.0",
     "expo-dev-client": "~57.0.18",
+    "expo-linking": "^57.0.9",
     "expo-router": "~57.0.18",
     "expo-status-bar": "~57.0.1",
     "react": "19.2.3",
@@ -20,7 +21,8 @@
     "react-native-screens": "~4.26.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.25.2"
+    "@babel/core": "^7.25.2",
+    "babel-preset-expo": "^57.0.10"
   },
   "private": true
 }

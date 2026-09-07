@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 
 const DB_PATH = path.join(__dirname, '..', 'db', 'gamma_bomb.sqlite');
-const SCHEMA_PATH = path.join(__dirname, '..', 'db', 'schema.sql');
+const SCHEMA_PATH = process.env.SCHEMA_PATH || path.join(__dirname, '..', 'db', 'schema.sql');
 
 let db;
 
