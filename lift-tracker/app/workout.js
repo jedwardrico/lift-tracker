@@ -341,23 +341,6 @@ export default function WorkoutScreen() {
           />
         </View>
 
-        {completedLogs.length > 0 && (
-          <View style={styles.liftLog}>
-            <Text style={styles.liftLogTitle}>Lift Log</Text>
-            {completedLogs.map((log, i) => (
-              <View key={i} style={styles.liftLogEntry}>
-                <Text style={styles.liftLogExName}>{log.exercise?.subtitle ?? '—'}</Text>
-                {log.sets.map((s, j) => (
-                  <Text key={s.id ?? j} style={styles.liftLogSet}>
-                    {s.set_number ?? j + 1}{'  '}{s.reps ?? '—'} reps{s.weight ? `  ×  ${s.weight} lb` : ''}
-                    {s.completed ? '  ✓' : ''}
-                  </Text>
-                ))}
-              </View>
-            ))}
-          </View>
-        )}
-
         <View style={{ height: 100 }} />
       </ScrollView>
 
@@ -621,37 +604,5 @@ const styles = StyleSheet.create({
     color: COLORS.blue,
     fontSize: 15,
     fontWeight: '600',
-  },
-  liftLog: {
-    marginHorizontal: 16,
-    marginTop: 24,
-    gap: 12,
-  },
-  liftLogTitle: {
-    color: COLORS.textMuted,
-    fontSize: 12,
-    fontWeight: '700',
-    letterSpacing: 1.5,
-    textTransform: 'uppercase',
-    marginBottom: 4,
-  },
-  liftLogEntry: {
-    backgroundColor: COLORS.surface,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    padding: 12,
-    gap: 4,
-  },
-  liftLogExName: {
-    color: COLORS.text,
-    fontSize: 14,
-    fontWeight: '700',
-    marginBottom: 6,
-  },
-  liftLogSet: {
-    color: COLORS.textMuted,
-    fontSize: 13,
-    fontVariant: ['tabular-nums'],
   },
 });
