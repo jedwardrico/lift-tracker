@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, ScrollView, SafeAreaView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 
 const COLORS = {
   bg: '#0a0a0a',
@@ -20,6 +20,7 @@ function formatTime(seconds) {
 }
 
 export default function CompleteScreen() {
+  const router = useRouter();
   const { elapsed, logs } = useLocalSearchParams();
   const completedLogs = logs ? JSON.parse(logs) : [];
 
@@ -54,6 +55,10 @@ export default function CompleteScreen() {
             ))}
           </View>
         )}
+
+        <TouchableOpacity style={styles.homeBtn} onPress={() => router.replace('/')}>
+          <Text style={styles.homeBtnText}>Back to Home</Text>
+        </TouchableOpacity>
 
         <View style={{ height: 40 }} />
       </ScrollView>
@@ -131,5 +136,19 @@ const styles = StyleSheet.create({
     fontSize: 13,
     flex: 1,
     fontVariant: ['tabular-nums'],
+  },
+  homeBtn: {
+    marginHorizontal: 16,
+    marginTop: 32,
+    backgroundColor: COLORS.green,
+    borderRadius: 12,
+    paddingVertical: 16,
+    alignItems: 'center',
+  },
+  homeBtnText: {
+    color: '#0a0a0a',
+    fontSize: 17,
+    fontWeight: '700',
+    letterSpacing: 0.3,
   },
 });
