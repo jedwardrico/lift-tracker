@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable no-undef */
+import { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -25,7 +26,20 @@ const COLORS = {
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000';
 
-const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEPT', 'OCT', 'NOV', 'DEC'];
+const MONTHS = [
+  'JAN',
+  'FEB',
+  'MAR',
+  'APR',
+  'MAY',
+  'JUN',
+  'JUL',
+  'AUG',
+  'SEPT',
+  'OCT',
+  'NOV',
+  'DEC',
+];
 const DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
 function parseDateLocal(dateStr) {
@@ -111,32 +125,37 @@ export default function SessionDetailScreen() {
           </View>
         ) : (
           logs.map((log) => (
-              <View key={log.id} style={styles.exerciseCard}>
-                <Text style={styles.exerciseCategory}>{log.title}</Text>
-                <Text style={styles.exerciseName}>{log.subtitle}</Text>
+            <View key={log.id} style={styles.exerciseCard}>
+              <Text style={styles.exerciseCategory}>{log.title}</Text>
+              <Text style={styles.exerciseName}>{log.subtitle}</Text>
 
-                <View style={styles.setsHeader}>
-                  <Text style={[styles.setCol, styles.setColNum]}>Set</Text>
-                  <Text style={[styles.setCol, styles.setColData]}>Reps</Text>
-                  <Text style={[styles.setCol, styles.setColData]}>Weight</Text>
-                </View>
-
-                {log.sets.map((s, i) => (
-                  <View key={s.id ?? i} style={styles.setRow}>
-                    <Text style={[styles.setCell, styles.setColNum, styles.setNumText]}>
-                      {s.set_number ?? i + 1}
-                    </Text>
-                    <Text style={[styles.setCell, styles.setColData]}>
-                      {s.reps ?? '—'}
-                    </Text>
-                    <Text style={[styles.setCell, styles.setColData]}>
-                      {s.weight ? `${s.weight} ${s.weight_unit ?? 'lb'}` : '—'}
-                    </Text>
-                  </View>
-                ))}
+              <View style={styles.setsHeader}>
+                <Text style={[styles.setCol, styles.setColNum]}>Set</Text>
+                <Text style={[styles.setCol, styles.setColData]}>Reps</Text>
+                <Text style={[styles.setCol, styles.setColData]}>Weight</Text>
               </View>
-            ))
-          )
+
+              {log.sets.map((s, i) => (
+                <View key={s.id ?? i} style={styles.setRow}>
+                  <Text
+                    style={[
+                      styles.setCell,
+                      styles.setColNum,
+                      styles.setNumText,
+                    ]}
+                  >
+                    {s.set_number ?? i + 1}
+                  </Text>
+                  <Text style={[styles.setCell, styles.setColData]}>
+                    {s.reps ?? '—'}
+                  </Text>
+                  <Text style={[styles.setCell, styles.setColData]}>
+                    {s.weight ? `${s.weight} ${s.weight_unit ?? 'lb'}` : '—'}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          ))
         )}
         <View style={{ height: 40 }} />
       </ScrollView>

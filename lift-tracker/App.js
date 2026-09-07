@@ -9,7 +9,11 @@ import {
   SafeAreaView,
   StatusBar,
 } from 'react-native';
-import { Ionicons, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
+import {
+  Ionicons,
+  MaterialCommunityIcons,
+  FontAwesome5,
+} from '@expo/vector-icons';
 
 const COLORS = {
   bg: '#0a0a0a',
@@ -60,7 +64,9 @@ export default function App() {
         const firstActiveDay = data.days?.find((d) => !d.is_rest_day);
         const firstExercise = firstActiveDay?.exercises?.[0];
         if (firstExercise) {
-          setSets(buildInitialSets(firstExercise.sets, firstExercise.rep_range));
+          setSets(
+            buildInitialSets(firstExercise.sets, firstExercise.rep_range)
+          );
         }
       })
       .catch((err) => console.error('Failed to load week:', err))
@@ -122,7 +128,10 @@ export default function App() {
   const navigateTo = (targetIndex) => {
     savedSetsMap.current[exerciseIndex] = sets;
     const targetExercise = exercises[targetIndex];
-    setSets(savedSetsMap.current[targetIndex] ?? buildInitialSets(targetExercise.sets, targetExercise.rep_range));
+    setSets(
+      savedSetsMap.current[targetIndex] ??
+        buildInitialSets(targetExercise.sets, targetExercise.rep_range)
+    );
     setNote('');
     setExerciseIndex(targetIndex);
   };
@@ -132,7 +141,8 @@ export default function App() {
       const allDone = sets.every((s) => s.completed);
       setCompletedExercises((prev) => {
         const next = new Set(prev);
-        if (allDone) next.add(exerciseIndex); else next.delete(exerciseIndex);
+        if (allDone) next.add(exerciseIndex);
+        else next.delete(exerciseIndex);
         return next;
       });
       fetch(`${BASE_URL}/logs`, {
@@ -165,8 +175,12 @@ export default function App() {
   if (loading) {
     return (
       <SafeAreaView style={styles.container}>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={{ color: COLORS.textMuted, fontSize: 16 }}>Loading week 1…</Text>
+        <View
+          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+        >
+          <Text style={{ color: COLORS.textMuted, fontSize: 16 }}>
+            Loading week 1…
+          </Text>
         </View>
       </SafeAreaView>
     );
@@ -175,10 +189,21 @@ export default function App() {
   if (workoutDone) {
     return (
       <SafeAreaView style={styles.container}>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 16 }}>
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 16,
+          }}
+        >
           <Ionicons name="checkmark-circle" size={72} color={COLORS.green} />
-          <Text style={{ color: COLORS.text, fontSize: 26, fontWeight: '800' }}>Workout Complete</Text>
-          <Text style={{ color: COLORS.textMuted, fontSize: 18 }}>{formatTimer(timerSeconds)}</Text>
+          <Text style={{ color: COLORS.text, fontSize: 26, fontWeight: '800' }}>
+            Workout Complete
+          </Text>
+          <Text style={{ color: COLORS.textMuted, fontSize: 18 }}>
+            {formatTimer(timerSeconds)}
+          </Text>
         </View>
       </SafeAreaView>
     );
@@ -227,7 +252,9 @@ export default function App() {
           <Text style={styles.categoryText}>{exercise?.title ?? ''}</Text>
           <View style={styles.exerciseTitleRow}>
             <View style={styles.exerciseTitleLeft}>
-              <Text style={styles.exerciseName}>{exercise?.subtitle ?? '—'}</Text>
+              <Text style={styles.exerciseName}>
+                {exercise?.subtitle ?? '—'}
+              </Text>
             </View>
             <TouchableOpacity style={styles.moreButton}>
               <Text style={styles.moreButtonText}>•••</Text>
@@ -251,8 +278,16 @@ export default function App() {
         <View style={styles.setsTable}>
           <View style={styles.setsHeaderRow}>
             <Text style={[styles.setColHeader, { width: 36 }]}>Sets</Text>
-            <Text style={[styles.setColHeader, { flex: 1, textAlign: 'center' }]}>Reps</Text>
-            <Text style={[styles.setColHeader, { flex: 1, textAlign: 'center' }]}>Lb</Text>
+            <Text
+              style={[styles.setColHeader, { flex: 1, textAlign: 'center' }]}
+            >
+              Reps
+            </Text>
+            <Text
+              style={[styles.setColHeader, { flex: 1, textAlign: 'center' }]}
+            >
+              Lb
+            </Text>
             <View style={{ width: 44 }} />
           </View>
 
@@ -278,7 +313,10 @@ export default function App() {
                 selectTextOnFocus
               />
               <TouchableOpacity
-                style={[styles.completeDot, set.completed && styles.completeDotFilled]}
+                style={[
+                  styles.completeDot,
+                  set.completed && styles.completeDotFilled,
+                ]}
                 onPress={() => toggleComplete(set.id)}
               >
                 {set.completed && (
@@ -294,7 +332,10 @@ export default function App() {
               <Ionicons name="remove" size={22} color={COLORS.text} />
             </TouchableOpacity>
             <Text style={styles.setControlLabel}>Set</Text>
-            <TouchableOpacity style={[styles.setControlBtn, styles.setControlBtnBlue]} onPress={addSet}>
+            <TouchableOpacity
+              style={[styles.setControlBtn, styles.setControlBtnBlue]}
+              onPress={addSet}
+            >
               <Ionicons name="add" size={22} color={COLORS.blue} />
             </TouchableOpacity>
           </View>
@@ -318,11 +359,26 @@ export default function App() {
 
       {/* Bottom nav */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navBtn} onPress={handleBack} disabled={exerciseIndex === 0}>
-          <Ionicons name="arrow-back" size={20} color={exerciseIndex === 0 ? COLORS.textDim : COLORS.blue} />
-          <Text style={[styles.navBtnText, exerciseIndex === 0 && { color: COLORS.textDim }]}>Back</Text>
+        <TouchableOpacity
+          style={styles.navBtn}
+          onPress={handleBack}
+          disabled={exerciseIndex === 0}
+        >
+          <Ionicons
+            name="arrow-back"
+            size={20}
+            color={exerciseIndex === 0 ? COLORS.textDim : COLORS.blue}
+          />
+          <Text
+            style={[
+              styles.navBtnText,
+              exerciseIndex === 0 && { color: COLORS.textDim },
+            ]}
+          >
+            Back
+          </Text>
         </TouchableOpacity>
-        
+
         <TouchableOpacity style={styles.navBtn} onPress={handleNext}>
           <Text style={styles.navBtnText}>
             {exerciseIndex < exercises.length - 1 ? 'Next' : 'Finish'}

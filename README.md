@@ -14,6 +14,7 @@ server/   # Express.js + SQLite backend
 ## Server
 
 ### Requirements
+
 - Node.js 18+
 
 ### Setup
@@ -56,23 +57,24 @@ PORT=4000 docker compose up
 
 ### Endpoints
 
-| Method | Path | Description |
-|--------|------|-------------|
-| `GET` | `/weeks` | All 14 weeks |
-| `GET` | `/weeks/:n` | Full week with every day and exercise |
-| `GET` | `/weeks/:n/days/:day` | Single day (e.g. `/weeks/1/days/monday`) |
-| `GET` | `/exercises` | All exercises (filter with `?title=Back&subtitle=row`) |
-| `GET` | `/exercises/:id` | Single exercise |
-| `GET` | `/exercises/:id/logs` | All workout logs for an exercise |
-| `POST` | `/logs` | Log a workout session with sets |
-| `GET` | `/logs/:id` | Get a logged session with all its sets |
-| `PUT` | `/logs/:id` | Replace sets on a log |
-| `PATCH` | `/logs/:id/sets/:setId` | Update a single set |
-| `DELETE` | `/logs/:id` | Delete a log |
+| Method   | Path                    | Description                                            |
+| -------- | ----------------------- | ------------------------------------------------------ |
+| `GET`    | `/weeks`                | All 14 weeks                                           |
+| `GET`    | `/weeks/:n`             | Full week with every day and exercise                  |
+| `GET`    | `/weeks/:n/days/:day`   | Single day (e.g. `/weeks/1/days/monday`)               |
+| `GET`    | `/exercises`            | All exercises (filter with `?title=Back&subtitle=row`) |
+| `GET`    | `/exercises/:id`        | Single exercise                                        |
+| `GET`    | `/exercises/:id/logs`   | All workout logs for an exercise                       |
+| `POST`   | `/logs`                 | Log a workout session with sets                        |
+| `GET`    | `/logs/:id`             | Get a logged session with all its sets                 |
+| `PUT`    | `/logs/:id`             | Replace sets on a log                                  |
+| `PATCH`  | `/logs/:id/sets/:setId` | Update a single set                                    |
+| `DELETE` | `/logs/:id`             | Delete a log                                           |
 
 ### Exercise fields
 
 Each exercise includes:
+
 - `title` — body part (e.g. `"Back"`)
 - `subtitle` — exercise name (e.g. `"Meadows row"`)
 - `body` — full description from the program
@@ -101,6 +103,7 @@ POST /logs
 ## App (React Native / Expo)
 
 ### Requirements
+
 - Node.js 18+
 - [Expo CLI](https://docs.expo.dev/get-started/installation/) — `npm install -g expo-cli`
 - For iOS: Xcode and an iOS simulator or device
@@ -130,14 +133,14 @@ npm run web         # run in browser
 
 The program runs Monday–Friday with Saturday and Sunday as rest days.
 
-| Day | Workout |
-|-----|---------|
-| Monday | Back, Abs, Calves |
-| Tuesday | Chest, Shoulders |
-| Wednesday | Legs |
-| Thursday | Arms (Triceps + Biceps), Abs, Calves |
-| Friday | Chest, Back, Shoulders (pump) |
-| Saturday | Rest |
-| Sunday | Rest |
+| Day       | Workout                              |
+| --------- | ------------------------------------ |
+| Monday    | Back, Abs, Calves                    |
+| Tuesday   | Chest, Shoulders                     |
+| Wednesday | Legs                                 |
+| Thursday  | Arms (Triceps + Biceps), Abs, Calves |
+| Friday    | Chest, Back, Shoulders (pump)        |
+| Saturday  | Rest                                 |
+| Sunday    | Rest                                 |
 
 Weeks 7–8 are a deload with reduced volume and intensity.

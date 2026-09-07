@@ -6,11 +6,21 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
-    "seed": "node src/seed.js"
+    "seed": "node src/seed.js",
+    "lint": "eslint src/",
+    "format:check": "prettier --check src/"
   },
   "dependencies": {
+    "@eslint/js": "^10.0.1",
     "better-sqlite3": "^9.4.3",
     "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "eslint": "^10.0.0",
+    "eslint-config-prettier": "^9.1.2",
+    "eslint-plugin-unused-imports": "^4.4.1",
+    "globals": "^15.0.0",
+    "prettier": "^3.3.3"
   },
   "allowScripts": {
     "better-sqlite3@9.6.0": true

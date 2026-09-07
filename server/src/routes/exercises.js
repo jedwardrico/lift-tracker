@@ -26,7 +26,9 @@ router.get('/', (req, res) => {
 // GET /exercises/:id
 router.get('/:id', (req, res) => {
   const db = getDb();
-  const exercise = db.prepare('SELECT * FROM exercises WHERE id = ?').get(req.params.id);
+  const exercise = db
+    .prepare('SELECT * FROM exercises WHERE id = ?')
+    .get(req.params.id);
   if (!exercise) return res.status(404).json({ error: 'Exercise not found' });
   res.json(exercise);
 });
@@ -34,16 +36,24 @@ router.get('/:id', (req, res) => {
 // GET /exercises/:id/logs - all workout logs for this exercise, newest first
 router.get('/:id/logs', (req, res) => {
   const db = getDb();
-  const exercise = db.prepare('SELECT id FROM exercises WHERE id = ?').get(req.params.id);
+  const exercise = db
+    .prepare('SELECT id FROM exercises WHERE id = ?')
+    .get(req.params.id);
   if (!exercise) return res.status(404).json({ error: 'Exercise not found' });
 
   const logs = db
-    .prepare('SELECT * FROM workout_logs WHERE exercise_id = ? ORDER BY logged_at DESC')
+    .prepare(
+      'SELECT * FROM workout_logs WHERE exercise_id = ? ORDER BY logged_at DESC'
+    )
     .all(req.params.id);
 
-  const result = logs.map(log => ({
+  const result = logs.map((log) => ({
     ...log,
-    sets: db.prepare('SELECT * FROM sets WHERE workout_log_id = ? ORDER BY set_number').all(log.id),
+    sets: db
+      .prepare(
+        'SELECT * FROM sets WHERE workout_log_id = ? ORDER BY set_number'
+      )
+      .all(log.id),
   }));
 
   res.json(result);

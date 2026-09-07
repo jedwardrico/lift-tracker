@@ -1,5 +1,12 @@
 import React from 'react';
-import { View, Text, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
@@ -26,7 +33,10 @@ export default function CompleteScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={styles.scroll}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.hero}>
           <Ionicons name="checkmark-circle" size={72} color={COLORS.green} />
           <Text style={styles.title}>Workout Complete</Text>
@@ -38,16 +48,25 @@ export default function CompleteScreen() {
             <Text style={styles.logSectionTitle}>Lift Log</Text>
             {completedLogs.map((log, i) => (
               <View key={i} style={styles.logEntry}>
-                <Text style={styles.logExName}>{log.exercise?.subtitle ?? '—'}</Text>
-                <Text style={styles.logCategory}>{log.exercise?.title ?? ''}</Text>
+                <Text style={styles.logExName}>
+                  {log.exercise?.subtitle ?? '—'}
+                </Text>
+                <Text style={styles.logCategory}>
+                  {log.exercise?.title ?? ''}
+                </Text>
                 {log.sets.map((s, j) => (
                   <View key={s.id ?? j} style={styles.setRow}>
                     <Text style={styles.setNum}>{s.set_number ?? j + 1}</Text>
                     <Text style={styles.setText}>
-                      {s.reps ?? '—'} reps{s.weight ? `  ×  ${s.weight} lb` : ''}
+                      {s.reps ?? '—'} reps
+                      {s.weight ? `  ×  ${s.weight} lb` : ''}
                     </Text>
                     {s.completed && (
-                      <Ionicons name="checkmark-circle" size={14} color={COLORS.green} />
+                      <Ionicons
+                        name="checkmark-circle"
+                        size={14}
+                        color={COLORS.green}
+                      />
                     )}
                   </View>
                 ))}
@@ -56,7 +75,10 @@ export default function CompleteScreen() {
           </View>
         )}
 
-        <TouchableOpacity style={styles.homeBtn} onPress={() => router.replace('/')}>
+        <TouchableOpacity
+          style={styles.homeBtn}
+          onPress={() => router.replace('/')}
+        >
           <Text style={styles.homeBtnText}>Back to Home</Text>
         </TouchableOpacity>
 

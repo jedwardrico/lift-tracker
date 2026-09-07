@@ -5,7 +5,9 @@ const { getDb } = require('../db');
 function getLogWithSets(db, logId) {
   const log = db.prepare('SELECT * FROM workout_logs WHERE id = ?').get(logId);
   if (!log) return null;
-  const sets = db.prepare('SELECT * FROM sets WHERE workout_log_id = ? ORDER BY set_number').all(logId);
+  const sets = db
+    .prepare('SELECT * FROM sets WHERE workout_log_id = ? ORDER BY set_number')
+    .all(logId);
   return { ...log, sets };
 }
 
@@ -33,7 +35,11 @@ router.get('/', (req, res) => {
 
   const logs = db.prepare(query).all(...params);
   const result = logs.map((log) => {
-    const sets = db.prepare('SELECT * FROM sets WHERE workout_log_id = ? ORDER BY set_number').all(log.id);
+    const sets = db
+      .prepare(
+        'SELECT * FROM sets WHERE workout_log_id = ? ORDER BY set_number'
+      )
+      .all(log.id);
     return { ...log, sets };
   });
 
@@ -46,9 +52,12 @@ router.post('/', (req, res) => {
   const db = getDb();
   const { exercise_id, logged_at, completed = 0, sets = [] } = req.body;
 
-  if (!exercise_id) return res.status(400).json({ error: 'exercise_id is required' });
+  if (!exercise_id)
+    return res.status(400).json({ error: 'exercise_id is required' });
 
-  const exercise = db.prepare('SELECT id FROM exercises WHERE id = ?').get(exercise_id);
+  const exercise = db
+    .prepare('SELECT id FROM exercises WHERE id = ?')
+    .get(exercise_id);
   if (!exercise) return res.status(404).json({ error: 'Exercise not found' });
 
   const insertLog = db.prepare(
@@ -59,10 +68,20 @@ router.post('/', (req, res) => {
   );
 
   const create = db.transaction(() => {
-    const result = insertLog.run(exercise_id, logged_at ?? new Date().toISOString(), completed ? 1 : 0);
+    const result = insertLog.run(
+      exercise_id,
+      logged_at ?? new Date().toISOString(),
+      completed ? 1 : 0
+    );
     const logId = result.lastInsertRowid;
     for (const s of sets) {
-      insertSet.run(logId, s.set_number, s.reps ?? null, s.weight ?? null, s.weight_unit ?? 'lbs');
+      insertSet.run(
+        logId,
+        s.set_number,
+        s.reps ?? null,
+        s.weight ?? null,
+        s.weight_unit ?? 'lbs'
+      );
     }
     return logId;
   });
@@ -83,25 +102,41 @@ router.get('/:id', (req, res) => {
 // Body: { logged_at?, sets? }
 router.put('/:id', (req, res) => {
   const db = getDb();
-  const existing = db.prepare('SELECT * FROM workout_logs WHERE id = ?').get(req.params.id);
+  const existing = db
+    .prepare('SELECT * FROM workout_logs WHERE id = ?')
+    .get(req.params.id);
   if (!existing) return res.status(404).json({ error: 'Log not found' });
 
   const { logged_at, completed, sets } = req.body;
 
   const update = db.transaction(() => {
     if (logged_at !== undefined) {
-      db.prepare('UPDATE workout_logs SET logged_at = ? WHERE id = ?').run(logged_at, req.params.id);
+      db.prepare('UPDATE workout_logs SET logged_at = ? WHERE id = ?').run(
+        logged_at,
+        req.params.id
+      );
     }
     if (completed !== undefined) {
-      db.prepare('UPDATE workout_logs SET completed = ? WHERE id = ?').run(completed ? 1 : 0, req.params.id);
+      db.prepare('UPDATE workout_logs SET completed = ? WHERE id = ?').run(
+        completed ? 1 : 0,
+        req.params.id
+      );
     }
     if (sets !== undefined) {
-      db.prepare('DELETE FROM sets WHERE workout_log_id = ?').run(req.params.id);
+      db.prepare('DELETE FROM sets WHERE workout_log_id = ?').run(
+        req.params.id
+      );
       const insertSet = db.prepare(
         'INSERT INTO sets (workout_log_id, set_number, reps, weight, weight_unit) VALUES (?, ?, ?, ?, ?)'
       );
       for (const s of sets) {
-        insertSet.run(req.params.id, s.set_number, s.reps ?? null, s.weight ?? null, s.weight_unit ?? 'lbs');
+        insertSet.run(
+          req.params.id,
+          s.set_number,
+          s.reps ?? null,
+          s.weight ?? null,
+          s.weight_unit ?? 'lbs'
+        );
       }
     }
   });
@@ -113,15 +148,20 @@ router.put('/:id', (req, res) => {
 // DELETE /logs/:id
 router.delete('/:id', (req, res) => {
   const db = getDb();
-  const result = db.prepare('DELETE FROM workout_logs WHERE id = ?').run(req.params.id);
-  if (result.changes === 0) return res.status(404).json({ error: 'Log not found' });
+  const result = db
+    .prepare('DELETE FROM workout_logs WHERE id = ?')
+    .run(req.params.id);
+  if (result.changes === 0)
+    return res.status(404).json({ error: 'Log not found' });
   res.status(204).end();
 });
 
 // PATCH /logs/:id/sets/:setId — update a single set
 router.patch('/:id/sets/:setId', (req, res) => {
   const db = getDb();
-  const set = db.prepare('SELECT * FROM sets WHERE id = ? AND workout_log_id = ?').get(req.params.setId, req.params.id);
+  const set = db
+    .prepare('SELECT * FROM sets WHERE id = ? AND workout_log_id = ?')
+    .get(req.params.setId, req.params.id);
   if (!set) return res.status(404).json({ error: 'Set not found' });
 
   const { reps, weight, weight_unit } = req.body;

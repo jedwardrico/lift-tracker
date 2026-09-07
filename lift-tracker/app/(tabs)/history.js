@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+/* eslint-disable no-undef */
+import { useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -25,7 +26,20 @@ const COLORS = {
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000';
 
-const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEPT', 'OCT', 'NOV', 'DEC'];
+const MONTHS = [
+  'JAN',
+  'FEB',
+  'MAR',
+  'APR',
+  'MAY',
+  'JUN',
+  'JUL',
+  'AUG',
+  'SEPT',
+  'OCT',
+  'NOV',
+  'DEC',
+];
 const DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
 function parseDateLocal(isoStr) {
@@ -92,16 +106,20 @@ export default function HistoryScreen() {
         ) : sessions.length === 0 ? (
           <View style={styles.centeredMsg}>
             <Text style={styles.emptyTitle}>No workouts yet</Text>
-            <Text style={styles.mutedText}>Complete a workout to see it here</Text>
+            <Text style={styles.mutedText}>
+              Complete a workout to see it here
+            </Text>
           </View>
         ) : (
           sessions.map(({ date, logs }) => {
             const totalReps = logs.reduce(
-              (acc, log) => acc + log.sets.reduce((a, s) => a + (s.reps || 0), 0),
+              (acc, log) =>
+                acc + log.sets.reduce((a, s) => a + (s.reps || 0), 0),
               0
             );
             const totalWeight = logs.reduce(
-              (acc, log) => acc + log.sets.reduce((a, s) => a + (s.weight || 0), 0),
+              (acc, log) =>
+                acc + log.sets.reduce((a, s) => a + (s.weight || 0), 0),
               0
             );
 
@@ -133,7 +151,11 @@ export default function HistoryScreen() {
                     )}
                   </View>
                 </View>
-                <Ionicons name="chevron-forward" size={18} color={COLORS.textDim} />
+                <Ionicons
+                  name="chevron-forward"
+                  size={18}
+                  color={COLORS.textDim}
+                />
               </TouchableOpacity>
             );
           })
