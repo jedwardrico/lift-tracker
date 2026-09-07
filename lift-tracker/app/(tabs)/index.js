@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable no-undef */
+import { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -25,8 +26,29 @@ const COLORS = {
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000';
 
 const DAY_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
-const API_DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEPT', 'OCT', 'NOV', 'DEC'];
+const API_DAYS = [
+  'monday',
+  'tuesday',
+  'wednesday',
+  'thursday',
+  'friday',
+  'saturday',
+  'sunday',
+];
+const MONTHS = [
+  'JAN',
+  'FEB',
+  'MAR',
+  'APR',
+  'MAY',
+  'JUN',
+  'JUL',
+  'AUG',
+  'SEPT',
+  'OCT',
+  'NOV',
+  'DEC',
+];
 
 function getWeekDates() {
   const today = new Date();
@@ -96,7 +118,8 @@ export default function HomeScreen() {
       <View style={styles.weekStrip}>
         {weekDates.map((date, i) => {
           const day = weekData?.days?.[i];
-          const hasWorkout = day && !day.is_rest_day && (day.exercises?.length ?? 0) > 0;
+          const hasWorkout =
+            day && !day.is_rest_day && (day.exercises?.length ?? 0) > 0;
           const isSelected = i === selectedIdx;
           const isToday = i === todayIdx;
 
@@ -106,7 +129,9 @@ export default function HomeScreen() {
               style={styles.dayCell}
               onPress={() => setSelectedIdx(i)}
             >
-              <Text style={[styles.dayLabel, isSelected && styles.dayLabelActive]}>
+              <Text
+                style={[styles.dayLabel, isSelected && styles.dayLabelActive]}
+              >
                 {DAY_LABELS[i]}
               </Text>
               <Text
@@ -182,14 +207,16 @@ export default function HomeScreen() {
             <View style={styles.exerciseList}>
               {Object.entries(groupedExercises).map(([bodyPart, exList]) => (
                 <View key={bodyPart} style={styles.exerciseGroup}>
-                  <Text style={styles.bodyPartLabel}>{bodyPart.toUpperCase()}</Text>
+                  <Text style={styles.bodyPartLabel}>
+                    {bodyPart.toUpperCase()}
+                  </Text>
                   {exList.map((ex) => {
                     const setsReps =
                       ex.sets && ex.rep_range
                         ? `${ex.sets} × ${ex.rep_range}`
                         : ex.rpe
-                        ? `RPE ${ex.rpe}`
-                        : null;
+                          ? `RPE ${ex.rpe}`
+                          : null;
 
                     return (
                       <View key={ex.id} style={styles.exerciseRow}>

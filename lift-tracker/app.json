@@ -11,10 +11,7 @@
     },
     "android": {},
     "scheme": "lift-tracker",
-    "plugins": [
-      "expo-router",
-      "expo-status-bar"
-    ],
+    "plugins": ["expo-router", "expo-status-bar"],
     "updates": {
       "url": "https://u.expo.dev/1df8d808-46fb-4689-a049-8e565861c160"
     },
