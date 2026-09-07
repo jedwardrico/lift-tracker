@@ -28,7 +28,9 @@ function parseSetsAndReps(body) {
   if (!rep_range) {
     const repsMatch = body.match(/\b(\d+)(?:-(\d+))?\s+reps?\b/i);
     if (repsMatch && parseInt(repsMatch[1]) <= 100) {
-      rep_range = repsMatch[2] ? `${repsMatch[1]}-${repsMatch[2]}` : repsMatch[1];
+      rep_range = repsMatch[2]
+        ? `${repsMatch[1]}-${repsMatch[2]}`
+        : repsMatch[1];
     }
   }
 
@@ -38,7 +40,9 @@ function parseSetsAndReps(body) {
 function seed() {
   const db = getDb();
 
-  const insertWeek = db.prepare('INSERT OR REPLACE INTO weeks (id, week_number) VALUES (?, ?)');
+  const insertWeek = db.prepare(
+    'INSERT OR REPLACE INTO weeks (id, week_number) VALUES (?, ?)'
+  );
   const insertDay = db.prepare(
     'INSERT INTO workout_days (week_id, day_of_week, is_rest_day) VALUES (?, ?, ?)'
   );
@@ -47,7 +51,9 @@ function seed() {
   );
 
   const seedAll = db.transaction(() => {
-    db.exec('DELETE FROM sets; DELETE FROM workout_logs; DELETE FROM exercises; DELETE FROM workout_days; DELETE FROM weeks;');
+    db.exec(
+      'DELETE FROM sets; DELETE FROM workout_logs; DELETE FROM exercises; DELETE FROM workout_days; DELETE FROM weeks;'
+    );
 
     for (const weekData of workoutData) {
       insertWeek.run(weekData.week, weekData.week);
@@ -56,7 +62,11 @@ function seed() {
         const dayData = weekData.days[day];
         if (!dayData) continue;
 
-        const dayResult = insertDay.run(weekData.week, day, dayData.isRestDay ? 1 : 0);
+        const dayResult = insertDay.run(
+          weekData.week,
+          day,
+          dayData.isRestDay ? 1 : 0
+        );
         const dayId = dayResult.lastInsertRowid;
 
         for (const exercise of dayData.exercises) {

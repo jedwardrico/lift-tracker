@@ -1,6 +1,14 @@
 // Note: Friday = original Saturday pump workout (moved per user request)
 // Saturday and Sunday are both rest days
-const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+const DAYS = [
+  'monday',
+  'tuesday',
+  'wednesday',
+  'thursday',
+  'friday',
+  'saturday',
+  'sunday',
+];
 
 const workoutData = [
   {
@@ -20,21 +28,21 @@ const workoutData = [
             order: 2,
             title: 'Back',
             subtitle: 'Smith machine row',
-            body: 'Set stops up on these so that you can pull from about mid-shin. I want you to rest/pause these meaning set the weight down for a split second to eliminate momentum, and then drive your elbows up toward the ceiling as hard as you can. Try to flex hard at the top too. All 3 of your sets are 8 reps, but it\'s a pyramid, so only the last set will be the one to failure. The sets preceding will not be to failure. 3 total work sets',
+            body: "Set stops up on these so that you can pull from about mid-shin. I want you to rest/pause these meaning set the weight down for a split second to eliminate momentum, and then drive your elbows up toward the ceiling as hard as you can. Try to flex hard at the top too. All 3 of your sets are 8 reps, but it's a pyramid, so only the last set will be the one to failure. The sets preceding will not be to failure. 3 total work sets",
             rpe: '8-10',
           },
           {
             order: 3,
             title: 'Back',
             subtitle: 'One arm barbell row',
-            body: 'Work your way up to a drop set here. This is going to be your high intensity technique. The way I want you to do it, is say row 50lbs for 8, then 75 for 8, then on your last set you do 100 for 8, drop it to 75 for 6, and then drop to 50 for 6. The first 2 sets won\'t be to failure, but the last one should be brutal and is beyond normal failure. 3 total work sets',
+            body: "Work your way up to a drop set here. This is going to be your high intensity technique. The way I want you to do it, is say row 50lbs for 8, then 75 for 8, then on your last set you do 100 for 8, drop it to 75 for 6, and then drop to 50 for 6. The first 2 sets won't be to failure, but the last one should be brutal and is beyond normal failure. 3 total work sets",
             rpe: '8-12',
           },
           {
             order: 4,
             title: 'Back',
             subtitle: 'Banded pullovers',
-            body: 'Now with a full pump these should feel great. We are doing these banded. Do 3 sets of 10 here. Most of your pullovers will be done this style throughout the entire program. Be patient with stretching here. Let your arms come down and stretch a little more each set. Don\'t push the hard stretch, let it happen on its own to avoid injury. 3 total work sets',
+            body: "Now with a full pump these should feel great. We are doing these banded. Do 3 sets of 10 here. Most of your pullovers will be done this style throughout the entire program. Be patient with stretching here. Let your arms come down and stretch a little more each set. Don't push the hard stretch, let it happen on its own to avoid injury. 3 total work sets",
             rpe: '8',
           },
           {
@@ -60,7 +68,7 @@ const workoutData = [
             order: 1,
             title: 'Chest',
             subtitle: 'Slight incline dumbell press',
-            body: 'Work your way up doing sets of 8 here. Keep going until you barely get 8 reps. The last set should be a drop set to total failure. The sets working up to it, will obviously not be. We will call this 3 working sets. Let\'s lock these out and really focus on the contraction for maximum activation. 3 total work sets',
+            body: "Work your way up doing sets of 8 here. Keep going until you barely get 8 reps. The last set should be a drop set to total failure. The sets working up to it, will obviously not be. We will call this 3 working sets. Let's lock these out and really focus on the contraction for maximum activation. 3 total work sets",
             rpe: '8-10',
           },
           {
@@ -88,14 +96,14 @@ const workoutData = [
             order: 5,
             title: 'Shoulders',
             subtitle: 'Machine rear delts/reverse pec deck',
-            body: 'Do 3 sets of 25 reps. I want 60 second breaks here. 3 total work sets. The RPE will climb on this, as you will really have to fight to the 25 on the last set. The first 1 or 2 won\'t be as bad.',
+            body: "Do 3 sets of 25 reps. I want 60 second breaks here. 3 total work sets. The RPE will climb on this, as you will really have to fight to the 25 on the last set. The first 1 or 2 won't be as bad.",
             rpe: '8-11',
           },
           {
             order: 6,
             title: 'Shoulders',
             subtitle: 'Dumbell side laterals',
-            body: 'Same thing here for the rep scheme. Do 3 sets of 25 reps. I want 60 second breaks here. 3 total work sets. The RPE will climb on this, as you will really have to fight to the 25 on the last set. The first 1 or 2 won\'t be as bad.',
+            body: "Same thing here for the rep scheme. Do 3 sets of 25 reps. I want 60 second breaks here. 3 total work sets. The RPE will climb on this, as you will really have to fight to the 25 on the last set. The first 1 or 2 won't be as bad.",
             rpe: '8-11',
           },
           {
@@ -121,14 +129,14 @@ const workoutData = [
             order: 2,
             title: 'Legs',
             subtitle: 'Barbell squats',
-            body: 'Do a few sets of 15 to get warmed up and then go to sets of 8. Keep doing 8 until you can just barely get 8. That will be your last set. We will call this 3 total sets. I don\'t want you to actually fail on the 8th rep, but I want it to be hard. 3 total work sets',
+            body: "Do a few sets of 15 to get warmed up and then go to sets of 8. Keep doing 8 until you can just barely get 8. That will be your last set. We will call this 3 total sets. I don't want you to actually fail on the 8th rep, but I want it to be hard. 3 total work sets",
             rpe: '7-9',
           },
           {
             order: 3,
             title: 'Legs',
             subtitle: 'Leg press',
-            body: 'Use the foot placement you feel most comfortable in. Work up to a weight you can do for 20 reps, and do a cluster set with it. Do 20 reps, rest 45 seconds and knock out more, and then repeat one more time. On this, don\'t hit failure and get crushed in the leg press, but challenge yourself to push harder than ever. 1 total work set',
+            body: "Use the foot placement you feel most comfortable in. Work up to a weight you can do for 20 reps, and do a cluster set with it. Do 20 reps, rest 45 seconds and knock out more, and then repeat one more time. On this, don't hit failure and get crushed in the leg press, but challenge yourself to push harder than ever. 1 total work set",
             rpe: '9',
           },
           {
@@ -154,7 +162,7 @@ const workoutData = [
             order: 2,
             title: 'Triceps',
             subtitle: 'Dip machine',
-            body: 'If you don\'t have a machine you can always do old school dips between benches. Do 3 sets of 10 again with 60 second breaks. Don\'t lock these all the way out either. 3 total work sets',
+            body: "If you don't have a machine you can always do old school dips between benches. Do 3 sets of 10 again with 60 second breaks. Don't lock these all the way out either. 3 total work sets",
             rpe: '8-9',
           },
           {
@@ -250,7 +258,8 @@ const workoutData = [
           {
             order: 7,
             title: 'Shoulders',
-            subtitle: 'Rear dumbell laterals / Machine cable side laterals superset',
+            subtitle:
+              'Rear dumbell laterals / Machine cable side laterals superset',
             body: 'Exercise #1 – Rear Dumbell laterals. Exercise #2 – Machine/cable side laterals. Do 3 rounds. Do 15 reps on both exercises! This will COOK your delts. 6 total work sets',
             rpe: '10',
           },
@@ -270,21 +279,21 @@ const workoutData = [
             order: 1,
             title: 'Back',
             subtitle: 'Meadows row',
-            body: 'This is a repeat from last week, but we are adding a set to increase volume this week. Do some warm up sets here working up to a tough 8 reps. Once there do 4 total sets of 8. On at least one set, try to beat what you did last week for weight, even if it\'s only a 5 lb plate. The 8th rep (on all sets) should be the last rep you can get with good form. 4 total work sets',
+            body: "This is a repeat from last week, but we are adding a set to increase volume this week. Do some warm up sets here working up to a tough 8 reps. Once there do 4 total sets of 8. On at least one set, try to beat what you did last week for weight, even if it's only a 5 lb plate. The 8th rep (on all sets) should be the last rep you can get with good form. 4 total work sets",
             rpe: '10',
           },
           {
             order: 2,
             title: 'Back',
             subtitle: 'Smith machine row',
-            body: 'We are going one more week here too, and adding a hard set as well to increase overall volume. Set stops up on these so that you can pull from about mid-shin. All 4 of your sets are 8 reps, but it\'s a pyramid, so only the last set will be the one to failure. The sets preceding will not be to failure. 4 total work sets',
+            body: "We are going one more week here too, and adding a hard set as well to increase overall volume. Set stops up on these so that you can pull from about mid-shin. All 4 of your sets are 8 reps, but it's a pyramid, so only the last set will be the one to failure. The sets preceding will not be to failure. 4 total work sets",
             rpe: '8-10',
           },
           {
             order: 3,
             title: 'Back',
             subtitle: 'Dumbell row',
-            body: 'Work your way up to a drop set here like last week on the one arm barbell rows, but now we are using dumbells. Say row 80lbs for 8, then 100 for 8, then on your last set you do 120 for a tough 8, drop it to 100 for 6-8, and then drop to 80 for 6-8 more. The first 2 sets won\'t be to failure, but the last one should be brutal and is beyond normal failure. 3 total work sets',
+            body: "Work your way up to a drop set here like last week on the one arm barbell rows, but now we are using dumbells. Say row 80lbs for 8, then 100 for 8, then on your last set you do 120 for a tough 8, drop it to 100 for 6-8, and then drop to 80 for 6-8 more. The first 2 sets won't be to failure, but the last one should be brutal and is beyond normal failure. 3 total work sets",
             rpe: '8-12',
           },
           {
@@ -298,7 +307,7 @@ const workoutData = [
             order: 5,
             title: 'Back',
             subtitle: 'Hang from chin up bar',
-            body: 'Put a weight belt on with some weight and let\'s hang and stretch those lats. Stretch for as long as you can, shoot for 60 seconds.',
+            body: "Put a weight belt on with some weight and let's hang and stretch those lats. Stretch for as long as you can, shoot for 60 seconds.",
             rpe: null,
           },
           {
@@ -324,7 +333,7 @@ const workoutData = [
             order: 1,
             title: 'Chest',
             subtitle: 'Flat dumbell press',
-            body: 'Work your way up doing sets of 8 here. Keep going until you barely get 8 reps. The last set should be to total failure. The sets working up to it, will obviously not be. We will call this 3 working sets. Let\'s lock these out and really focus on the contraction for maximum activation. 3 total work sets',
+            body: "Work your way up doing sets of 8 here. Keep going until you barely get 8 reps. The last set should be to total failure. The sets working up to it, will obviously not be. We will call this 3 working sets. Let's lock these out and really focus on the contraction for maximum activation. 3 total work sets",
             rpe: '8-10',
           },
           {
@@ -385,7 +394,7 @@ const workoutData = [
             order: 2,
             title: 'Legs',
             subtitle: 'Barbell squats',
-            body: 'Do the same thing as last week, but let\'s see if you can beat how much weight you used last week for 8. Do a few sets of 15 to get warmed up and then go to sets of 8. We will call this 3 total sets. 3 total work sets',
+            body: "Do the same thing as last week, but let's see if you can beat how much weight you used last week for 8. Do a few sets of 15 to get warmed up and then go to sets of 8. We will call this 3 total sets. 3 total work sets",
             rpe: '7-9',
           },
           {
@@ -418,7 +427,7 @@ const workoutData = [
             order: 2,
             title: 'Triceps',
             subtitle: 'Dip machine',
-            body: 'If you don\'t have a machine you can always do old school dips between benches. Do 3 sets of 10 again with 60 second breaks. Don\'t lock these all the way out either. 3 total work sets',
+            body: "If you don't have a machine you can always do old school dips between benches. Do 3 sets of 10 again with 60 second breaks. Don't lock these all the way out either. 3 total work sets",
             rpe: '8-9',
           },
           {
@@ -473,7 +482,7 @@ const workoutData = [
             order: 1,
             title: 'Chest',
             subtitle: 'Machine press',
-            body: 'Do these a little differently this week. Only take the weight to 3/4 lockout. Let\'s keep tension on pecs and bump the reps up to 15. 3 total work sets',
+            body: "Do these a little differently this week. Only take the weight to 3/4 lockout. Let's keep tension on pecs and bump the reps up to 15. 3 total work sets",
             rpe: '8-9',
           },
           {
@@ -514,7 +523,8 @@ const workoutData = [
           {
             order: 7,
             title: 'Shoulders',
-            subtitle: 'Band pull apart (face pulls) / Dumbell side laterals superset',
+            subtitle:
+              'Band pull apart (face pulls) / Dumbell side laterals superset',
             body: 'Exercise #1 – Band pull apart (face pulls). Exercise #2 – Dumbell side laterals. Do 3 rounds. Do 20 reps on both exercises! 6 total work sets',
             rpe: '9',
           },
@@ -548,7 +558,7 @@ const workoutData = [
             order: 3,
             title: 'Back',
             subtitle: 'Supported chest row',
-            body: 'Ok let\'s give your lower back a break and work on those rhomboids. Use a neutral grip and really stretch and open up your rhomboids on each rep. Do 4 hard sets of 8 here too. 4 total work sets',
+            body: "Ok let's give your lower back a break and work on those rhomboids. Use a neutral grip and really stretch and open up your rhomboids on each rep. Do 4 hard sets of 8 here too. 4 total work sets",
             rpe: '9',
           },
           {
@@ -562,7 +572,7 @@ const workoutData = [
             order: 5,
             title: 'Back',
             subtitle: 'Hang from chin up bar',
-            body: 'Put a weight belt on with some weight and let\'s hang and stretch those lats. Stretch for as long as it takes to beat last week\'s time.',
+            body: "Put a weight belt on with some weight and let's hang and stretch those lats. Stretch for as long as it takes to beat last week's time.",
             rpe: null,
           },
           {
@@ -628,9 +638,9 @@ const workoutData = [
           },
         ],
       },
-      wednesday: { isRestDay: false, exercises: [] },  // filled by agent
-      thursday: { isRestDay: false, exercises: [] },   // filled by agent
-      friday: { isRestDay: false, exercises: [] },     // filled by agent (original Saturday pump)
+      wednesday: { isRestDay: false, exercises: [] }, // filled by agent
+      thursday: { isRestDay: false, exercises: [] }, // filled by agent
+      friday: { isRestDay: false, exercises: [] }, // filled by agent (original Saturday pump)
       saturday: { isRestDay: true, exercises: [] },
       sunday: { isRestDay: true, exercises: [] },
     },

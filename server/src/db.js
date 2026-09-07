@@ -3,7 +3,8 @@ const path = require('path');
 const fs = require('fs');
 
 const DB_PATH = path.join(__dirname, '..', 'db', 'gamma_bomb.sqlite');
-const SCHEMA_PATH = process.env.SCHEMA_PATH || path.join(__dirname, '..', 'db', 'schema.sql');
+const SCHEMA_PATH =
+  process.env.SCHEMA_PATH || path.join(__dirname, '..', 'db', 'schema.sql');
 
 let db;
 
@@ -18,7 +19,9 @@ function getDb() {
 
     const cols = db.prepare('PRAGMA table_info(workout_logs)').all();
     if (!cols.find((c) => c.name === 'completed')) {
-      db.exec('ALTER TABLE workout_logs ADD COLUMN completed INTEGER NOT NULL DEFAULT 0');
+      db.exec(
+        'ALTER TABLE workout_logs ADD COLUMN completed INTEGER NOT NULL DEFAULT 0'
+      );
     }
   }
   return db;

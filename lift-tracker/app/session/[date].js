@@ -59,7 +59,7 @@ export default function SessionDetailScreen() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-      fetch(`${BASE_URL}/logs?date=${date}`)
+    fetch(`${BASE_URL}/logs?date=${date}`)
       .then((r) => r.json())
       .then(setLogs)
       .catch((err) => console.error('Failed to load session:', err))
