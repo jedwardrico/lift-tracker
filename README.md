@@ -33,6 +33,27 @@ npm run dev       # development (auto-restarts on file changes)
 
 The API runs on **http://localhost:3000**.
 
+### Docker
+
+From the repo root:
+
+```bash
+docker compose up --build
+```
+
+The database is seeded automatically on first boot and persisted in a named volume (`db_data`). To reset it:
+
+```bash
+docker compose down -v
+docker compose up --build
+```
+
+Override the host port with the `PORT` env var (default `3000`):
+
+```bash
+PORT=4000 docker compose up
+```
+
 ### Endpoints
 
 | Method | Path | Description |
