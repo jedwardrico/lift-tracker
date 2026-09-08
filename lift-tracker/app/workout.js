@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -26,6 +27,7 @@ const COLORS = {
 };
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000';
+const WORKOUT_STORAGE_KEY = 'workout_in_progress';
 
 function buildInitialSets(count, repRange) {
   const reps = repRange ? repRange.split('-')[0] : '8';
@@ -52,7 +54,12 @@ export default function WorkoutScreen() {
   const [timerSeconds, setTimerSeconds] = useState(0);
   const timerRef = useRef(null);
   const savedSetsMap = useRef({});
-  const loggedIds = useRef([]);
+
+  useEffect(() => {
+    AsyncStorage.getItem(WORKOUT_STORAGE_KEY)
+      .then((val) => { if (val) setCompletedLogs(JSON.parse(val)); })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     fetch(`${BASE_URL}/weeks/1`)
@@ -109,14 +116,23 @@ export default function WorkoutScreen() {
     );
   };
 
-  const totalReps = sets.reduce(
-    (acc, s) => acc + (s.completed ? parseInt(s.reps) || 0 : 0),
+  const prevReps = completedLogs.reduce(
+    (acc, log) =>
+      acc +
+      log.sets.reduce((a, s) => a + (s.completed ? parseInt(s.reps) || 0 : 0), 0),
     0
   );
-  const totalWeight = sets.reduce(
-    (acc, s) => acc + (s.completed ? parseFloat(s.weight) || 0 : 0),
+  const prevWeight = completedLogs.reduce(
+    (acc, log) =>
+      acc +
+      log.sets.reduce((a, s) => a + (s.completed ? parseFloat(s.weight) || 0 : 0), 0),
     0
   );
+  const totalReps =
+    prevReps + sets.reduce((acc, s) => acc + (s.completed ? parseInt(s.reps) || 0 : 0), 0);
+  const totalWeight =
+    prevWeight +
+    sets.reduce((acc, s) => acc + (s.completed ? parseFloat(s.weight) || 0 : 0), 0);
 
   const firstActiveDay = weekData?.days?.find((d) => !d.is_rest_day);
   const exercises = firstActiveDay?.exercises ?? [];
@@ -137,7 +153,6 @@ export default function WorkoutScreen() {
   const handleNext = async () => {
     const isLast = exerciseIndex === exercises.length - 1;
     const localSets = [...sets];
-    let logEntry = null;
 
     if (exercise) {
       const allDone = localSets.every((s) => s.completed);
@@ -148,44 +163,53 @@ export default function WorkoutScreen() {
         return next;
       });
 
-      try {
-        const res = await fetch(`${BASE_URL}/logs`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            exercise_id: exercise.id,
-            sets: localSets.map((s, i) => ({
-              set_number: i + 1,
-              reps: parseInt(s.reps) || null,
-              weight: parseFloat(s.weight) || null,
-            })),
-          }),
-        });
-        const data = await res.json();
-        if (data.id) {
-          loggedIds.current.push(data.id);
-          logEntry = {
-            exercise,
-            logId: data.id,
-            sets: (data.sets ?? []).map((dbSet, i) => ({
-              ...dbSet,
-              completed: localSets[i]?.completed ?? false,
-            })),
-            note,
-          };
-        }
-      } catch (err) {
-        console.error('Failed to log exercise:', err);
-        logEntry = { exercise, logId: null, sets: localSets, note };
+      const logEntry = {
+        exercise,
+        sets: localSets.map((s, i) => ({
+          set_number: i + 1,
+          reps: parseInt(s.reps) || null,
+          weight: parseFloat(s.weight) || null,
+          completed: s.completed,
+        })),
+        note,
+      };
+
+      if (!isLast) {
+        const updatedLogs = [...completedLogs, logEntry];
+        setCompletedLogs(updatedLogs);
+        await AsyncStorage.setItem(WORKOUT_STORAGE_KEY, JSON.stringify(updatedLogs));
+        navigateTo(exerciseIndex + 1);
+        return;
       }
 
-      if (logEntry) setCompletedLogs((prev) => [...prev, logEntry]);
-    }
-
-    if (isLast) {
+      // Last exercise — post everything to the server now that the workout is done
       clearInterval(timerRef.current);
+      const allLogs = [...completedLogs, logEntry];
+
+      const savedIds = (
+        await Promise.all(
+          allLogs.map((log) =>
+            fetch(`${BASE_URL}/logs`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                exercise_id: log.exercise.id,
+                sets: log.sets.map((s) => ({
+                  set_number: s.set_number,
+                  reps: s.reps,
+                  weight: s.weight,
+                })),
+              }),
+            })
+              .then((r) => r.json())
+              .then((data) => data.id ?? null)
+              .catch((err) => { console.error('Failed to log exercise:', err); return null; })
+          )
+        )
+      ).filter(Boolean);
+
       await Promise.all(
-        loggedIds.current.map((id) =>
+        savedIds.map((id) =>
           fetch(`${BASE_URL}/logs/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -193,12 +217,32 @@ export default function WorkoutScreen() {
           }).catch((err) => console.error('Failed to mark log complete:', err))
         )
       );
-      const allLogs = logEntry ? [...completedLogs, logEntry] : completedLogs;
+
+      await AsyncStorage.removeItem(WORKOUT_STORAGE_KEY);
+
+      const workoutTotalReps = allLogs.reduce(
+        (acc, log) =>
+          acc +
+          log.sets.reduce((a, s) => a + (s.completed ? parseInt(s.reps) || 0 : 0), 0),
+        0
+      );
+      const workoutTotalWeight = allLogs.reduce(
+        (acc, log) =>
+          acc +
+          log.sets.reduce((a, s) => a + (s.completed ? parseFloat(s.weight) || 0 : 0), 0),
+        0
+      );
+
       router.replace({
         pathname: '/complete',
-        params: { elapsed: timerSeconds, logs: JSON.stringify(allLogs) },
+        params: {
+          elapsed: timerSeconds,
+          logs: JSON.stringify(allLogs),
+          totalReps: workoutTotalReps,
+          totalWeight: workoutTotalWeight,
+        },
       });
-    } else {
+    } else if (!isLast) {
       navigateTo(exerciseIndex + 1);
     }
   };

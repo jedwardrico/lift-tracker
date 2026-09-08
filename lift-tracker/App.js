@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -9,11 +9,7 @@ import {
   SafeAreaView,
   StatusBar,
 } from 'react-native';
-import {
-  Ionicons,
-  MaterialCommunityIcons,
-  FontAwesome5,
-} from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 const COLORS = {
   bg: '#0a0a0a',
@@ -123,7 +119,6 @@ export default function App() {
   const firstActiveDay = weekData?.days?.find((d) => !d.is_rest_day);
   const exercises = firstActiveDay?.exercises ?? [];
   const exercise = exercises[exerciseIndex];
-  const totalSets = sets.length;
 
   const navigateTo = (targetIndex) => {
     savedSetsMap.current[exerciseIndex] = sets;
