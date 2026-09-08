@@ -57,7 +57,9 @@ export default function WorkoutScreen() {
 
   useEffect(() => {
     AsyncStorage.getItem(WORKOUT_STORAGE_KEY)
-      .then((val) => { if (val) setCompletedLogs(JSON.parse(val)); })
+      .then((val) => {
+        if (val) setCompletedLogs(JSON.parse(val));
+      })
       .catch(() => {});
   }, []);
 
@@ -119,20 +121,30 @@ export default function WorkoutScreen() {
   const prevReps = completedLogs.reduce(
     (acc, log) =>
       acc +
-      log.sets.reduce((a, s) => a + (s.completed ? parseInt(s.reps) || 0 : 0), 0),
+      log.sets.reduce(
+        (a, s) => a + (s.completed ? parseInt(s.reps) || 0 : 0),
+        0
+      ),
     0
   );
   const prevWeight = completedLogs.reduce(
     (acc, log) =>
       acc +
-      log.sets.reduce((a, s) => a + (s.completed ? parseFloat(s.weight) || 0 : 0), 0),
+      log.sets.reduce(
+        (a, s) => a + (s.completed ? parseFloat(s.weight) || 0 : 0),
+        0
+      ),
     0
   );
   const totalReps =
-    prevReps + sets.reduce((acc, s) => acc + (s.completed ? parseInt(s.reps) || 0 : 0), 0);
+    prevReps +
+    sets.reduce((acc, s) => acc + (s.completed ? parseInt(s.reps) || 0 : 0), 0);
   const totalWeight =
     prevWeight +
-    sets.reduce((acc, s) => acc + (s.completed ? parseFloat(s.weight) || 0 : 0), 0);
+    sets.reduce(
+      (acc, s) => acc + (s.completed ? parseFloat(s.weight) || 0 : 0),
+      0
+    );
 
   const firstActiveDay = weekData?.days?.find((d) => !d.is_rest_day);
   const exercises = firstActiveDay?.exercises ?? [];
@@ -177,7 +189,10 @@ export default function WorkoutScreen() {
       if (!isLast) {
         const updatedLogs = [...completedLogs, logEntry];
         setCompletedLogs(updatedLogs);
-        await AsyncStorage.setItem(WORKOUT_STORAGE_KEY, JSON.stringify(updatedLogs));
+        await AsyncStorage.setItem(
+          WORKOUT_STORAGE_KEY,
+          JSON.stringify(updatedLogs)
+        );
         navigateTo(exerciseIndex + 1);
         return;
       }
@@ -203,7 +218,10 @@ export default function WorkoutScreen() {
             })
               .then((r) => r.json())
               .then((data) => data.id ?? null)
-              .catch((err) => { console.error('Failed to log exercise:', err); return null; })
+              .catch((err) => {
+                console.error('Failed to log exercise:', err);
+                return null;
+              })
           )
         )
       ).filter(Boolean);
@@ -223,13 +241,19 @@ export default function WorkoutScreen() {
       const workoutTotalReps = allLogs.reduce(
         (acc, log) =>
           acc +
-          log.sets.reduce((a, s) => a + (s.completed ? parseInt(s.reps) || 0 : 0), 0),
+          log.sets.reduce(
+            (a, s) => a + (s.completed ? parseInt(s.reps) || 0 : 0),
+            0
+          ),
         0
       );
       const workoutTotalWeight = allLogs.reduce(
         (acc, log) =>
           acc +
-          log.sets.reduce((a, s) => a + (s.completed ? parseFloat(s.weight) || 0 : 0), 0),
+          log.sets.reduce(
+            (a, s) => a + (s.completed ? parseFloat(s.weight) || 0 : 0),
+            0
+          ),
         0
       );
 
