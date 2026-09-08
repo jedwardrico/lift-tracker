@@ -337,6 +337,9 @@ export default function WorkoutScreen() {
               <Text style={styles.moreButtonText}>•••</Text>
             </TouchableOpacity>
           </View>
+          {exercise?.body ? (
+            <Text style={styles.exerciseBody}>{exercise.body}</Text>
+          ) : null}
         </View>
 
         {/* Exercise parameters */}
@@ -567,6 +570,12 @@ const styles = StyleSheet.create({
     color: COLORS.text,
     fontSize: 22,
     fontWeight: '800',
+  },
+  exerciseBody: {
+    color: COLORS.textMuted,
+    fontSize: 14,
+    lineHeight: 20,
+    marginTop: 6,
   },
   moreButton: {
     width: 36,
