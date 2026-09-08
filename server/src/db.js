@@ -23,6 +23,9 @@ function getDb() {
         'ALTER TABLE workout_logs ADD COLUMN completed INTEGER NOT NULL DEFAULT 0'
       );
     }
+    if (!cols.find((c) => c.name === 'duration_seconds')) {
+      db.exec('ALTER TABLE workout_logs ADD COLUMN duration_seconds INTEGER');
+    }
   }
   return db;
 }

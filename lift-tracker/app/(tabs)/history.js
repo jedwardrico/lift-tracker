@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
+  Alert,
 } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -58,6 +59,12 @@ function formatYear(dateStr) {
   return `'${y.slice(2)}`;
 }
 
+function formatDuration(seconds) {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
 function groupByDate(logs) {
   const map = {};
   for (const log of logs) {
@@ -75,15 +82,49 @@ export default function HistoryScreen() {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const loadHistory = useCallback((showSpinner = true) => {
+    if (showSpinner) setLoading(true);
+    return fetch(`${BASE_URL}/logs`)
+      .then((r) => r.json())
+      .then((data) => setSessions(groupByDate(data)))
+      .catch((err) => console.error('Failed to load history:', err))
+      .finally(() => setLoading(false));
+  }, []);
+
   useFocusEffect(
     useCallback(() => {
-      setLoading(true);
-      fetch(`${BASE_URL}/logs`)
-        .then((r) => r.json())
-        .then((data) => setSessions(groupByDate(data)))
-        .catch((err) => console.error('Failed to load history:', err))
-        .finally(() => setLoading(false));
-    }, [])
+      loadHistory();
+    }, [loadHistory])
+  );
+
+  const deleteSession = useCallback(
+    (date, logs) => {
+      Alert.alert(
+        'Delete workout',
+        `Delete this workout from ${formatDate(date)}? This cannot be undone.`,
+        [
+          { text: 'Cancel', style: 'cancel' },
+          {
+            text: 'Delete',
+            style: 'destructive',
+            onPress: async () => {
+              try {
+                await Promise.all(
+                  logs.map((log) =>
+                    fetch(`${BASE_URL}/logs/${log.id}`, { method: 'DELETE' })
+                  )
+                );
+                await loadHistory(false);
+              } catch (err) {
+                console.error('Failed to delete workout:', err);
+                Alert.alert('Error', 'Could not delete this workout.');
+              }
+            },
+          },
+        ]
+      );
+    },
+    [loadHistory]
   );
 
   return (
@@ -122,6 +163,10 @@ export default function HistoryScreen() {
                 acc + log.sets.reduce((a, s) => a + (s.weight || 0), 0),
               0
             );
+            const duration = logs.reduce(
+              (acc, log) => Math.max(acc, log.duration_seconds || 0),
+              0
+            );
 
             return (
               <TouchableOpacity
@@ -149,13 +194,32 @@ export default function HistoryScreen() {
                         <Text style={styles.statUnit}> LB</Text>
                       </View>
                     )}
+                    {duration > 0 && (
+                      <View style={styles.statChip}>
+                        <Ionicons
+                          name="time-outline"
+                          size={13}
+                          color={COLORS.accent}
+                          style={{ marginRight: 3 }}
+                        />
+                        <Text style={styles.statValue}>
+                          {formatDuration(duration)}
+                        </Text>
+                      </View>
+                    )}
                   </View>
                 </View>
-                <Ionicons
-                  name="chevron-forward"
-                  size={18}
-                  color={COLORS.textDim}
-                />
+                <TouchableOpacity
+                  style={styles.deleteBtn}
+                  onPress={() => deleteSession(date, logs)}
+                  hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                >
+                  <Ionicons
+                    name="trash-outline"
+                    size={18}
+                    color={COLORS.textMuted}
+                  />
+                </TouchableOpacity>
               </TouchableOpacity>
             );
           })
@@ -205,6 +269,13 @@ const styles = StyleSheet.create({
   cardLeft: {
     flex: 1,
     gap: 6,
+  },
+  deleteBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   dateRow: {
     flexDirection: 'row',

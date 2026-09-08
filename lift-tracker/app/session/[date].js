@@ -52,6 +52,12 @@ function formatDate(dateStr) {
   return `${DAYS[d.getDay()]}, ${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
 }
 
+function formatDuration(seconds) {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
 export default function SessionDetailScreen() {
   const { date } = useLocalSearchParams();
   const router = useRouter();
@@ -72,6 +78,10 @@ export default function SessionDetailScreen() {
   );
   const totalWeight = logs.reduce(
     (acc, log) => acc + log.sets.reduce((a, s) => a + (s.weight || 0), 0),
+    0
+  );
+  const duration = logs.reduce(
+    (acc, log) => Math.max(acc, log.duration_seconds || 0),
     0
   );
 
@@ -104,6 +114,17 @@ export default function SessionDetailScreen() {
               <View style={styles.summaryStat}>
                 <Text style={styles.summaryValue}>{totalWeight}</Text>
                 <Text style={styles.summaryLabel}>LB</Text>
+              </View>
+            </>
+          )}
+          {duration > 0 && (
+            <>
+              <View style={styles.summarySeparator} />
+              <View style={styles.summaryStat}>
+                <Text style={styles.summaryValue}>
+                  {formatDuration(duration)}
+                </Text>
+                <Text style={styles.summaryLabel}>TIME</Text>
               </View>
             </>
           )}
