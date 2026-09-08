@@ -1,0 +1,3 @@
+cd lift-tracker
+npm run lint
+npm run format:check

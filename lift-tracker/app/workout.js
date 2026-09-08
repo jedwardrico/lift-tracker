@@ -149,7 +149,6 @@ export default function WorkoutScreen() {
   const firstActiveDay = weekData?.days?.find((d) => !d.is_rest_day);
   const exercises = firstActiveDay?.exercises ?? [];
   const exercise = exercises[exerciseIndex];
-  const totalSets = sets.length;
 
   const navigateTo = (targetIndex) => {
     savedSetsMap.current[exerciseIndex] = sets;
