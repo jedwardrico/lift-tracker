@@ -71,9 +71,7 @@ export default function WorkoutScreen() {
         const firstActiveDay = data.days?.find((d) => !d.is_rest_day);
         const firstExercise = firstActiveDay?.exercises?.[0];
         if (firstExercise) {
-          setSets(
-            buildInitialSets(firstExercise.sets, firstExercise.rep_range)
-          );
+          setSets(buildInitialSets(firstExercise.sets, firstExercise.reps));
         }
       })
       .catch((err) => console.error('Failed to load week:', err))
@@ -155,7 +153,7 @@ export default function WorkoutScreen() {
     const targetExercise = exercises[targetIndex];
     setSets(
       savedSetsMap.current[targetIndex] ??
-        buildInitialSets(targetExercise.sets, targetExercise.rep_range)
+        buildInitialSets(targetExercise.sets, targetExercise.reps)
     );
     setNote('');
     setExerciseIndex(targetIndex);
@@ -342,10 +340,10 @@ export default function WorkoutScreen() {
         </View>
 
         {/* Exercise parameters */}
-        {exercise?.rep_range || exercise?.rpe ? (
+        {exercise?.reps || exercise?.rpe ? (
           <View style={styles.paramsBlock}>
-            {exercise.rep_range ? (
-              <Text style={styles.paramText}>Reps {exercise.rep_range}</Text>
+            {exercise.reps ? (
+              <Text style={styles.paramText}>Reps {exercise.reps}</Text>
             ) : null}
             {exercise.rpe != null ? (
               <Text style={styles.paramText}>RPE {exercise.rpe}</Text>
