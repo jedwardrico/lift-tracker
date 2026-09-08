@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   View,
   Text,
@@ -28,7 +27,7 @@ function formatTime(seconds) {
 
 export default function CompleteScreen() {
   const router = useRouter();
-  const { elapsed, logs } = useLocalSearchParams();
+  const { elapsed, logs, totalReps, totalWeight } = useLocalSearchParams();
   const completedLogs = logs ? JSON.parse(logs) : [];
 
   return (
@@ -41,6 +40,15 @@ export default function CompleteScreen() {
           <Ionicons name="checkmark-circle" size={72} color={COLORS.green} />
           <Text style={styles.title}>Workout Complete</Text>
           <Text style={styles.time}>{formatTime(parseInt(elapsed) || 0)}</Text>
+          {(totalReps > 0 || totalWeight > 0) && (
+            <Text style={styles.summaryText}>
+              <Text style={styles.summaryValue}>{totalReps ?? 0}</Text>
+              <Text style={styles.summaryLabel}> REPS</Text>
+              {'    '}
+              <Text style={styles.summaryValue}>{totalWeight ?? 0}</Text>
+              <Text style={styles.summaryLabel}> LB</Text>
+            </Text>
+          )}
         </View>
 
         {completedLogs.length > 0 && (
@@ -110,6 +118,20 @@ const styles = StyleSheet.create({
   time: {
     color: COLORS.textMuted,
     fontSize: 18,
+  },
+  summaryText: {
+    fontSize: 18,
+  },
+  summaryValue: {
+    color: COLORS.text,
+    fontWeight: '800',
+    fontStyle: 'italic',
+    fontSize: 22,
+  },
+  summaryLabel: {
+    color: COLORS.textMuted,
+    fontWeight: '600',
+    fontSize: 14,
   },
   logSection: {
     marginHorizontal: 16,
