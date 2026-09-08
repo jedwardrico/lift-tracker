@@ -1,6 +1,6 @@
-# Lift Tracker — Gamma Bomb
+# Lift Tracker — Creeping Death II
 
-A workout tracker for the Gamma Bomb program by John Meadows. 14-week hypertrophy training split with a REST/DELOAD at weeks 7–8.
+A workout tracker for the Creeping Death II program by John Meadows. A 12-week Pull/Push/Legs hypertrophy split.
 
 ## Project Structure
 
@@ -59,7 +59,7 @@ PORT=4000 docker compose up
 
 | Method   | Path                    | Description                                            |
 | -------- | ----------------------- | ------------------------------------------------------ |
-| `GET`    | `/weeks`                | All 14 weeks                                           |
+| `GET`    | `/weeks`                | All 12 weeks                                           |
 | `GET`    | `/weeks/:n`             | Full week with every day and exercise                  |
 | `GET`    | `/weeks/:n/days/:day`   | Single day (e.g. `/weeks/1/days/monday`)               |
 | `GET`    | `/exercises`            | All exercises (filter with `?title=Back&subtitle=row`) |
@@ -131,16 +131,14 @@ npm run web         # run in browser
 
 ## Day Schedule
 
-The program runs Monday–Friday with Saturday and Sunday as rest days.
+The program runs Monday–Saturday on a Pull/Push/Legs rotation, with Sunday as a rest day.
 
 | Day       | Workout                              |
 | --------- | ------------------------------------ |
-| Monday    | Back, Abs, Calves                    |
-| Tuesday   | Chest, Shoulders                     |
-| Wednesday | Legs                                 |
-| Thursday  | Arms (Triceps + Biceps), Abs, Calves |
-| Friday    | Chest, Back, Shoulders (pump)        |
-| Saturday  | Rest                                 |
+| Monday    | Pull — Back, Biceps, Abs             |
+| Tuesday   | Push — Chest, Shoulders, Triceps     |
+| Wednesday | Legs — Legs, Calves                  |
+| Thursday  | Pull (pump) — Back, Biceps, Abs      |
+| Friday    | Push (pump) — Chest, Shoulders, Triceps |
+| Saturday  | Legs (pump) — Legs, Calves           |
 | Sunday    | Rest                                 |
-
-Weeks 7–8 are a deload with reduced volume and intensity.

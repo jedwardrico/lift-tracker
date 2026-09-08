@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
   const { date } = req.query;
 
   let query = `
-    SELECT wl.id, wl.exercise_id, wl.logged_at, wl.completed,
+    SELECT wl.id, wl.exercise_id, wl.logged_at, wl.completed, wl.duration_seconds,
            e.title, e.subtitle
     FROM workout_logs wl
     JOIN exercises e ON e.id = wl.exercise_id
@@ -47,10 +47,16 @@ router.get('/', (req, res) => {
 });
 
 // POST /logs — create a log with sets inline
-// Body: { exercise_id, logged_at?, completed?, sets: [{ set_number, reps, weight, weight_unit? }] }
+// Body: { exercise_id, logged_at?, completed?, duration_seconds?, sets: [{ set_number, reps, weight, weight_unit? }] }
 router.post('/', (req, res) => {
   const db = getDb();
-  const { exercise_id, logged_at, completed = 0, sets = [] } = req.body;
+  const {
+    exercise_id,
+    logged_at,
+    completed = 0,
+    duration_seconds,
+    sets = [],
+  } = req.body;
 
   if (!exercise_id)
     return res.status(400).json({ error: 'exercise_id is required' });
@@ -61,7 +67,7 @@ router.post('/', (req, res) => {
   if (!exercise) return res.status(404).json({ error: 'Exercise not found' });
 
   const insertLog = db.prepare(
-    'INSERT INTO workout_logs (exercise_id, logged_at, completed) VALUES (?, ?, ?)'
+    'INSERT INTO workout_logs (exercise_id, logged_at, completed, duration_seconds) VALUES (?, ?, ?, ?)'
   );
   const insertSet = db.prepare(
     'INSERT INTO sets (workout_log_id, set_number, reps, weight, weight_unit) VALUES (?, ?, ?, ?, ?)'
@@ -71,7 +77,8 @@ router.post('/', (req, res) => {
     const result = insertLog.run(
       exercise_id,
       logged_at ?? new Date().toISOString(),
-      completed ? 1 : 0
+      completed ? 1 : 0,
+      duration_seconds ?? null
     );
     const logId = result.lastInsertRowid;
     for (const s of sets) {
@@ -99,7 +106,7 @@ router.get('/:id', (req, res) => {
 });
 
 // PUT /logs/:id — update logged_at or replace sets
-// Body: { logged_at?, sets? }
+// Body: { logged_at?, completed?, duration_seconds?, sets? }
 router.put('/:id', (req, res) => {
   const db = getDb();
   const existing = db
@@ -107,7 +114,7 @@ router.put('/:id', (req, res) => {
     .get(req.params.id);
   if (!existing) return res.status(404).json({ error: 'Log not found' });
 
-  const { logged_at, completed, sets } = req.body;
+  const { logged_at, completed, duration_seconds, sets } = req.body;
 
   const update = db.transaction(() => {
     if (logged_at !== undefined) {
@@ -121,6 +128,11 @@ router.put('/:id', (req, res) => {
         completed ? 1 : 0,
         req.params.id
       );
+    }
+    if (duration_seconds !== undefined) {
+      db.prepare(
+        'UPDATE workout_logs SET duration_seconds = ? WHERE id = ?'
+      ).run(duration_seconds ?? null, req.params.id);
     }
     if (sets !== undefined) {
       db.prepare('DELETE FROM sets WHERE workout_log_id = ?').run(

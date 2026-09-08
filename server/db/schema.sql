@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS workout_logs (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   exercise_id INTEGER NOT NULL REFERENCES exercises(id),
   logged_at TEXT NOT NULL DEFAULT (datetime('now')),
-  completed INTEGER NOT NULL DEFAULT 0
+  completed INTEGER NOT NULL DEFAULT 0,
+  duration_seconds INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS sets (

@@ -196,16 +196,20 @@ export default function WorkoutScreen() {
 
       // Last exercise — post everything to the server now that the workout is done
       clearInterval(timerRef.current);
+      const workoutDuration = timerSeconds;
       const allLogs = [...completedLogs, logEntry];
 
       const savedIds = (
         await Promise.all(
-          allLogs.map((log) =>
+          allLogs.map((log, i) =>
             fetch(`${BASE_URL}/logs`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 exercise_id: log.exercise.id,
+                // Record the full workout duration on the final log
+                duration_seconds:
+                  i === allLogs.length - 1 ? workoutDuration : undefined,
                 sets: log.sets.map((s) => ({
                   set_number: s.set_number,
                   reps: s.reps,
