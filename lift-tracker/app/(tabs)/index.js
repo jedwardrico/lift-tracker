@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
   StatusBar,
   PanResponder,
 } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
 
 const COLORS = {
   bg: '#0a0a0a',
@@ -22,6 +22,7 @@ const COLORS = {
   textDim: '#3a3a3a',
   accent: '#6366f1',
   accentDim: '#312e81',
+  green: '#4ade80',
 };
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000';
@@ -77,6 +78,15 @@ function todayDayIndex() {
   return ((diff % 7) + 7) % 7;
 }
 
+// Local YYYY-MM-DD key for a Date, used to match calendar days against the
+// date portion of a completed log's `logged_at`.
+function toDateKey(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
 // Dates for the 7 days of the program week at `offset` (0 = week 1).
 function getWeekDates(offset = 0) {
   return Array.from({ length: 7 }, (_, i) => {
@@ -95,6 +105,7 @@ export default function HomeScreen() {
   const [availableWeeks, setAvailableWeeks] = useState([1]);
   const [weekData, setWeekData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [completedDates, setCompletedDates] = useState(new Set());
 
   const weekDates = getWeekDates(weekOffset);
   const weekNumber = weekOffset + 1;
@@ -142,6 +153,22 @@ export default function HomeScreen() {
       })
       .catch((err) => console.error('Failed to load week list:', err));
   }, []);
+
+  // Load the dates of completed workouts so the strip can mark them green.
+  // Runs on focus so a workout finished this session shows up on return.
+  useFocusEffect(
+    useCallback(() => {
+      fetch(`${BASE_URL}/logs`)
+        .then((r) => r.json())
+        .then((logs) => {
+          if (!Array.isArray(logs)) return;
+          setCompletedDates(
+            new Set(logs.map((log) => log.logged_at.slice(0, 10)))
+          );
+        })
+        .catch((err) => console.error('Failed to load completed logs:', err));
+    }, [])
+  );
 
   useEffect(() => {
     setLoading(true);
@@ -194,6 +221,7 @@ export default function HomeScreen() {
             day && !day.is_rest_day && (day.exercises?.length ?? 0) > 0;
           const isSelected = i === selectedIdx;
           const isToday = isCurrentWeek && i === todayIdx;
+          const isCompleted = completedDates.has(toDateKey(date));
 
           return (
             <TouchableOpacity
@@ -211,14 +239,17 @@ export default function HomeScreen() {
                   styles.dateNum,
                   isSelected && styles.dateNumActive,
                   isToday && !isSelected && styles.dateNumToday,
+                  isCompleted && styles.dateNumCompleted,
                 ]}
               >
                 {date.getDate()}
               </Text>
               <View style={styles.dotSlot}>
-                {hasWorkout && (
+                {isCompleted ? (
+                  <View style={[styles.dot, styles.dotCompleted]} />
+                ) : hasWorkout ? (
                   <View style={[styles.dot, isSelected && styles.dotActive]} />
-                )}
+                ) : null}
               </View>
               {isSelected && <View style={styles.selectedBar} />}
             </TouchableOpacity>
@@ -402,6 +433,10 @@ const styles = StyleSheet.create({
     color: COLORS.accent,
     fontWeight: '700',
   },
+  dateNumCompleted: {
+    color: COLORS.green,
+    fontWeight: '700',
+  },
   dotSlot: {
     height: 8,
     alignItems: 'center',
@@ -416,6 +451,9 @@ const styles = StyleSheet.create({
   },
   dotActive: {
     backgroundColor: COLORS.accent,
+  },
+  dotCompleted: {
+    backgroundColor: COLORS.green,
   },
   selectedBar: {
     position: 'absolute',
