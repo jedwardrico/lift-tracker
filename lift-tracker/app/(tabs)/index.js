@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
+  PanResponder,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 
@@ -50,38 +51,106 @@ const MONTHS = [
   'DEC',
 ];
 
-function getWeekDates() {
+// Program week 1 is anchored to this Monday. Every subsequent program week is
+// exactly 7 days later, so the calendar advances automatically over time.
+const PROGRAM_START = new Date(2026, 8, 7); // Mon Sep 7, 2026 (month is 0-indexed)
+
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
+
+// Whole days between the program start and today (can be negative before start).
+function daysSinceStart() {
+  const start = new Date(PROGRAM_START);
+  start.setHours(0, 0, 0, 0);
   const today = new Date();
-  const dow = today.getDay(); // 0=Sun
-  const monday = new Date(today);
-  monday.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1));
+  today.setHours(0, 0, 0, 0);
+  return Math.floor((today - start) / MS_PER_DAY);
+}
+
+// Program-week offset (0 = week 1) that contains today; clamped at 0.
+function currentWeekOffset() {
+  return Math.max(0, Math.floor(daysSinceStart() / 7));
+}
+
+// The Mon=0…Sun=6 index for today within its program week.
+function todayDayIndex() {
+  const diff = daysSinceStart();
+  return ((diff % 7) + 7) % 7;
+}
+
+// Dates for the 7 days of the program week at `offset` (0 = week 1).
+function getWeekDates(offset = 0) {
   return Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(monday);
-    d.setDate(monday.getDate() + i);
+    const d = new Date(PROGRAM_START);
+    d.setDate(PROGRAM_START.getDate() + offset * 7 + i);
     return d;
   });
 }
 
-function todayDayIndex() {
-  const dow = new Date().getDay();
-  return dow === 0 ? 6 : dow - 1; // Mon=0 … Sun=6
-}
-
 export default function HomeScreen() {
   const router = useRouter();
-  const weekDates = getWeekDates();
   const todayIdx = todayDayIndex();
+  const currentOffset = currentWeekOffset();
   const [selectedIdx, setSelectedIdx] = useState(todayIdx);
+  const [weekOffset, setWeekOffset] = useState(currentOffset);
+  const [availableWeeks, setAvailableWeeks] = useState([1]);
   const [weekData, setWeekData] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const weekDates = getWeekDates(weekOffset);
+  const weekNumber = weekOffset + 1;
+  const isCurrentWeek = weekOffset === currentOffset;
+
+  // Keep the latest available-week list in a ref so the (once-created)
+  // PanResponder always clamps against fresh bounds.
+  const weeksRef = useRef(availableWeeks);
+  weeksRef.current = availableWeeks;
+
+  const shiftWeek = (delta) => {
+    setWeekOffset((o) => {
+      const weeks = weeksRef.current;
+      const minOffset = Math.min(...weeks) - 1;
+      const maxOffset = Math.max(...weeks) - 1;
+      return Math.max(minOffset, Math.min(maxOffset, o + delta));
+    });
+  };
+  const shiftWeekRef = useRef(shiftWeek);
+  shiftWeekRef.current = shiftWeek;
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: (_, g) =>
+        Math.abs(g.dx) > 20 && Math.abs(g.dx) > Math.abs(g.dy) * 1.5,
+      onPanResponderRelease: (_, g) => {
+        if (g.dx <= -40) shiftWeekRef.current(1);
+        else if (g.dx >= 40) shiftWeekRef.current(-1);
+      },
+    })
+  ).current;
+
+  // Discover which program weeks exist so swiping can't run off the ends.
   useEffect(() => {
-    fetch(`${BASE_URL}/weeks/1`)
+    fetch(`${BASE_URL}/weeks`)
+      .then((r) => r.json())
+      .then((list) => {
+        if (Array.isArray(list) && list.length) {
+          const nums = list.map((w) => w.week_number);
+          setAvailableWeeks(nums);
+          // If today has run past the final program week, land on the last one.
+          const maxOffset = Math.max(...nums) - 1;
+          setWeekOffset((o) => Math.min(o, maxOffset));
+        }
+      })
+      .catch((err) => console.error('Failed to load week list:', err));
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(`${BASE_URL}/weeks/${weekNumber}`)
       .then((r) => r.json())
       .then((data) => setWeekData(data))
       .catch((err) => console.error('Failed to load week:', err))
       .finally(() => setLoading(false));
-  }, []);
+  }, [weekNumber]);
 
   const selectedDate = weekDates[selectedIdx];
   const monthLabel = `${MONTHS[selectedDate.getMonth()]} '${selectedDate.getFullYear().toString().slice(2)}`;
@@ -108,20 +177,23 @@ export default function HomeScreen() {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.todayBtn}
-          onPress={() => setSelectedIdx(todayIdx)}
+          onPress={() => {
+            setWeekOffset(currentOffset);
+            setSelectedIdx(todayIdx);
+          }}
         >
           <Text style={styles.todayBtnText}>TODAY</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Week day strip */}
-      <View style={styles.weekStrip}>
+      {/* Week day strip (swipe left/right to change weeks) */}
+      <View style={styles.weekStrip} {...panResponder.panHandlers}>
         {weekDates.map((date, i) => {
           const day = weekData?.days?.[i];
           const hasWorkout =
             day && !day.is_rest_day && (day.exercises?.length ?? 0) > 0;
           const isSelected = i === selectedIdx;
-          const isToday = i === todayIdx;
+          const isToday = isCurrentWeek && i === todayIdx;
 
           return (
             <TouchableOpacity
@@ -181,14 +253,19 @@ export default function HomeScreen() {
                   API_DAYS[selectedIdx].slice(1)}
               </Text>
               <Text style={styles.exerciseCount}>
-                {exercises.length} exercises
+                Week {weekNumber} · {exercises.length} exercises
               </Text>
             </View>
 
             {/* Start Workout CTA */}
             <TouchableOpacity
               style={styles.startBtn}
-              onPress={() => router.push('/workout')}
+              onPress={() =>
+                router.push({
+                  pathname: '/workout',
+                  params: { week: weekNumber, day: selectedIdx },
+                })
+              }
               activeOpacity={0.85}
             >
               <Text style={styles.startBtnText}>Start Workout</Text>

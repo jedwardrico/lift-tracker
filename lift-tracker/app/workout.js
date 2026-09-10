@@ -11,7 +11,7 @@ import {
   StatusBar,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 
 const COLORS = {
   bg: '#0a0a0a',
@@ -39,8 +39,22 @@ function buildInitialSets(count, repRange) {
   }));
 }
 
+// Resolve the day the user picked on the home screen. Falls back to the first
+// non-rest day if the param is missing or points at a rest / empty day.
+function resolveActiveDay(data, dayIndex) {
+  if (!data?.days) return null;
+  if (dayIndex != null && !Number.isNaN(dayIndex)) {
+    const d = data.days[dayIndex];
+    if (d && !d.is_rest_day && (d.exercises?.length ?? 0) > 0) return d;
+  }
+  return data.days.find((d) => !d.is_rest_day) ?? null;
+}
+
 export default function WorkoutScreen() {
   const router = useRouter();
+  const { week, day } = useLocalSearchParams();
+  const weekNumber = week != null && week !== '' ? parseInt(week, 10) : 1;
+  const dayIndex = day != null && day !== '' ? parseInt(day, 10) : null;
   const [weekData, setWeekData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [exerciseIndex, setExerciseIndex] = useState(0);
@@ -64,19 +78,19 @@ export default function WorkoutScreen() {
   }, []);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/weeks/1`)
+    fetch(`${BASE_URL}/weeks/${weekNumber || 1}`)
       .then((r) => r.json())
       .then((data) => {
         setWeekData(data);
-        const firstActiveDay = data.days?.find((d) => !d.is_rest_day);
-        const firstExercise = firstActiveDay?.exercises?.[0];
+        const activeDay = resolveActiveDay(data, dayIndex);
+        const firstExercise = activeDay?.exercises?.[0];
         if (firstExercise) {
           setSets(buildInitialSets(firstExercise.sets, firstExercise.reps));
         }
       })
       .catch((err) => console.error('Failed to load week:', err))
       .finally(() => setLoading(false));
-  }, []);
+  }, [weekNumber, dayIndex]);
 
   useEffect(() => {
     timerRef.current = setInterval(() => setTimerSeconds((s) => s + 1), 1000);
@@ -144,8 +158,8 @@ export default function WorkoutScreen() {
       0
     );
 
-  const firstActiveDay = weekData?.days?.find((d) => !d.is_rest_day);
-  const exercises = firstActiveDay?.exercises ?? [];
+  const activeDay = resolveActiveDay(weekData, dayIndex);
+  const exercises = activeDay?.exercises ?? [];
   const exercise = exercises[exerciseIndex];
 
   const navigateTo = (targetIndex) => {
@@ -283,7 +297,7 @@ export default function WorkoutScreen() {
           style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
         >
           <Text style={{ color: COLORS.textMuted, fontSize: 16 }}>
-            Loading week 1…
+            Loading week {weekNumber || 1}…
           </Text>
         </View>
       </SafeAreaView>
