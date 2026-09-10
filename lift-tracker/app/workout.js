@@ -438,7 +438,10 @@ export default function WorkoutScreen() {
 
             {/* Add/Remove set controls */}
             <View style={styles.setControls}>
-              <TouchableOpacity style={styles.setControlBtn} onPress={removeSet}>
+              <TouchableOpacity
+                style={styles.setControlBtn}
+                onPress={removeSet}
+              >
                 <Ionicons name="remove" size={22} color={COLORS.text} />
               </TouchableOpacity>
               <Text style={styles.setControlLabel}>Set</Text>
