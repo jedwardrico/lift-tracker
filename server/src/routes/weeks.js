@@ -2,6 +2,44 @@ const express = require('express');
 const router = express.Router();
 const { getDb } = require('../db');
 
+// Most recent exercise swap logged at the same "spot" (same day_of_week +
+// order_num) in an *earlier* week. Lets a swap made in a prior week carry
+// forward to this week's session. Returns the swapped-in exercise only when it
+// differs (by name) from the current week's programmed exercise, so the caller
+// can surface "the changed exercise" without extra comparison.
+function carriedSwapFor(db, dayOfWeek, orderNum, weekNumber, currentSubtitle) {
+  const row = db
+    .prepare(
+      `SELECT se.id, se.title, se.subtitle, se.body, se.rpe, se.sets, se.rep_range
+       FROM workout_logs wl
+       JOIN exercises e ON e.id = wl.exercise_id
+       JOIN workout_days wd ON wd.id = e.workout_day_id
+       JOIN weeks w ON w.id = wd.week_id
+       JOIN exercises se ON se.id = wl.swapped_exercise_id
+       WHERE wd.day_of_week = ? AND e.order_num = ? AND w.week_number < ?
+         AND wl.completed = 1
+         AND wl.swapped_exercise_id IS NOT NULL
+       ORDER BY w.week_number DESC, wl.logged_at DESC
+       LIMIT 1`
+    )
+    .get(dayOfWeek, orderNum, weekNumber);
+  if (!row || row.subtitle === currentSubtitle) return null;
+  return row;
+}
+
+function withCarriedSwaps(db, exercises, dayOfWeek, weekNumber) {
+  return exercises.map((ex) => ({
+    ...ex,
+    carried_exercise: carriedSwapFor(
+      db,
+      dayOfWeek,
+      ex.order_num,
+      weekNumber,
+      ex.subtitle
+    ),
+  }));
+}
+
 // GET /weeks - list all weeks
 router.get('/', (req, res) => {
   const db = getDb();
@@ -28,11 +66,16 @@ router.get('/:weekNumber', (req, res) => {
     days: days.map((day) => {
       const exercises = day.is_rest_day
         ? []
-        : db
-            .prepare(
-              'SELECT * FROM exercises WHERE workout_day_id = ? ORDER BY order_num'
-            )
-            .all(day.id);
+        : withCarriedSwaps(
+            db,
+            db
+              .prepare(
+                'SELECT * FROM exercises WHERE workout_day_id = ? ORDER BY order_num'
+              )
+              .all(day.id),
+            day.day_of_week,
+            week.week_number
+          );
       return {
         ...day,
         is_rest_day: Boolean(day.is_rest_day),
@@ -61,11 +104,16 @@ router.get('/:weekNumber/days/:day', (req, res) => {
 
   const exercises = workoutDay.is_rest_day
     ? []
-    : db
-        .prepare(
-          'SELECT * FROM exercises WHERE workout_day_id = ? ORDER BY order_num'
-        )
-        .all(workoutDay.id);
+    : withCarriedSwaps(
+        db,
+        db
+          .prepare(
+            'SELECT * FROM exercises WHERE workout_day_id = ? ORDER BY order_num'
+          )
+          .all(workoutDay.id),
+        workoutDay.day_of_week,
+        week.week_number
+      );
 
   res.json({
     ...workoutDay,
