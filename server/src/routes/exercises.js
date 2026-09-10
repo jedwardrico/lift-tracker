@@ -46,9 +46,7 @@ router.post('/', (req, res) => {
   const { title, subtitle, body, rpe, sets, rep_range } = req.body;
 
   if (!title?.trim() || !subtitle?.trim())
-    return res
-      .status(400)
-      .json({ error: 'title and subtitle are required' });
+    return res.status(400).json({ error: 'title and subtitle are required' });
 
   const result = db
     .prepare(

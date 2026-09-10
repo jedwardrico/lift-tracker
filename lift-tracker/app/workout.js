@@ -139,7 +139,9 @@ export default function WorkoutScreen() {
   };
 
   const removeSet = (id) => {
-    setSets((prev) => (prev.length > 1 ? prev.filter((s) => s.id !== id) : prev));
+    setSets((prev) =>
+      prev.length > 1 ? prev.filter((s) => s.id !== id) : prev
+    );
   };
 
   const toggleComplete = (id) => {
@@ -504,7 +506,9 @@ export default function WorkoutScreen() {
           {displayExercise?.reps || displayExercise?.rpe ? (
             <View style={styles.paramsBlock}>
               {displayExercise.reps ? (
-                <Text style={styles.paramText}>Reps {displayExercise.reps}</Text>
+                <Text style={styles.paramText}>
+                  Reps {displayExercise.reps}
+                </Text>
               ) : null}
               {displayExercise.rpe != null ? (
                 <Text style={styles.paramText}>RPE {displayExercise.rpe}</Text>
@@ -651,7 +655,8 @@ export default function WorkoutScreen() {
               </TouchableOpacity>
             </View>
             <Text style={styles.modalHint}>
-              Keeps this slot&apos;s sets &amp; reps — only the exercise changes.
+              Keeps this slot&apos;s sets &amp; reps — only the exercise
+              changes.
             </Text>
 
             <View style={styles.customRow}>
