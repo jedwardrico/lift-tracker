@@ -90,7 +90,6 @@ export default function WorkoutScreen() {
       })
       .catch((err) => console.error('Failed to load week:', err))
       .finally(() => setLoading(false));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [weekNumber, dayIndex]);
 
   useEffect(() => {
