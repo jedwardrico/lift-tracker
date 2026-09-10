@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   StatusBar,
   PanResponder,
+  Modal,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter, useLocalSearchParams } from 'expo-router';
@@ -65,6 +66,15 @@ export default function WorkoutScreen() {
     { id: 2, reps: '8', weight: '', completed: false },
   ]);
   const [note, setNote] = useState('');
+  // Session exercise swaps, keyed by exercise index. Each value is a full
+  // exercise row (from the catalog or freshly created) that replaces the slot's
+  // exercise for this session. The slot's set/rep scheme is kept; the swap is
+  // persisted on the log as swapped_exercise_id and carried forward to the same
+  // slot in later weeks. The programmed week is never modified.
+  const [overrides, setOverrides] = useState({});
+  const [swapModalVisible, setSwapModalVisible] = useState(false);
+  const [customInput, setCustomInput] = useState('');
+  const [catalog, setCatalog] = useState([]);
   const [completedLogs, setCompletedLogs] = useState([]);
   const [timerSeconds, setTimerSeconds] = useState(0);
   const timerRef = useRef(null);
@@ -88,10 +98,27 @@ export default function WorkoutScreen() {
         if (firstExercise) {
           setSets(buildInitialSets(firstExercise.sets, firstExercise.reps));
         }
+        // Carry forward a swap made in an earlier week: the server sends
+        // carried_exercise (a full exercise row) only when a prior week's
+        // logged exercise at the same slot differs from this week's program.
+        // Seed it so the swapped exercise shows and stays swappable.
+        const seeded = {};
+        (activeDay?.exercises ?? []).forEach((ex, i) => {
+          if (ex.carried_exercise) seeded[i] = ex.carried_exercise;
+        });
+        if (Object.keys(seeded).length > 0) setOverrides(seeded);
       })
       .catch((err) => console.error('Failed to load week:', err))
       .finally(() => setLoading(false));
   }, [weekNumber, dayIndex]);
+
+  // Unique exercise catalog for the swap picker.
+  useEffect(() => {
+    fetch(`${BASE_URL}/exercises?distinct=1`)
+      .then((r) => r.json())
+      .then((data) => setCatalog(Array.isArray(data) ? data : []))
+      .catch((err) => console.error('Failed to load exercises:', err));
+  }, []);
 
   useEffect(() => {
     timerRef.current = setInterval(() => setTimerSeconds((s) => s + 1), 1000);
@@ -111,8 +138,10 @@ export default function WorkoutScreen() {
     ]);
   };
 
-  const removeSet = () => {
-    if (sets.length > 1) setSets((prev) => prev.slice(0, -1));
+  const removeSet = (id) => {
+    setSets((prev) =>
+      prev.length > 1 ? prev.filter((s) => s.id !== id) : prev
+    );
   };
 
   const toggleComplete = (id) => {
@@ -162,6 +191,12 @@ export default function WorkoutScreen() {
   const activeDay = resolveActiveDay(weekData, dayIndex);
   const exercises = activeDay?.exercises ?? [];
   const exercise = exercises[exerciseIndex];
+  const override = overrides[exerciseIndex];
+  // The exercise whose identity/details (name, category, body, RPE) are shown.
+  // The working set rows always stay as the slot's, per the set/rep scheme.
+  const displayExercise = override ?? exercise;
+  const exerciseName = displayExercise?.subtitle ?? '';
+  const exerciseCategory = displayExercise?.title ?? '';
 
   const navigateTo = (targetIndex) => {
     savedSetsMap.current[exerciseIndex] = sets;
@@ -171,7 +206,55 @@ export default function WorkoutScreen() {
         buildInitialSets(targetExercise.sets, targetExercise.reps)
     );
     setNote('');
+    setSwapModalVisible(false);
     setExerciseIndex(targetIndex);
+  };
+
+  // Swap the current slot's exercise. Only the shown/logged identity changes —
+  // the set/rep scheme the user is working through stays exactly as-is.
+  const openSwap = () => {
+    setCustomInput('');
+    setSwapModalVisible(true);
+  };
+  const applySwap = (ex) => {
+    setOverrides((prev) => ({ ...prev, [exerciseIndex]: ex }));
+    setSwapModalVisible(false);
+  };
+  const resetSwap = () => {
+    setOverrides((prev) => {
+      const next = { ...prev };
+      delete next[exerciseIndex];
+      return next;
+    });
+    setSwapModalVisible(false);
+  };
+  // Create a brand-new exercise, link it to the program catalog, then swap to
+  // it. It keeps the slot's category label so it reads sensibly.
+  const addCustomExercise = async () => {
+    const name = customInput.trim();
+    if (!name) return;
+    try {
+      const res = await fetch(`${BASE_URL}/exercises`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: exercise?.title ?? 'Custom',
+          subtitle: name,
+          body: '',
+        }),
+      });
+      const created = await res.json();
+      if (created?.id) {
+        setCatalog((prev) =>
+          [...prev, created].sort((a, b) =>
+            `${a.title}${a.subtitle}`.localeCompare(`${b.title}${b.subtitle}`)
+          )
+        );
+        applySwap(created);
+      }
+    } catch (err) {
+      console.error('Failed to create exercise:', err);
+    }
   };
 
   const handleNext = async () => {
@@ -187,8 +270,23 @@ export default function WorkoutScreen() {
         return next;
       });
 
+      // A swap only counts when the chosen exercise actually differs from the
+      // programmed one. The log keeps exercise_id as the slot anchor and records
+      // swapped_exercise_id; the completion screen shows the effective exercise.
+      const swap = overrides[exerciseIndex];
+      const isRealSwap =
+        swap &&
+        (swap.subtitle !== exercise.subtitle || swap.title !== exercise.title);
+      const effective = isRealSwap ? swap : exercise;
       const logEntry = {
-        exercise,
+        exercise: {
+          ...exercise, // keep slot id/order as the anchor for exercise_id
+          title: effective.title,
+          subtitle: effective.subtitle,
+          body: effective.body,
+          rpe: effective.rpe,
+        },
+        swappedExerciseId: isRealSwap ? swap.id : null,
         sets: localSets.map((s, i) => ({
           set_number: i + 1,
           reps: parseInt(s.reps) || null,
@@ -222,6 +320,7 @@ export default function WorkoutScreen() {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 exercise_id: log.exercise.id,
+                swapped_exercise_id: log.swappedExerciseId ?? undefined,
                 // Record the full workout duration on the final log
                 duration_seconds:
                   i === allLogs.length - 1 ? workoutDuration : undefined,
@@ -375,30 +474,44 @@ export default function WorkoutScreen() {
         <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
           {/* Category + Exercise */}
           <View style={styles.exerciseHeader}>
-            <Text style={styles.categoryText}>{exercise?.title ?? ''}</Text>
+            <Text style={styles.categoryText}>{exerciseCategory}</Text>
             <View style={styles.exerciseTitleRow}>
-              <View style={styles.exerciseTitleLeft}>
-                <Text style={styles.exerciseName}>
-                  {exercise?.subtitle ?? '—'}
-                </Text>
-              </View>
-              <TouchableOpacity style={styles.moreButton}>
+              <TouchableOpacity
+                style={styles.exerciseTitleLeft}
+                onPress={() => exercise && openSwap()}
+                disabled={!exercise}
+              >
+                <Text style={styles.exerciseName}>{exerciseName || '—'}</Text>
+                {exercise ? (
+                  <Ionicons
+                    name="swap-horizontal"
+                    size={18}
+                    color={COLORS.textMuted}
+                  />
+                ) : null}
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.moreButton}
+                onPress={() => exercise && openSwap()}
+              >
                 <Text style={styles.moreButtonText}>•••</Text>
               </TouchableOpacity>
             </View>
-            {exercise?.body ? (
-              <Text style={styles.exerciseBody}>{exercise.body}</Text>
+            {displayExercise?.body ? (
+              <Text style={styles.exerciseBody}>{displayExercise.body}</Text>
             ) : null}
           </View>
 
           {/* Exercise parameters */}
-          {exercise?.reps || exercise?.rpe ? (
+          {displayExercise?.reps || displayExercise?.rpe ? (
             <View style={styles.paramsBlock}>
-              {exercise.reps ? (
-                <Text style={styles.paramText}>Reps {exercise.reps}</Text>
+              {displayExercise.reps ? (
+                <Text style={styles.paramText}>
+                  Reps {displayExercise.reps}
+                </Text>
               ) : null}
-              {exercise.rpe != null ? (
-                <Text style={styles.paramText}>RPE {exercise.rpe}</Text>
+              {displayExercise.rpe != null ? (
+                <Text style={styles.paramText}>RPE {displayExercise.rpe}</Text>
               ) : null}
             </View>
           ) : null}
@@ -417,7 +530,7 @@ export default function WorkoutScreen() {
               >
                 Lb
               </Text>
-              <View style={{ width: 44 }} />
+              <View style={{ width: 72 }} />
             </View>
 
             {sets.map((set, idx) => (
@@ -452,25 +565,26 @@ export default function WorkoutScreen() {
                     <Ionicons name="checkmark" size={16} color={COLORS.bg} />
                   )}
                 </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.deleteSetBtn}
+                  onPress={() => removeSet(set.id)}
+                  disabled={sets.length <= 1}
+                  hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                >
+                  <Ionicons
+                    name="close"
+                    size={20}
+                    color={sets.length <= 1 ? COLORS.textDim : COLORS.textMuted}
+                  />
+                </TouchableOpacity>
               </View>
             ))}
 
-            {/* Add/Remove set controls */}
-            <View style={styles.setControls}>
-              <TouchableOpacity
-                style={styles.setControlBtn}
-                onPress={removeSet}
-              >
-                <Ionicons name="remove" size={22} color={COLORS.text} />
-              </TouchableOpacity>
-              <Text style={styles.setControlLabel}>Set</Text>
-              <TouchableOpacity
-                style={[styles.setControlBtn, styles.setControlBtnBlue]}
-                onPress={addSet}
-              >
-                <Ionicons name="add" size={22} color={COLORS.blue} />
-              </TouchableOpacity>
-            </View>
+            {/* Add set control — remove any set via the ✕ on its row */}
+            <TouchableOpacity style={styles.addSetBtn} onPress={addSet}>
+              <Ionicons name="add" size={20} color={COLORS.blue} />
+              <Text style={styles.addSetLabel}>Add Set</Text>
+            </TouchableOpacity>
           </View>
 
           {/* Note input */}
@@ -524,6 +638,96 @@ export default function WorkoutScreen() {
           <Ionicons name="arrow-forward" size={20} color={COLORS.blue} />
         </TouchableOpacity>
       </View>
+
+      {/* Swap exercise modal */}
+      <Modal
+        visible={swapModalVisible}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setSwapModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalCard}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Swap Exercise</Text>
+              <TouchableOpacity onPress={() => setSwapModalVisible(false)}>
+                <Ionicons name="close" size={24} color={COLORS.textMuted} />
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.modalHint}>
+              Keeps this slot&apos;s sets &amp; reps — only the exercise
+              changes.
+            </Text>
+
+            <View style={styles.customRow}>
+              <TextInput
+                style={styles.customInput}
+                placeholder="Add a new exercise"
+                placeholderTextColor={COLORS.textDim}
+                value={customInput}
+                onChangeText={setCustomInput}
+                keyboardAppearance="dark"
+                returnKeyType="done"
+                onSubmitEditing={addCustomExercise}
+              />
+              <TouchableOpacity
+                style={[
+                  styles.customAddBtn,
+                  !customInput.trim() && styles.customAddBtnDisabled,
+                ]}
+                onPress={addCustomExercise}
+                disabled={!customInput.trim()}
+              >
+                <Ionicons
+                  name="add"
+                  size={22}
+                  color={customInput.trim() ? COLORS.bg : COLORS.textDim}
+                />
+              </TouchableOpacity>
+            </View>
+
+            {override ? (
+              <TouchableOpacity style={styles.resetRow} onPress={resetSwap}>
+                <Ionicons name="refresh" size={16} color={COLORS.blue} />
+                <Text style={styles.resetText}>
+                  Reset to {exercise?.subtitle ?? 'original'}
+                </Text>
+              </TouchableOpacity>
+            ) : null}
+
+            <ScrollView
+              style={styles.catalogList}
+              keyboardShouldPersistTaps="handled"
+              showsVerticalScrollIndicator={false}
+            >
+              {catalog.map((item) => {
+                const selected =
+                  exerciseName === item.subtitle &&
+                  exerciseCategory === item.title;
+                return (
+                  <TouchableOpacity
+                    key={item.id}
+                    style={styles.catalogRow}
+                    onPress={() => applySwap(item)}
+                  >
+                    <View style={{ flex: 1 }}>
+                      <Text style={styles.catalogName}>{item.subtitle}</Text>
+                      <Text style={styles.catalogCategory}>{item.title}</Text>
+                    </View>
+                    {selected ? (
+                      <Ionicons
+                        name="checkmark"
+                        size={20}
+                        color={COLORS.green}
+                      />
+                    ) : null}
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -702,31 +906,28 @@ const styles = StyleSheet.create({
   completeDotFilled: {
     backgroundColor: COLORS.green,
   },
-  setControls: {
+  deleteSetBtn: {
+    width: 28,
+    height: 36,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  addSetBtn: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 6,
     marginTop: 8,
-    gap: 20,
+    paddingVertical: 12,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    backgroundColor: COLORS.surface,
   },
-  setControlBtn: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    borderWidth: 2,
-    borderColor: COLORS.textMuted,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  setControlBtnBlue: {
-    borderColor: COLORS.blue,
-  },
-  setControlLabel: {
-    color: COLORS.text,
+  addSetLabel: {
+    color: COLORS.blue,
     fontSize: 16,
     fontWeight: '600',
-    width: 40,
-    textAlign: 'center',
   },
   noteContainer: {
     marginHorizontal: 16,
@@ -771,5 +972,97 @@ const styles = StyleSheet.create({
     color: COLORS.blue,
     fontSize: 15,
     fontWeight: '600',
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    justifyContent: 'flex-end',
+  },
+  modalCard: {
+    backgroundColor: COLORS.surface,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 32,
+    maxHeight: '80%',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  modalTitle: {
+    color: COLORS.text,
+    fontSize: 20,
+    fontWeight: '800',
+  },
+  modalHint: {
+    color: COLORS.textMuted,
+    fontSize: 13,
+    marginTop: 4,
+    marginBottom: 12,
+  },
+  customRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 12,
+  },
+  customInput: {
+    flex: 1,
+    height: 48,
+    backgroundColor: COLORS.inputBg,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    paddingHorizontal: 14,
+    color: COLORS.text,
+    fontSize: 16,
+  },
+  customAddBtn: {
+    width: 48,
+    height: 48,
+    borderRadius: 8,
+    backgroundColor: COLORS.blue,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  customAddBtnDisabled: {
+    backgroundColor: COLORS.border,
+  },
+  resetRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingVertical: 10,
+    marginBottom: 4,
+  },
+  resetText: {
+    color: COLORS.blue,
+    fontSize: 15,
+    fontWeight: '600',
+  },
+  catalogList: {
+    flexGrow: 0,
+  },
+  catalogRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 14,
+    borderTopWidth: 1,
+    borderTopColor: COLORS.border,
+  },
+  catalogName: {
+    color: COLORS.text,
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  catalogCategory: {
+    color: COLORS.textMuted,
+    fontSize: 13,
+    marginTop: 2,
   },
 });

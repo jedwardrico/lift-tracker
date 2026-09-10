@@ -2,10 +2,25 @@ const express = require('express');
 const router = express.Router();
 const { getDb } = require('../db');
 
-// GET /exercises - filter exercises by body part or name
+// GET /exercises - filter exercises by body part or name.
+// ?distinct=1 returns the unique exercise catalog (one row per title+subtitle),
+// used to populate the in-workout swap picker.
 router.get('/', (req, res) => {
   const db = getDb();
-  const { title, subtitle } = req.query;
+  const { title, subtitle, distinct } = req.query;
+
+  if (distinct) {
+    // One representative full row per unique title+subtitle, so the swap picker
+    // can show and adopt the exercise's details (body, rpe, etc.).
+    const catalog = db
+      .prepare(
+        `SELECT * FROM exercises
+         WHERE id IN (SELECT MIN(id) FROM exercises GROUP BY title, subtitle)
+         ORDER BY title, subtitle`
+      )
+      .all();
+    return res.json(catalog);
+  }
 
   let query = 'SELECT * FROM exercises WHERE 1=1';
   const params = [];
@@ -21,6 +36,36 @@ router.get('/', (req, res) => {
 
   query += ' ORDER BY id';
   res.json(db.prepare(query).all(...params));
+});
+
+// POST /exercises — create a new user exercise and link it to the program
+// catalog (no fixed day/slot). Returned row can then be used as a swap target.
+// Body: { title, subtitle, body?, rpe?, sets?, rep_range? }
+router.post('/', (req, res) => {
+  const db = getDb();
+  const { title, subtitle, body, rpe, sets, rep_range } = req.body;
+
+  if (!title?.trim() || !subtitle?.trim())
+    return res.status(400).json({ error: 'title and subtitle are required' });
+
+  const result = db
+    .prepare(
+      `INSERT INTO exercises (workout_day_id, order_num, title, subtitle, body, rpe, sets, rep_range)
+       VALUES (NULL, NULL, ?, ?, ?, ?, ?, ?)`
+    )
+    .run(
+      title.trim(),
+      subtitle.trim(),
+      body?.trim() ?? '',
+      rpe ?? null,
+      sets ?? null,
+      rep_range ?? null
+    );
+
+  const created = db
+    .prepare('SELECT * FROM exercises WHERE id = ?')
+    .get(result.lastInsertRowid);
+  res.status(201).json(created);
 });
 
 // GET /exercises/:id

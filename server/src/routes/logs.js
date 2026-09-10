@@ -19,9 +19,12 @@ router.get('/', (req, res) => {
 
   let query = `
     SELECT wl.id, wl.exercise_id, wl.logged_at, wl.completed, wl.duration_seconds,
-           e.title, e.subtitle
+           wl.swapped_exercise_id,
+           COALESCE(se.title, e.title) AS title,
+           COALESCE(se.subtitle, e.subtitle) AS subtitle
     FROM workout_logs wl
     JOIN exercises e ON e.id = wl.exercise_id
+    LEFT JOIN exercises se ON se.id = wl.swapped_exercise_id
     WHERE wl.completed = 1
   `;
   const params = [];
@@ -47,7 +50,7 @@ router.get('/', (req, res) => {
 });
 
 // POST /logs — create a log with sets inline
-// Body: { exercise_id, logged_at?, completed?, duration_seconds?, sets: [{ set_number, reps, weight, weight_unit? }] }
+// Body: { exercise_id, logged_at?, completed?, duration_seconds?, swapped_exercise_id?, sets: [{ set_number, reps, weight, weight_unit? }] }
 router.post('/', (req, res) => {
   const db = getDb();
   const {
@@ -55,6 +58,7 @@ router.post('/', (req, res) => {
     logged_at,
     completed = 0,
     duration_seconds,
+    swapped_exercise_id,
     sets = [],
   } = req.body;
 
@@ -66,8 +70,16 @@ router.post('/', (req, res) => {
     .get(exercise_id);
   if (!exercise) return res.status(404).json({ error: 'Exercise not found' });
 
+  if (swapped_exercise_id != null) {
+    const swapped = db
+      .prepare('SELECT id FROM exercises WHERE id = ?')
+      .get(swapped_exercise_id);
+    if (!swapped)
+      return res.status(404).json({ error: 'Swapped exercise not found' });
+  }
+
   const insertLog = db.prepare(
-    'INSERT INTO workout_logs (exercise_id, logged_at, completed, duration_seconds) VALUES (?, ?, ?, ?)'
+    'INSERT INTO workout_logs (exercise_id, logged_at, completed, duration_seconds, swapped_exercise_id) VALUES (?, ?, ?, ?, ?)'
   );
   const insertSet = db.prepare(
     'INSERT INTO sets (workout_log_id, set_number, reps, weight, weight_unit) VALUES (?, ?, ?, ?, ?)'
@@ -78,7 +90,8 @@ router.post('/', (req, res) => {
       exercise_id,
       logged_at ?? new Date().toISOString(),
       completed ? 1 : 0,
-      duration_seconds ?? null
+      duration_seconds ?? null,
+      swapped_exercise_id ?? null
     );
     const logId = result.lastInsertRowid;
     for (const s of sets) {

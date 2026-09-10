@@ -10,10 +10,14 @@ CREATE TABLE IF NOT EXISTS workout_days (
   is_rest_day INTEGER NOT NULL DEFAULT 0
 );
 
+-- workout_day_id / order_num are nullable: exercises created by the user in-app
+-- (a "linked" custom exercise) have no fixed day/slot in the program. They still
+-- live in the catalog and can be selected as a swap, but never render as a
+-- program slot (the weeks queries only pull exercises attached to a day).
 CREATE TABLE IF NOT EXISTS exercises (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  workout_day_id INTEGER NOT NULL REFERENCES workout_days(id),
-  order_num INTEGER NOT NULL,
+  workout_day_id INTEGER REFERENCES workout_days(id),
+  order_num INTEGER,
   title TEXT NOT NULL,
   subtitle TEXT NOT NULL,
   body TEXT NOT NULL,
@@ -27,7 +31,11 @@ CREATE TABLE IF NOT EXISTS workout_logs (
   exercise_id INTEGER NOT NULL REFERENCES exercises(id),
   logged_at TEXT NOT NULL DEFAULT (datetime('now')),
   completed INTEGER NOT NULL DEFAULT 0,
-  duration_seconds INTEGER
+  duration_seconds INTEGER,
+  -- When the user swaps this slot for another exercise, the log keeps
+  -- exercise_id as the programmed slot anchor (preserving day/order for
+  -- carry-forward) and records the exercise actually performed here.
+  swapped_exercise_id INTEGER REFERENCES exercises(id)
 );
 
 CREATE TABLE IF NOT EXISTS sets (
