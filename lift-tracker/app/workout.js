@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
+  PanResponder,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -276,6 +277,30 @@ export default function WorkoutScreen() {
     if (exerciseIndex > 0) navigateTo(exerciseIndex - 1);
   };
 
+  // Swipe left → next exercise, swipe right → previous exercise.
+  // Forward swipe only navigates between exercises; finishing the workout
+  // stays on the explicit Finish button so it can't be triggered accidentally.
+  const swipeHandlers = useRef({});
+  swipeHandlers.current = {
+    onSwipeLeft: () => {
+      if (exerciseIndex < exercises.length - 1) handleNext();
+    },
+    onSwipeRight: handleBack,
+  };
+
+  const panResponder = useRef(
+    PanResponder.create({
+      // Only claim the gesture for clearly horizontal drags so the vertical
+      // ScrollView and text inputs keep working.
+      onMoveShouldSetPanResponder: (_, g) =>
+        Math.abs(g.dx) > 20 && Math.abs(g.dx) > Math.abs(g.dy) * 1.5,
+      onPanResponderRelease: (_, g) => {
+        if (g.dx <= -50) swipeHandlers.current.onSwipeLeft();
+        else if (g.dx >= 50) swipeHandlers.current.onSwipeRight();
+      },
+    })
+  ).current;
+
   if (loading) {
     return (
       <SafeAreaView style={styles.container}>
@@ -327,119 +352,121 @@ export default function WorkoutScreen() {
 
       <View style={styles.divider} />
 
-      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-        {/* Category + Exercise */}
-        <View style={styles.exerciseHeader}>
-          <Text style={styles.categoryText}>{exercise?.title ?? ''}</Text>
-          <View style={styles.exerciseTitleRow}>
-            <View style={styles.exerciseTitleLeft}>
-              <Text style={styles.exerciseName}>
-                {exercise?.subtitle ?? '—'}
-              </Text>
-            </View>
-            <TouchableOpacity style={styles.moreButton}>
-              <Text style={styles.moreButtonText}>•••</Text>
-            </TouchableOpacity>
-          </View>
-          {exercise?.body ? (
-            <Text style={styles.exerciseBody}>{exercise.body}</Text>
-          ) : null}
-        </View>
-
-        {/* Exercise parameters */}
-        {exercise?.reps || exercise?.rpe ? (
-          <View style={styles.paramsBlock}>
-            {exercise.reps ? (
-              <Text style={styles.paramText}>Reps {exercise.reps}</Text>
-            ) : null}
-            {exercise.rpe != null ? (
-              <Text style={styles.paramText}>RPE {exercise.rpe}</Text>
-            ) : null}
-          </View>
-        ) : null}
-
-        {/* Sets table */}
-        <View style={styles.setsTable}>
-          <View style={styles.setsHeaderRow}>
-            <Text style={[styles.setColHeader, { width: 36 }]}>Sets</Text>
-            <Text
-              style={[styles.setColHeader, { flex: 1, textAlign: 'center' }]}
-            >
-              Reps
-            </Text>
-            <Text
-              style={[styles.setColHeader, { flex: 1, textAlign: 'center' }]}
-            >
-              Lb
-            </Text>
-            <View style={{ width: 44 }} />
-          </View>
-
-          {sets.map((set, idx) => (
-            <View key={set.id} style={styles.setRow}>
-              <Text style={styles.setNumber}>{idx + 1}</Text>
-              <TextInput
-                style={styles.setInput}
-                value={set.reps}
-                onChangeText={(v) => updateReps(set.id, v)}
-                keyboardType="numeric"
-                keyboardAppearance="dark"
-                selectTextOnFocus
-              />
-              <TextInput
-                style={styles.setInput}
-                value={set.weight}
-                onChangeText={(v) => updateWeight(set.id, v)}
-                keyboardType="numeric"
-                keyboardAppearance="dark"
-                placeholder=""
-                placeholderTextColor={COLORS.textDim}
-                selectTextOnFocus
-              />
-              <TouchableOpacity
-                style={[
-                  styles.completeDot,
-                  set.completed && styles.completeDotFilled,
-                ]}
-                onPress={() => toggleComplete(set.id)}
-              >
-                {set.completed && (
-                  <Ionicons name="checkmark" size={16} color={COLORS.bg} />
-                )}
+      <View style={styles.scroll} {...panResponder.panHandlers}>
+        <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
+          {/* Category + Exercise */}
+          <View style={styles.exerciseHeader}>
+            <Text style={styles.categoryText}>{exercise?.title ?? ''}</Text>
+            <View style={styles.exerciseTitleRow}>
+              <View style={styles.exerciseTitleLeft}>
+                <Text style={styles.exerciseName}>
+                  {exercise?.subtitle ?? '—'}
+                </Text>
+              </View>
+              <TouchableOpacity style={styles.moreButton}>
+                <Text style={styles.moreButtonText}>•••</Text>
               </TouchableOpacity>
             </View>
-          ))}
-
-          {/* Add/Remove set controls */}
-          <View style={styles.setControls}>
-            <TouchableOpacity style={styles.setControlBtn} onPress={removeSet}>
-              <Ionicons name="remove" size={22} color={COLORS.text} />
-            </TouchableOpacity>
-            <Text style={styles.setControlLabel}>Set</Text>
-            <TouchableOpacity
-              style={[styles.setControlBtn, styles.setControlBtnBlue]}
-              onPress={addSet}
-            >
-              <Ionicons name="add" size={22} color={COLORS.blue} />
-            </TouchableOpacity>
+            {exercise?.body ? (
+              <Text style={styles.exerciseBody}>{exercise.body}</Text>
+            ) : null}
           </View>
-        </View>
 
-        {/* Note input */}
-        <View style={styles.noteContainer}>
-          <TextInput
-            style={styles.noteInput}
-            placeholder="Add exercise note"
-            placeholderTextColor={COLORS.textDim}
-            value={note}
-            onChangeText={setNote}
-            multiline
-            keyboardAppearance="dark"
-          />
-        </View>
+          {/* Exercise parameters */}
+          {exercise?.reps || exercise?.rpe ? (
+            <View style={styles.paramsBlock}>
+              {exercise.reps ? (
+                <Text style={styles.paramText}>Reps {exercise.reps}</Text>
+              ) : null}
+              {exercise.rpe != null ? (
+                <Text style={styles.paramText}>RPE {exercise.rpe}</Text>
+              ) : null}
+            </View>
+          ) : null}
 
-        <View style={{ height: 100 }} />
-      </ScrollView>
+          {/* Sets table */}
+          <View style={styles.setsTable}>
+            <View style={styles.setsHeaderRow}>
+              <Text style={[styles.setColHeader, { width: 36 }]}>Sets</Text>
+              <Text
+                style={[styles.setColHeader, { flex: 1, textAlign: 'center' }]}
+              >
+                Reps
+              </Text>
+              <Text
+                style={[styles.setColHeader, { flex: 1, textAlign: 'center' }]}
+              >
+                Lb
+              </Text>
+              <View style={{ width: 44 }} />
+            </View>
+
+            {sets.map((set, idx) => (
+              <View key={set.id} style={styles.setRow}>
+                <Text style={styles.setNumber}>{idx + 1}</Text>
+                <TextInput
+                  style={styles.setInput}
+                  value={set.reps}
+                  onChangeText={(v) => updateReps(set.id, v)}
+                  keyboardType="numeric"
+                  keyboardAppearance="dark"
+                  selectTextOnFocus
+                />
+                <TextInput
+                  style={styles.setInput}
+                  value={set.weight}
+                  onChangeText={(v) => updateWeight(set.id, v)}
+                  keyboardType="numeric"
+                  keyboardAppearance="dark"
+                  placeholder=""
+                  placeholderTextColor={COLORS.textDim}
+                  selectTextOnFocus
+                />
+                <TouchableOpacity
+                  style={[
+                    styles.completeDot,
+                    set.completed && styles.completeDotFilled,
+                  ]}
+                  onPress={() => toggleComplete(set.id)}
+                >
+                  {set.completed && (
+                    <Ionicons name="checkmark" size={16} color={COLORS.bg} />
+                  )}
+                </TouchableOpacity>
+              </View>
+            ))}
+
+            {/* Add/Remove set controls */}
+            <View style={styles.setControls}>
+              <TouchableOpacity style={styles.setControlBtn} onPress={removeSet}>
+                <Ionicons name="remove" size={22} color={COLORS.text} />
+              </TouchableOpacity>
+              <Text style={styles.setControlLabel}>Set</Text>
+              <TouchableOpacity
+                style={[styles.setControlBtn, styles.setControlBtnBlue]}
+                onPress={addSet}
+              >
+                <Ionicons name="add" size={22} color={COLORS.blue} />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* Note input */}
+          <View style={styles.noteContainer}>
+            <TextInput
+              style={styles.noteInput}
+              placeholder="Add exercise note"
+              placeholderTextColor={COLORS.textDim}
+              value={note}
+              onChangeText={setNote}
+              multiline
+              keyboardAppearance="dark"
+            />
+          </View>
+
+          <View style={{ height: 100 }} />
+        </ScrollView>
+      </View>
 
       {/* Bottom nav */}
       <View style={styles.bottomNav}>
