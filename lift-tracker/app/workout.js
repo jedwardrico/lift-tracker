@@ -294,12 +294,17 @@ export default function WorkoutScreen() {
   // Swipe left → next exercise, swipe right → previous exercise.
   // Forward swipe only navigates between exercises; finishing the workout
   // stays on the explicit Finish button so it can't be triggered accidentally.
+  // A back-swipe only exits the workout from the first exercise; on any later
+  // exercise it steps back to the previous one.
   const swipeHandlers = useRef({});
   swipeHandlers.current = {
     onSwipeLeft: () => {
       if (exerciseIndex < exercises.length - 1) handleNext();
     },
-    onSwipeRight: handleBack,
+    onSwipeRight: () => {
+      if (exerciseIndex === 0) router.back();
+      else navigateTo(exerciseIndex - 1);
+    },
   };
 
   const panResponder = useRef(
