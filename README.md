@@ -133,12 +133,12 @@ npm run web         # run in browser
 
 The program runs Monday–Saturday on a Pull/Push/Legs rotation, with Sunday as a rest day.
 
-| Day       | Workout                              |
-| --------- | ------------------------------------ |
-| Monday    | Pull — Back, Biceps, Abs             |
-| Tuesday   | Push — Chest, Shoulders, Triceps     |
-| Wednesday | Legs — Legs, Calves                  |
-| Thursday  | Pull (pump) — Back, Biceps, Abs      |
+| Day       | Workout                                 |
+| --------- | --------------------------------------- |
+| Monday    | Pull — Back, Biceps, Abs                |
+| Tuesday   | Push — Chest, Shoulders, Triceps        |
+| Wednesday | Legs — Legs, Calves                     |
+| Thursday  | Pull (pump) — Back, Biceps, Abs         |
 | Friday    | Push (pump) — Chest, Shoulders, Triceps |
-| Saturday  | Legs (pump) — Legs, Calves           |
-| Sunday    | Rest                                 |
+| Saturday  | Legs (pump) — Legs, Calves              |
+| Sunday    | Rest                                    |

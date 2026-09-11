@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   StatusBar,
   PanResponder,
+  Animated,
 } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
 
@@ -127,6 +128,57 @@ export default function HomeScreen() {
   const shiftWeekRef = useRef(shiftWeek);
   shiftWeekRef.current = shiftWeek;
 
+  // Keep mutable refs so the once-created content PanResponder always sees
+  // the latest selectedIdx and weekOffset without stale closures.
+  const selectedIdxRef = useRef(selectedIdx);
+  selectedIdxRef.current = selectedIdx;
+  const weekOffsetRef = useRef(weekOffset);
+  weekOffsetRef.current = weekOffset;
+
+  const slideAnim = useRef(new Animated.Value(0)).current;
+
+  const shiftDay = useCallback((delta) => {
+    const weeks = weeksRef.current;
+    const minOffset = Math.min(...weeks) - 1;
+    const maxOffset = Math.max(...weeks) - 1;
+    const curDay = selectedIdxRef.current;
+    const curWeek = weekOffsetRef.current;
+
+    let nextDay = curDay + delta;
+    let nextWeek = curWeek;
+
+    if (nextDay < 0) {
+      if (curWeek <= minOffset) return; // already at start
+      nextWeek = curWeek - 1;
+      nextDay = 6;
+    } else if (nextDay > 6) {
+      if (curWeek >= maxOffset) return; // already at end
+      nextWeek = curWeek + 1;
+      nextDay = 0;
+    }
+
+    // Slide out in the swipe direction, then snap in from opposite side.
+    const outX = delta > 0 ? -30 : 30;
+    Animated.sequence([
+      Animated.timing(slideAnim, {
+        toValue: outX,
+        duration: 120,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 0,
+        useNativeDriver: true,
+      }),
+    ]).start();
+
+    setWeekOffset(nextWeek);
+    setSelectedIdx(nextDay);
+  }, []);
+
+  const shiftDayRef = useRef(shiftDay);
+  shiftDayRef.current = shiftDay;
+
   const panResponder = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: (_, g) =>
@@ -134,6 +186,17 @@ export default function HomeScreen() {
       onPanResponderRelease: (_, g) => {
         if (g.dx <= -40) shiftWeekRef.current(1);
         else if (g.dx >= 40) shiftWeekRef.current(-1);
+      },
+    })
+  ).current;
+
+  const contentPanResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: (_, g) =>
+        Math.abs(g.dx) > 20 && Math.abs(g.dx) > Math.abs(g.dy) * 1.5,
+      onPanResponderRelease: (_, g) => {
+        if (g.dx <= -40) shiftDayRef.current(1);
+        else if (g.dx >= 40) shiftDayRef.current(-1);
       },
     })
   ).current;
@@ -257,98 +320,110 @@ export default function HomeScreen() {
         })}
       </View>
 
-      <ScrollView
-        style={styles.scroll}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        {loading ? (
-          <View style={styles.centeredMsg}>
-            <Text style={styles.mutedText}>Loading…</Text>
-          </View>
-        ) : isRestDay ? (
-          <View style={styles.centeredMsg}>
-            <Text style={styles.restTitle}>Rest Day</Text>
-            <Text style={styles.mutedText}>Recovery & regeneration</Text>
-          </View>
-        ) : exercises.length === 0 ? (
-          <View style={styles.centeredMsg}>
-            <Text style={styles.mutedText}>No workout scheduled</Text>
-          </View>
-        ) : (
-          <>
-            {/* Day name + count */}
-            <View style={styles.dayTitleRow}>
-              <Text style={styles.dayName}>
-                {API_DAYS[selectedIdx].charAt(0).toUpperCase() +
-                  API_DAYS[selectedIdx].slice(1)}
-              </Text>
-              <Text style={styles.exerciseCount}>
-                Week {weekNumber} · {exercises.length} exercises
-              </Text>
-            </View>
-
-            {/* Start Workout CTA */}
-            <TouchableOpacity
-              style={styles.startBtn}
-              onPress={() =>
-                router.push({
-                  pathname: '/workout',
-                  params: { week: weekNumber, day: selectedIdx },
-                })
-              }
-              activeOpacity={0.85}
-            >
-              <Text style={styles.startBtnText}>Start Workout</Text>
-            </TouchableOpacity>
-
-            {/* Day description */}
-            <View style={styles.descCard}>
-              <Text style={styles.descTitle}>Today's Focus</Text>
-              <Text style={styles.descBody}>
-                {dayData?.description ??
-                  'Session notes and coach instructions will appear here once added to your program.'}
-              </Text>
-            </View>
-
-            {/* Exercise list */}
-            <View style={styles.exerciseList}>
-              {Object.entries(groupedExercises).map(([bodyPart, exList]) => (
-                <View key={bodyPart} style={styles.exerciseGroup}>
-                  <Text style={styles.bodyPartLabel}>
-                    {bodyPart.toUpperCase()}
+      <View style={styles.scrollWrapper} {...contentPanResponder.panHandlers}>
+        <Animated.View
+          style={{ flex: 1, transform: [{ translateX: slideAnim }] }}
+        >
+          <ScrollView
+            style={styles.scroll}
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}
+          >
+            {loading ? (
+              <View style={styles.centeredMsg}>
+                <Text style={styles.mutedText}>Loading…</Text>
+              </View>
+            ) : isRestDay ? (
+              <View style={styles.centeredMsg}>
+                <Text style={styles.restTitle}>Rest Day</Text>
+                <Text style={styles.mutedText}>Recovery & regeneration</Text>
+              </View>
+            ) : exercises.length === 0 ? (
+              <View style={styles.centeredMsg}>
+                <Text style={styles.mutedText}>No workout scheduled</Text>
+              </View>
+            ) : (
+              <>
+                {/* Day name + count */}
+                <View style={styles.dayTitleRow}>
+                  <Text style={styles.dayName}>
+                    {API_DAYS[selectedIdx].charAt(0).toUpperCase() +
+                      API_DAYS[selectedIdx].slice(1)}
                   </Text>
-                  {exList.map((ex) => {
-                    const setsReps =
-                      ex.sets && ex.rep_range
-                        ? `${ex.sets} × ${ex.rep_range}`
-                        : ex.rpe
-                          ? `RPE ${ex.rpe}`
-                          : null;
-
-                    return (
-                      <View key={ex.id} style={styles.exerciseRow}>
-                        <View style={styles.exerciseIcon}>
-                          <Text style={styles.exerciseIconText}>
-                            {bodyPart.charAt(0).toUpperCase()}
-                          </Text>
-                        </View>
-                        <View style={styles.exerciseInfo}>
-                          <Text style={styles.exerciseName}>{ex.subtitle}</Text>
-                          {setsReps && (
-                            <Text style={styles.setsReps}>{setsReps}</Text>
-                          )}
-                        </View>
-                      </View>
-                    );
-                  })}
+                  <Text style={styles.exerciseCount}>
+                    Week {weekNumber} · {exercises.length} exercises
+                  </Text>
                 </View>
-              ))}
-            </View>
-          </>
-        )}
-        <View style={{ height: 32 }} />
-      </ScrollView>
+
+                {/* Start Workout CTA */}
+                <TouchableOpacity
+                  style={styles.startBtn}
+                  onPress={() =>
+                    router.push({
+                      pathname: '/workout',
+                      params: { week: weekNumber, day: selectedIdx },
+                    })
+                  }
+                  activeOpacity={0.85}
+                >
+                  <Text style={styles.startBtnText}>Start Workout</Text>
+                </TouchableOpacity>
+
+                {/* Day description */}
+                <View style={styles.descCard}>
+                  <Text style={styles.descTitle}>Today's Focus</Text>
+                  <Text style={styles.descBody}>
+                    {dayData?.description ??
+                      'Session notes and coach instructions will appear here once added to your program.'}
+                  </Text>
+                </View>
+
+                {/* Exercise list */}
+                <View style={styles.exerciseList}>
+                  {Object.entries(groupedExercises).map(
+                    ([bodyPart, exList]) => (
+                      <View key={bodyPart} style={styles.exerciseGroup}>
+                        <Text style={styles.bodyPartLabel}>
+                          {bodyPart.toUpperCase()}
+                        </Text>
+                        {exList.map((ex) => {
+                          const setsReps =
+                            ex.sets && ex.rep_range
+                              ? `${ex.sets} × ${ex.rep_range}`
+                              : ex.rpe
+                                ? `RPE ${ex.rpe}`
+                                : null;
+
+                          return (
+                            <View key={ex.id} style={styles.exerciseRow}>
+                              <View style={styles.exerciseIcon}>
+                                <Text style={styles.exerciseIconText}>
+                                  {bodyPart.charAt(0).toUpperCase()}
+                                </Text>
+                              </View>
+                              <View style={styles.exerciseInfo}>
+                                <Text style={styles.exerciseName}>
+                                  {ex.subtitle}
+                                </Text>
+                                {setsReps && (
+                                  <Text style={styles.setsReps}>
+                                    {setsReps}
+                                  </Text>
+                                )}
+                              </View>
+                            </View>
+                          );
+                        })}
+                      </View>
+                    )
+                  )}
+                </View>
+              </>
+            )}
+            <View style={{ height: 32 }} />
+          </ScrollView>
+        </Animated.View>
+      </View>
     </SafeAreaView>
   );
 }
@@ -465,6 +540,10 @@ const styles = StyleSheet.create({
   },
 
   // Scroll
+  scrollWrapper: {
+    flex: 1,
+    overflow: 'hidden',
+  },
   scroll: {
     flex: 1,
   },
