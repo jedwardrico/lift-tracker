@@ -128,6 +128,34 @@ export default function SettingsScreen() {
     );
   }, [state]);
 
+  const confirmCancel = useCallback(() => {
+    Alert.alert(
+      'Cancel scheduled change?',
+      'Your current program keeps running as-is.',
+      [
+        { text: 'Keep it', style: 'cancel' },
+        {
+          text: 'Cancel change',
+          style: 'destructive',
+          onPress: async () => {
+            setWorking(true);
+            try {
+              const res = await fetch(`${BASE_URL}/program/cancel`, {
+                method: 'POST',
+              });
+              setState(await res.json());
+            } catch (err) {
+              console.error('Failed to cancel scheduled change:', err);
+              Alert.alert('Error', 'Could not cancel the scheduled change.');
+            } finally {
+              setWorking(false);
+            }
+          },
+        },
+      ]
+    );
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -157,6 +185,13 @@ export default function SettingsScreen() {
                     }`}{' '}
                 on {formatDateKey(state.pending_start_date)}
               </Text>
+              <TouchableOpacity
+                onPress={confirmCancel}
+                disabled={working}
+                hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              >
+                <Text style={styles.pendingCancel}>Cancel</Text>
+              </TouchableOpacity>
             </View>
           ) : null}
 
@@ -263,6 +298,11 @@ const styles = StyleSheet.create({
     color: COLORS.text,
     fontSize: 13,
     flex: 1,
+  },
+  pendingCancel: {
+    color: COLORS.accent,
+    fontSize: 13,
+    fontWeight: '700',
   },
   card: {
     backgroundColor: COLORS.surface,

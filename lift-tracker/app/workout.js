@@ -43,8 +43,10 @@ function buildInitialSets(count, repRange) {
   }));
 }
 
-// Resolve the day the user picked on the home screen. Falls back to the first
-// non-rest day if the param is missing or points at a rest / empty day.
+// Resolve the day the user picked on the home screen. `dayIndex` is Mon(0)…
+// Sun(6), matching `data.days`' order — callers passing a Sun(0)…Sat(6)
+// display index must convert first. Falls back to the first non-rest day if
+// the param is missing or points at a rest / empty day.
 function resolveActiveDay(data, dayIndex) {
   if (!data?.days) return null;
   if (dayIndex != null && !Number.isNaN(dayIndex)) {

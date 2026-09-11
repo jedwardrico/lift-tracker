@@ -6,6 +6,7 @@ const {
   getProgramState,
   switchProgram,
   restartProgram,
+  cancelPending,
 } = require('../program_state');
 
 function serialize(state) {
@@ -14,6 +15,7 @@ function serialize(state) {
     program_start_date: state.program_start_date,
     pending_program: state.pending_program,
     pending_start_date: state.pending_start_date,
+    program_complete: state.program_complete,
     available_programs: Object.entries(PROGRAMS).map(([key, p]) => ({
       key,
       label: p.label,
@@ -42,6 +44,12 @@ router.post('/switch', (req, res) => {
 // week 1, effective the coming Monday (or today, if today is one).
 router.post('/restart', (req, res) => {
   res.json(serialize(restartProgram(getDb())));
+});
+
+// POST /program/cancel - clear a staged switch/restart; the active program
+// keeps running unchanged.
+router.post('/cancel', (req, res) => {
+  res.json(serialize(cancelPending(getDb())));
 });
 
 module.exports = router;

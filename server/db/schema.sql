@@ -14,6 +14,11 @@ CREATE TABLE IF NOT EXISTS program_settings (
   id INTEGER PRIMARY KEY CHECK (id = 1),
   active_program TEXT NOT NULL,
   program_start_date TEXT NOT NULL,
+  -- Exact moment the current cycle was committed. Used (instead of the
+  -- calendar-only program_start_date) to decide whether a completed log
+  -- belongs to this cycle, so a same-day restart doesn't immediately count
+  -- the previous cycle's final log as already completing the new one.
+  cycle_started_at TEXT NOT NULL DEFAULT (datetime('now')),
   pending_program TEXT,
   pending_start_date TEXT
 );
