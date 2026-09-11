@@ -176,7 +176,6 @@ export default function HomeScreen() {
       setWeekOffset(nextWeek);
       setSelectedIdx(nextDay);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
