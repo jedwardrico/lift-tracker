@@ -392,8 +392,8 @@
           {
             "order": 3,
             "body_part": "Legs",
-            "exercise_name": "Bulgarians drop set of death",
-            "exercise_description": "Do 3 sets of 8 moving up in weight. On the 4th set, we are going to do a drop set. You do 8 reps, and then you do an iso hold for 8 seconds before dropping down to the next dumbell. Do one leg at a time, and let your partner go before you come back to do the other leg. 4 total work set",
+            "exercise_name": "Leg Extensions",
+            "exercise_description": "",
             "rpe": "12"
           },
           {
@@ -881,7 +881,7 @@
           {
             "order": 2,
             "body_part": "Chest",
-            "exercise_name": "Hex press",
+            "exercise_name": "Machine press",
             "exercise_description": "",
             "rpe": "9"
           },

@@ -180,7 +180,7 @@
           {
             "order": 2,
             "body_part": "Legs",
-            "exercise_name": "Barbell pause squats",
+            "exercise_name": "Belt Squat",
             "exercise_description": "Lower with a 3 second count, pause for 1 second, and then drive up explosively. Find a weight that is around 60% of your 1 rep max and do 5 sets of 6 with it. We will go up a few % each week. You should be able to nail all the reps. When I do these, my adductors get worked extremely hard as well. 5 total work sets Note: If you are unable to perform regular squats, try front squats, or a machine squat with a back support. Currently, I use a Safety Bar Squat on these.",
             "sets": 5,
             "reps": "6",
@@ -189,8 +189,8 @@
           {
             "order": 3,
             "body_part": "Legs",
-            "exercise_name": "Bulgarian drop set of death",
-            "exercise_description": "Ok, that was fun, now it's time to die. Do 3 sets of 8 moving up in weight. On the 4th set, we are going to do a drop set. You do 8 reps, and then you do an iso hold (see the video below) for 8 seconds before dropping down to the next dumbell. 4 total work sets Do one leg at a time, and let your partner go before you come back to do the other leg.",
+            "exercise_name": "Leg Extensions",
+            "exercise_description": "",
             "sets": 4,
             "reps": "8",
             "rpe": "9-10"
@@ -352,54 +352,8 @@
         ]
       },
       "saturday": {
-        "isRestDay": false,
-        "exercises": [
-          {
-            "order": 1,
-            "body_part": "Legs",
-            "exercise_name": "Leg extensions",
-            "exercise_description": "After doing 2-3 sets to warm up, I want you to use a weight that is a tough 20 reps. I want the 20th rep to be excruciating. Rest for 45 seconds only and get 12 more. Do what it takes to get 12. Then rest for 45 more seconds and find a way to dig 10 more reps out. After the last set, stretch each quad hard for 30 seconds before moving onto the next exercise. 3 total work sets",
-            "sets": 3,
-            "reps": "20/12/10",
-            "rpe": "10"
-          },
-          {
-            "order": 2,
-            "body_part": "Legs",
-            "exercise_name": "Leg press",
-            "exercise_description": "This is something I did a lot of in my 20's to pound my legs. Do 10 reps with feet high and wide on platform and then move feet close together and into the middle and pump out 10 more. Piston style. Rest 90 seconds and repeat. Rest 90 seconds and repeat again. You may have to lower the weight a little on the 2nd and 3rd set. 3 total work sets",
-            "sets": 3,
-            "reps": "10",
-            "rpe": "9"
-          },
-          {
-            "order": 3,
-            "body_part": "Legs",
-            "exercise_name": "Walking lunges",
-            "exercise_description": "Do these like you are in slow motion. Go down very slow and feel your pumped quads stretch and come up with tight form. Take 8 steps on each leg. After you finish these, lay down and prop your feet up to further pool blood in your legs. Rest 90 seconds and repeat. Rest 90 more seconds and repeat for 1 more set. 3 total work sets",
-            "sets": 3,
-            "reps": "8 each side",
-            "rpe": "9"
-          },
-          {
-            "order": 4,
-            "body_part": "Legs",
-            "exercise_name": "Seated leg curl",
-            "exercise_description": "Do 3 sets of 15 here with 60 second breaks. Light's out legs. 3 total work sets",
-            "sets": 3,
-            "reps": "15",
-            "rpe": "9"
-          },
-          {
-            "order": 5,
-            "body_part": "Calves",
-            "exercise_name": "Seated calve raises",
-            "exercise_description": "Do 6 sets of 15. On the last rep of every set, sit in the stretch for 10 seconds. 6 total work sets",
-            "sets": 6,
-            "reps": "15",
-            "rpe": "9"
-          }
-        ]
+        "isRestDay": true,
+        "exercises": []
       },
       "sunday": {
         "isRestDay": true,
@@ -588,7 +542,7 @@
           {
             "order": 2,
             "body_part": "Legs",
-            "exercise_name": "Barbell pause squats",
+            "exercise_name": "Belt Squat",
             "exercise_description": "Lower with a 3 second count, pause for 1 second, and then drive up explosively. Use a weight that is around 65% of your 1 rep max (as opposed to 60% last week) and do 5 sets of 6 with it. We will go up a few % each week. You should be able to nail all the reps. When I do these, my adductors get worked extremely hard as well. 5 total work sets",
             "sets": 5,
             "reps": "6",
@@ -760,54 +714,8 @@
         ]
       },
       "saturday": {
-        "isRestDay": false,
-        "exercises": [
-          {
-            "order": 1,
-            "body_part": "Legs",
-            "exercise_name": "Seated leg curl",
-            "exercise_description": "After doing 2-3 sets to warm up, I want you to do a set where you fail with 12 reps. Rest 60 seconds and go to failure again. Repeat this 2 more times for 4 total sets. You will lose some reps, but get as many as you can! 4 total work sets",
-            "sets": 4,
-            "reps": "failure",
-            "rpe": "10"
-          },
-          {
-            "order": 2,
-            "body_part": "Legs",
-            "exercise_name": "Leg press",
-            "exercise_description": "Do a few warm up sets to get the blood moved around and into your quads, and then I want 3 sets of 30 reps with 3-minute breaks. In between each set lay down on your back and prop your legs up the entire rest period. PAIN. 3 total work sets",
-            "sets": 3,
-            "reps": "30",
-            "rpe": "9"
-          },
-          {
-            "order": 3,
-            "body_part": "Legs",
-            "exercise_name": "Hack squat",
-            "exercise_description": "Do 3 very slow sets of 8 with perfect control and good depth. It won't take much weight at this point. If you do not have a hack squat find a back supported squat machine. 3 total work sets",
-            "sets": 3,
-            "reps": "8",
-            "rpe": "9"
-          },
-          {
-            "order": 4,
-            "body_part": "Legs",
-            "exercise_name": "Glute kickback",
-            "exercise_description": "Let's finish with some glute work. I like the machine where you kick your leg back and flex your glutes. Let do 3 sets of 12 on each glute. 3 total work sets",
-            "sets": 3,
-            "reps": "12 each side",
-            "rpe": "9"
-          },
-          {
-            "order": 5,
-            "body_part": "Calves",
-            "exercise_name": "Seated calve raises",
-            "exercise_description": "Do 6 sets of 15. On the last rep of every set, sit in the stretch for 10 seconds. Again, try to use more weight than last week. 6 total work sets",
-            "sets": 6,
-            "reps": "15",
-            "rpe": "9"
-          }
-        ]
+        "isRestDay": true,
+        "exercises": []
       },
       "sunday": {
         "isRestDay": true,
@@ -987,7 +895,7 @@
           {
             "order": 2,
             "body_part": "Legs",
-            "exercise_name": "Barbell pause squats",
+            "exercise_name": "Belt Squat",
             "exercise_description": "Lower with a 3 second count, pause for 1 second, and then drive up explosively. Use a weight that is around 70% of your 1 rep max (as opposed to 65% last week) and do 5 sets of 6 with it. Next week we are squatting with a normal tempo and will go heavier! 5 total work sets",
             "sets": 5,
             "reps": "6",
@@ -1159,54 +1067,8 @@
         ]
       },
       "saturday": {
-        "isRestDay": false,
-        "exercises": [
-          {
-            "order": 1,
-            "body_part": "Legs",
-            "exercise_name": "Lying leg curl",
-            "exercise_description": "This look familiar? After doing 2-3 sets to warm up, I want you to do a set where you fail with 12 reps. Rest 60 seconds and go to failure again. Repeat this 2 more times for 4 total sets. You will lose some reps but get as many as you can! 4 total work sets",
-            "sets": 4,
-            "reps": "failure",
-            "rpe": "10"
-          },
-          {
-            "order": 2,
-            "body_part": "Legs",
-            "exercise_name": "Leg press",
-            "exercise_description": "Do these high and wide with toe turned out a bit for hams and glutes. Lower the weight very slowly, with a 4 second count, and then drive up to lockout. 3 total work sets",
-            "sets": 3,
-            "reps": null,
-            "rpe": "9"
-          },
-          {
-            "order": 3,
-            "body_part": "Legs",
-            "exercise_name": "Hack squat",
-            "exercise_description": "Again, go high and wide on these with a 4 second decent. Do 3 very slow sets of 8 with perfect control and good depth. You do not have a hack squat find a back supported squat machine. 3 total work sets",
-            "sets": 3,
-            "reps": "8",
-            "rpe": "9"
-          },
-          {
-            "order": 4,
-            "body_part": "Legs",
-            "exercise_name": "Smith lunge",
-            "exercise_description": "I want you to do these with your lead foot up on an aerobic bench or something to elevate you. This will allow for a nasty stretch at the bottom on your glutes and quads. Let do 3 sets of 12 on each leg. 3 total work sets",
-            "sets": 3,
-            "reps": "12 each side",
-            "rpe": "9"
-          },
-          {
-            "order": 5,
-            "body_part": "Calves",
-            "exercise_name": "Seated calve raises",
-            "exercise_description": "Do 6 sets of 8 with a heavy weight. On the last rep of every set, sit in the stretch for 10 seconds. 6 total work sets",
-            "sets": 6,
-            "reps": "8",
-            "rpe": "9"
-          }
-        ]
+        "isRestDay": true,
+        "exercises": []
       },
       "sunday": {
         "isRestDay": true,
@@ -1318,7 +1180,7 @@
           {
             "order": 3,
             "body_part": "Chest",
-            "exercise_name": "Hex press",
+            "exercise_name": "Machine press",
             "exercise_description": "Your high intensity technique for maximum pump here today is a cluster set. Go to full lockout and squeeze! Now what I want you to do, is go to failure with it for somewhere around 8 reps, then pause for 45 seconds and go to failure again, and then repeat 2 more times. 1 total work set",
             "sets": 1,
             "reps": "8",
@@ -1567,45 +1429,8 @@
         ]
       },
       "saturday": {
-        "isRestDay": false,
-        "exercises": [
-          {
-            "order": 1,
-            "body_part": "Legs",
-            "exercise_name": "Lying leg curl",
-            "exercise_description": "We'll slow it down this week, as last week we did that gnarly 4 fast set thing! So, do a standard pyramid going up slowly until you hit a weight you can barely get 8 reps with. We will count the last 3 sets as work sets. 3 total work sets",
-            "sets": 3,
-            "reps": "8",
-            "rpe": "8-10"
-          },
-          {
-            "order": 2,
-            "body_part": "Legs",
-            "exercise_name": "Leg press",
-            "exercise_description": "Work your way up in weight and get plenty warmed up. Once you get to a pretty tough 10, I want you to do a superset with it. Do 10 (you should leave a few reps in the tank) and then go straight to a superset with Dumbell walking lunge. Do 4 rounds for 8 total sets.",
-            "sets": 4,
-            "reps": "10",
-            "rpe": "8"
-          },
-          {
-            "order": 3,
-            "body_part": "Legs",
-            "exercise_name": "Dumbell walking lunge",
-            "exercise_description": "I want 8 slow steps with each leg. Do 4 rounds for 8 total sets.",
-            "sets": 4,
-            "reps": "8 each side",
-            "rpe": "9"
-          },
-          {
-            "order": 4,
-            "body_part": "Calves",
-            "exercise_name": "Seated calve raises",
-            "exercise_description": "Do 6 sets of 15 with a medium heavy weight. On the last rep of every set, sit in the stretch for 10 seconds. 6 total work sets",
-            "sets": 6,
-            "reps": "15",
-            "rpe": "9"
-          }
-        ]
+        "isRestDay": true,
+        "exercises": []
       },
       "sunday": {
         "isRestDay": true,
@@ -1966,45 +1791,8 @@
         ]
       },
       "saturday": {
-        "isRestDay": false,
-        "exercises": [
-          {
-            "order": 1,
-            "body_part": "Legs",
-            "exercise_name": "Leg press",
-            "exercise_description": "This is something I did many years ago for pump that I wanted to resurrect. The rep scheme is 50,40,30,20,10. The way you do this is to do a few warm ups and then do 50 reps with a weight. Rest 3 minutes and then add weight and do 40. Continue to rest 3 minutes between sets and adding weight and taking the reps down as noted until you hit 10. This will suck the life out of you, but you will have a NASTY pump. 5 total work sets",
-            "sets": 5,
-            "reps": "50/40/30/20/10",
-            "rpe": "9"
-          },
-          {
-            "order": 2,
-            "body_part": "Legs",
-            "exercise_name": "Barbell squat",
-            "exercise_description": "It's not going to take much weight here, but I'm sure you'll figure that out fast. You pick a weight you can do 20 with and do 3 sets of 20. 3 total work sets",
-            "sets": 3,
-            "reps": "20",
-            "rpe": "9"
-          },
-          {
-            "order": 3,
-            "body_part": "Legs",
-            "exercise_name": "Lying leg curl",
-            "exercise_description": "Doing these last will actually feel great. The blood will move around into your hams very fast. I typically do 2 warm up sets here of 10, then do 4 work sets of 10. 4 total work sets",
-            "sets": 4,
-            "reps": "10",
-            "rpe": "9-10"
-          },
-          {
-            "order": 4,
-            "body_part": "Calves",
-            "exercise_name": "Seated calve raises",
-            "exercise_description": "Do 6 sets of 15 with a medium heavy weight. On the last rep of every set, sit in the stretch for 10 seconds. 6 total work sets",
-            "sets": 6,
-            "reps": "15",
-            "rpe": "9"
-          }
-        ]
+        "isRestDay": true,
+        "exercises": []
       },
       "sunday": {
         "isRestDay": true,
@@ -2356,54 +2144,8 @@
         ]
       },
       "saturday": {
-        "isRestDay": false,
-        "exercises": [
-          {
-            "order": 1,
-            "body_part": "Legs",
-            "exercise_name": "Leg press",
-            "exercise_description": "One more time on the leg presses first this week. Again, feel free to do some leg curls and adductor machines also to warm up things. I want you to go to something that is a semi tough 15, but you know you could knock out another 4 or 5 reps with. Do 15, then drop, the weight 20% and shoot for 10, then drop the weight another 20% and shoot for really close to failure. We will call this 3 work sets. 3 total work sets",
-            "sets": 3,
-            "reps": "15/10/failure",
-            "rpe": "9"
-          },
-          {
-            "order": 2,
-            "body_part": "Legs",
-            "exercise_name": "Barbell stiff legged deadlift",
-            "exercise_description": "I know what you are thinking, what is he doing? Just do it. 10 reps here coming up to ¾ lockout and then go immediately to a superset with Walking lunges. Do 4 rounds for 8 total work sets.",
-            "sets": 4,
-            "reps": "10",
-            "rpe": "9"
-          },
-          {
-            "order": 3,
-            "body_part": "Legs",
-            "exercise_name": "Walking lunges",
-            "exercise_description": "Take 8 slow steps with each leg. Do 4 rounds for 8 total work sets.",
-            "sets": 4,
-            "reps": "8 each side",
-            "rpe": "9"
-          },
-          {
-            "order": 4,
-            "body_part": "Legs",
-            "exercise_name": "Seated leg curl",
-            "exercise_description": "Do 4 sets of 12 here with 90 second breaks. 4 total work sets",
-            "sets": 4,
-            "reps": "12",
-            "rpe": "9-10"
-          },
-          {
-            "order": 5,
-            "body_part": "Calves",
-            "exercise_name": "Seated calve raises",
-            "exercise_description": "Do 6 sets of 15 with a medium heavy weight. On the last rep of every set, sit in the stretch for 10 seconds. 6 total work sets",
-            "sets": 6,
-            "reps": "15",
-            "rpe": "9"
-          }
-        ]
+        "isRestDay": true,
+        "exercises": []
       },
       "sunday": {
         "isRestDay": true,
@@ -2755,54 +2497,8 @@
         ]
       },
       "saturday": {
-        "isRestDay": false,
-        "exercises": [
-          {
-            "order": 1,
-            "body_part": "Legs",
-            "exercise_name": "Leg extensions",
-            "exercise_description": "GIANT SET. Do 10 reps with a 1 second hold at the top on all reps. Go right to: Supersetted with Goblet squats. Do 4 rounds for 16 total work sets.",
-            "sets": 4,
-            "reps": "10",
-            "rpe": "9"
-          },
-          {
-            "order": 2,
-            "body_part": "Legs",
-            "exercise_name": "Goblet squats",
-            "exercise_description": "Use a kettlebell or dumbell here for 10 deep reps here coming up to 3/4 lockout and then go immediately to: Superset with Walking lunges. Do 4 rounds for 16 total work sets.",
-            "sets": 4,
-            "reps": "10",
-            "rpe": "9"
-          },
-          {
-            "order": 3,
-            "body_part": "Legs",
-            "exercise_name": "Walking lunges",
-            "exercise_description": "Now just walk 5 steps on each leg away from leg extension machine and turnaround and walk back for 10 total steps on each leg. Next immediately go to: Superset with Iso hold on leg extension. Do 4 rounds for 16 total work sets.",
-            "sets": 4,
-            "reps": "10 each side",
-            "rpe": "9"
-          },
-          {
-            "order": 4,
-            "body_part": "Legs",
-            "exercise_name": "Iso hold on leg extension",
-            "exercise_description": "Hold the same weight you used on the leg extensions in the flexed position (the top) as long as you can and then lower as slow as you possibly can. It's only 1 rep and the round is then complete. Do 4 rounds for 16 total work sets.",
-            "sets": 4,
-            "reps": "1",
-            "rpe": "9"
-          },
-          {
-            "order": 5,
-            "body_part": "Calves",
-            "exercise_name": "Seated calve raises",
-            "exercise_description": "Do 6 sets of 15 with a medium heavy weight. On the last rep of every set, sit in the stretch for 10 seconds. 6 total work sets",
-            "sets": 6,
-            "reps": "15",
-            "rpe": "9"
-          }
-        ]
+        "isRestDay": true,
+        "exercises": []
       },
       "sunday": {
         "isRestDay": true,
@@ -3145,54 +2841,8 @@
         ]
       },
       "saturday": {
-        "isRestDay": false,
-        "exercises": [
-          {
-            "order": 1,
-            "body_part": "Legs",
-            "exercise_name": "Leg extensions",
-            "exercise_description": "Giant sets one more time this week, then I have something special in store for next week. Do 15 reps with a 1 second hold at the top on all reps. Go right to: Supersetted with Goblet squats. Do 4 rounds for 16 total work sets.",
-            "sets": 4,
-            "reps": "15",
-            "rpe": "9"
-          },
-          {
-            "order": 2,
-            "body_part": "Legs",
-            "exercise_name": "Goblet squats",
-            "exercise_description": "Use a kettlebell or dumbell here for 12 deep reps here coming up to 3/4 lockout and then go immediately to: Superset with Walking lunges. Do 4 rounds for 16 total work sets.",
-            "sets": 4,
-            "reps": "12",
-            "rpe": "9"
-          },
-          {
-            "order": 3,
-            "body_part": "Legs",
-            "exercise_name": "Walking lunges",
-            "exercise_description": "Now just walk 8 steps on each leg away from leg extension machine and turnaround and walk back for 16 total steps on each leg. Next immediately go to: Superset with Iso hold on leg extension. Do 4 rounds for 16 total work sets.",
-            "sets": 4,
-            "reps": "16 each side",
-            "rpe": "9"
-          },
-          {
-            "order": 4,
-            "body_part": "Legs",
-            "exercise_name": "Iso hold on leg extension",
-            "exercise_description": "Hold the same weight you used on the leg extensions in the flexed position (the top) as long as you can and then lower as slow as you possibly can. It's only 1 rep and the round is then complete. Do 4 rounds for 16 total work sets.",
-            "sets": 4,
-            "reps": "1",
-            "rpe": "9"
-          },
-          {
-            "order": 5,
-            "body_part": "Calves",
-            "exercise_name": "Seated calve raises",
-            "exercise_description": "Do 6 sets of 15 with a medium heavy weight. On the last rep of every set, sit in the stretch for 10 seconds. 6 total work sets",
-            "sets": 6,
-            "reps": "15",
-            "rpe": "9"
-          }
-        ]
+        "isRestDay": true,
+        "exercises": []
       },
       "sunday": {
         "isRestDay": true,
@@ -3304,7 +2954,7 @@
           {
             "order": 3,
             "body_part": "Chest",
-            "exercise_name": "Hex press",
+            "exercise_name": "Machine press",
             "exercise_description": "Do 3 sets of 10 here flexing your chest hard throughout the entire range of motion. 3 total work sets",
             "sets": 3,
             "reps": "10",
@@ -3544,54 +3194,8 @@
         ]
       },
       "saturday": {
-        "isRestDay": false,
-        "exercises": [
-          {
-            "order": 1,
-            "body_part": "Legs",
-            "exercise_name": "Stiff legged deadlifts with barbell",
-            "exercise_description": "Do 10 reps with a 1 second hold at the top on all reps squeezing glutes. Go right to: Supersetted with Lying leg curls. Do 4 rounds for 8 total work sets.",
-            "sets": 4,
-            "reps": "10",
-            "rpe": null
-          },
-          {
-            "order": 2,
-            "body_part": "Legs",
-            "exercise_name": "Lying leg curls",
-            "exercise_description": "Do 10 reps here. Do 4 rounds for 8 total work sets.",
-            "sets": 4,
-            "reps": "10",
-            "rpe": null
-          },
-          {
-            "order": 3,
-            "body_part": "Legs",
-            "exercise_name": "Machine press",
-            "exercise_description": "Ok, this is the sneakiest (deadly) thing I have written training wise. Looks easy. We called this the dead body workout about 6 or 7 years ago, because this sequence really tested your will and limits. The machine of choice is a horizontal type leg press. You can see my favorite in the old video that is attached. I am using 1 leg in the video, but ignore that, I am just showing you the type of machine that works. You should have something similar. So here is the sequence. You work up to a pretty tough 20 rep set. All of the reps have to be continuous. If you have to stop, start over, it's too heavy. You rest for 3 minutes and then add a selectorized plate or two and do 5 rest pause reps where you stop at the bottom, and literally rest for a split second and then blast the weight up. After the 5 rest pause reps, you do 15 continuous reps to finish. Your 3rd set is the same thing, but you increase the weight a little more and do 10 rest pause reps, and 10 continuous reps. At this point you should be hurting. For your final set you will repeat but do 15 rest pause reps, and then pump out 5 to complete the set. That's it! 4 total work sets",
-            "sets": 4,
-            "reps": "20",
-            "rpe": "9-10"
-          },
-          {
-            "order": 4,
-            "body_part": "Legs",
-            "exercise_name": "Smith lunge",
-            "exercise_description": "Do 4 sets of 10 here focusing on glutes. Do all 8 reps on one leg, then do the other. Go down slow and really focus on driving through heel of foot and flexing glutes to initiate movement at bottom. 4 total work sets",
-            "sets": 4,
-            "reps": "10 each side",
-            "rpe": "9"
-          },
-          {
-            "order": 5,
-            "body_part": "Calves",
-            "exercise_name": "Seated calve raises",
-            "exercise_description": "Do 6 sets of 15 with a medium heavy weight. On the last rep of every set, sit in the stretch for 10 seconds. 6 total work sets",
-            "sets": 6,
-            "reps": "15",
-            "rpe": "9"
-          }
-        ]
+        "isRestDay": true,
+        "exercises": []
       },
       "sunday": {
         "isRestDay": true,
@@ -3943,54 +3547,8 @@
         ]
       },
       "saturday": {
-        "isRestDay": false,
-        "exercises": [
-          {
-            "order": 1,
-            "body_part": "Legs",
-            "exercise_name": "Lying leg curls",
-            "exercise_description": "After warming up do 4 good sets of 15 here. 3 total work sets",
-            "sets": 3,
-            "reps": "15",
-            "rpe": "9"
-          },
-          {
-            "order": 2,
-            "body_part": "Legs",
-            "exercise_name": "Frog squats",
-            "exercise_description": "Do 3 sets of 8 here. You don't need this exact machine but notice the foot position and angle. 3 total work sets",
-            "sets": 3,
-            "reps": "8",
-            "rpe": "9"
-          },
-          {
-            "order": 3,
-            "body_part": "Legs",
-            "exercise_name": "Bulgarian split squat drop set of death",
-            "exercise_description": "SURPRIZE! You know the drill, but if not do this. Do 3 sets going up in weight for sets of 8 with dumbells. On your 4th set you do the heaviest dumbell for 8 and continue to drop and go backwards to each dumbell. The key is after your 8 reps you do an isohold for 8 seconds also, before dropping the weight. Check it out in the vid and enjoy. On your 4th set, just do one leg, rest a while before doing the other. 4 total work sets",
-            "sets": 4,
-            "reps": "8",
-            "rpe": "9-13"
-          },
-          {
-            "order": 4,
-            "body_part": "Legs",
-            "exercise_name": "Dumbell stiff legged deadlifts",
-            "exercise_description": "Do 2 sets of 8 here doing these with perfect form. Take your time, your quads will be so full of blood they will seem awkward the first set. 2 total work sets",
-            "sets": 2,
-            "reps": "8",
-            "rpe": "9"
-          },
-          {
-            "order": 5,
-            "body_part": "Calves",
-            "exercise_name": "Seated calve raises",
-            "exercise_description": "Do 6 sets of 15 with a medium heavy weight. On the last rep of every set, sit in the stretch for 10 seconds. 6 total work sets",
-            "sets": 6,
-            "reps": "15",
-            "rpe": "9"
-          }
-        ]
+        "isRestDay": true,
+        "exercises": []
       },
       "sunday": {
         "isRestDay": true,
@@ -4342,54 +3900,8 @@
         ]
       },
       "saturday": {
-        "isRestDay": false,
-        "exercises": [
-          {
-            "order": 1,
-            "body_part": "Legs",
-            "exercise_name": "Seated leg curls",
-            "exercise_description": "After warming up do 3 good sets of 12 here. 3 total work sets",
-            "sets": 3,
-            "reps": "12",
-            "rpe": "9"
-          },
-          {
-            "order": 2,
-            "body_part": "Legs",
-            "exercise_name": "Frog squats",
-            "exercise_description": "Do 3 sets of 12 here. You don't need this exact machine but notice the foot position and angle. We are increasing the reps a bit here this week. Go down nice and slow on these. 3 total work sets",
-            "sets": 3,
-            "reps": "12",
-            "rpe": "9"
-          },
-          {
-            "order": 3,
-            "body_part": "Legs",
-            "exercise_name": "One legged squat in Smith",
-            "exercise_description": "I want you to also do these nice and slow. Do 4 sets of 8 once you find a good weight. 4 total work sets",
-            "sets": 4,
-            "reps": "8",
-            "rpe": "9-13"
-          },
-          {
-            "order": 4,
-            "body_part": "Legs",
-            "exercise_name": "Barbell stiff legged deadlifts",
-            "exercise_description": "Do 3 sets of 8 here doing these with perfect form. Come all the way up and flex your glutes. 3 total work sets",
-            "sets": 3,
-            "reps": "8",
-            "rpe": "9"
-          },
-          {
-            "order": 5,
-            "body_part": "Calves",
-            "exercise_name": "Seated calve raises",
-            "exercise_description": "Do 6 sets of 15 with a medium heavy weight. On the last rep of every set, sit in the stretch for 10 seconds. 6 total work sets",
-            "sets": 6,
-            "reps": "15",
-            "rpe": "9"
-          }
-        ]
+        "isRestDay": true,
+        "exercises": []
       },
       "sunday": {
         "isRestDay": true,
@@ -4741,54 +4253,8 @@
         ]
       },
       "saturday": {
-        "isRestDay": false,
-        "exercises": [
-          {
-            "order": 1,
-            "body_part": "Legs",
-            "exercise_name": "Lying leg curls",
-            "exercise_description": "After warming up do 3 sets of 15 here. 3 total work sets",
-            "sets": 3,
-            "reps": "15",
-            "rpe": "9"
-          },
-          {
-            "order": 2,
-            "body_part": "Legs",
-            "exercise_name": "Leg press",
-            "exercise_description": "Do plenty of warm ups here. I want you to do 2 good hard sets of 15, and then cut the weight in half, and try to do it for 60 seconds straight on your 3rd set. If you need to stop it's ok, but don't rack it. 3 total work sets",
-            "sets": 3,
-            "reps": "15",
-            "rpe": "9-11"
-          },
-          {
-            "order": 3,
-            "body_part": "Legs",
-            "exercise_name": "One legged squat in Smith",
-            "exercise_description": "One more time here! I want you to also do these nice and slow. Do 4 sets of 8 once you find a good weight. 4 total work sets",
-            "sets": 4,
-            "reps": "8",
-            "rpe": "9-13"
-          },
-          {
-            "order": 4,
-            "body_part": "Legs",
-            "exercise_name": "Banded barbell stiff legged deadlifts",
-            "exercise_description": "Adding the band this week to demolish anything that is left. Do 3 sets of 8 here with perfect form. Come all the way up and flex your glutes. 3 total work sets",
-            "sets": 3,
-            "reps": "8",
-            "rpe": "9"
-          },
-          {
-            "order": 5,
-            "body_part": "Calves",
-            "exercise_name": "Seated calve raises",
-            "exercise_description": "Do 6 sets of 8 with a heavy weight. On the last rep of every set, sit in the stretch for 10 seconds. 6 total work sets",
-            "sets": 6,
-            "reps": "8",
-            "rpe": "9"
-          }
-        ]
+        "isRestDay": true,
+        "exercises": []
       },
       "sunday": {
         "isRestDay": true,
