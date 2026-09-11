@@ -36,6 +36,7 @@ function getDb() {
     relaxExerciseSlotColumns(db);
     renameExerciseColumns(db);
     addProgramColumnToWeeks(db);
+    addCycleStartedAtColumn(db);
     seedDefaultProgramSettings(db);
     seedAllPrograms(db);
   }
@@ -87,8 +88,24 @@ function seedDefaultProgramSettings(db) {
   if (existing.c > 0) return;
 
   db.prepare(
-    `INSERT INTO program_settings (id, active_program, program_start_date, pending_program, pending_start_date)
-     VALUES (1, 'creeping_death_ii', '2026-09-06', NULL, NULL)`
+    `INSERT INTO program_settings (id, active_program, program_start_date, cycle_started_at, pending_program, pending_start_date)
+     VALUES (1, 'creeping_death_ii', '2026-09-06', '2026-09-06 00:00:00', NULL, NULL)`
+  ).run();
+}
+
+// Older databases predate cycle_started_at. Backfill it from
+// program_start_date (midnight on that date) — an approximation, but only
+// matters for telling apart same-day logs, which can't happen for data that
+// already predates this column. No-op once the column exists.
+function addCycleStartedAtColumn(db) {
+  const cols = db.prepare('PRAGMA table_info(program_settings)').all();
+  if (cols.find((c) => c.name === 'cycle_started_at')) return;
+
+  db.exec(
+    "ALTER TABLE program_settings ADD COLUMN cycle_started_at TEXT NOT NULL DEFAULT (datetime('now'))"
+  );
+  db.prepare(
+    "UPDATE program_settings SET cycle_started_at = program_start_date || ' 00:00:00' WHERE id = 1"
   ).run();
 }
 

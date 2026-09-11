@@ -12,8 +12,11 @@ import {
   Animated,
   Easing,
   Dimensions,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 const COLORS = {
   bg: '#0a0a0a',
@@ -67,6 +70,11 @@ function parseDateKey(dateKey) {
   return new Date(y, m - 1, d);
 }
 
+function formatDateKey(dateKey) {
+  const [y, m, d] = dateKey.split('-').map(Number);
+  return `${MONTHS[m - 1]} ${d}, ${y}`;
+}
+
 // Whole days between the program start and today (can be negative before start).
 function daysSinceStart(programStart) {
   const start = new Date(programStart);
@@ -113,7 +121,8 @@ function getWeekDates(programStart, offset = 0) {
 
 export default function HomeScreen() {
   const router = useRouter();
-  const [programStart, setProgramStart] = useState(null);
+  const [programState, setProgramState] = useState(null);
+  const [working, setWorking] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [weekOffset, setWeekOffset] = useState(0);
   const [availableWeeks, setAvailableWeeks] = useState([1]);
@@ -121,26 +130,75 @@ export default function HomeScreen() {
   const [loading, setLoading] = useState(true);
   const [completedDates, setCompletedDates] = useState(new Set());
 
+  const programStart = programState
+    ? parseDateKey(programState.program_start_date)
+    : null;
   const currentOffset = programStart ? currentWeekOffset(programStart) : 0;
   const todayIdx = programStart ? todayDayIndex(programStart) : 0;
   const weekDates = programStart ? getWeekDates(programStart, weekOffset) : [];
   const weekNumber = weekOffset + 1;
   const isCurrentWeek = weekOffset === currentOffset;
 
-  // Fetch the active program's start date once on mount, then land the view
-  // on whichever week/day that makes "today".
+  // Discover which program weeks exist so swiping can't run off the ends.
+  // Also re-run after a switch/restart, since the new program can have a
+  // different week count.
+  const refreshWeeksList = useCallback(() => {
+    fetch(`${BASE_URL}/weeks`)
+      .then((r) => r.json())
+      .then((list) => {
+        if (Array.isArray(list) && list.length) {
+          const nums = list.map((w) => w.week_number);
+          setAvailableWeeks(nums);
+          // If today has run past the final program week, land on the last one.
+          const maxOffset = Math.max(...nums) - 1;
+          setWeekOffset((o) => Math.min(o, maxOffset));
+        }
+      })
+      .catch((err) => console.error('Failed to load week list:', err));
+  }, []);
+
+  // Lands the view on whichever week/day makes "today", given a fresh
+  // /program response (on mount, or right after a switch/restart resolves).
+  const applyProgramState = useCallback((data) => {
+    if (!data?.program_start_date) return;
+    setProgramState(data);
+    const start = parseDateKey(data.program_start_date);
+    setWeekOffset(currentWeekOffset(start));
+    setSelectedIdx(todayDayIndex(start));
+  }, []);
+
   useEffect(() => {
     fetch(`${BASE_URL}/program`)
       .then((r) => r.json())
-      .then((data) => {
-        if (!data?.program_start_date) return;
-        const start = parseDateKey(data.program_start_date);
-        setProgramStart(start);
-        setWeekOffset(currentWeekOffset(start));
-        setSelectedIdx(todayDayIndex(start));
-      })
+      .then(applyProgramState)
       .catch((err) => console.error('Failed to load program:', err));
-  }, []);
+  }, [applyProgramState]);
+
+  // Called from the "program complete" takeover screen when the user picks
+  // a program to start (or the active one, to restart).
+  const handleSelectProgram = useCallback(
+    (programKey) => {
+      if (working || !programState) return;
+      const isActive = programKey === programState.active_program;
+      setWorking(true);
+      fetch(`${BASE_URL}/program/${isActive ? 'restart' : 'switch'}`, {
+        method: 'POST',
+        headers: isActive ? undefined : { 'Content-Type': 'application/json' },
+        body: isActive ? undefined : JSON.stringify({ program: programKey }),
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          applyProgramState(data);
+          refreshWeeksList();
+        })
+        .catch((err) => {
+          console.error('Failed to update program:', err);
+          Alert.alert('Error', 'Could not update the program.');
+        })
+        .finally(() => setWorking(false));
+    },
+    [working, programState, applyProgramState, refreshWeeksList]
+  );
 
   // Keep the latest available-week list in a ref so the (once-created)
   // PanResponder always clamps against fresh bounds.
@@ -244,21 +302,9 @@ export default function HomeScreen() {
     })
   ).current;
 
-  // Discover which program weeks exist so swiping can't run off the ends.
   useEffect(() => {
-    fetch(`${BASE_URL}/weeks`)
-      .then((r) => r.json())
-      .then((list) => {
-        if (Array.isArray(list) && list.length) {
-          const nums = list.map((w) => w.week_number);
-          setAvailableWeeks(nums);
-          // If today has run past the final program week, land on the last one.
-          const maxOffset = Math.max(...nums) - 1;
-          setWeekOffset((o) => Math.min(o, maxOffset));
-        }
-      })
-      .catch((err) => console.error('Failed to load week list:', err));
-  }, []);
+    refreshWeeksList();
+  }, [refreshWeeksList]);
 
   // Load the dates of completed workouts so the strip can mark them green.
   // Runs on focus so a workout finished this session shows up on return.
@@ -291,6 +337,77 @@ export default function HomeScreen() {
         <StatusBar barStyle="light-content" />
         <View style={styles.centeredMsg}>
           <Text style={styles.mutedText}>Loading…</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  // Program finished (its last workout is logged complete) — take over the
+  // screen with a "what's next" picker instead of showing stale/missing
+  // weeks. Stays up through any queued switch/restart until that program's
+  // Monday actually arrives and normal week content resumes.
+  if (programState.program_complete) {
+    const activeLabel =
+      programState.available_programs.find(
+        (p) => p.key === programState.active_program
+      )?.label ?? programState.active_program;
+    const pendingLabel = programState.pending_program
+      ? (programState.available_programs.find(
+          (p) => p.key === programState.pending_program
+        )?.label ?? programState.pending_program)
+      : null;
+
+    return (
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="light-content" />
+        <View style={styles.takeoverBody}>
+          <Ionicons name="trophy" size={44} color={COLORS.accent} />
+          <Text style={styles.takeoverTitle}>Program Complete!</Text>
+          <Text style={styles.takeoverSubtitle}>
+            You finished every week of {activeLabel}. Nice work.
+          </Text>
+
+          {pendingLabel ? (
+            <View style={styles.pendingBanner}>
+              <Ionicons name="time-outline" size={16} color={COLORS.accent} />
+              <Text style={styles.pendingText}>
+                {pendingLabel} starts{' '}
+                {formatDateKey(programState.pending_start_date)}
+              </Text>
+            </View>
+          ) : null}
+
+          <Text style={styles.takeoverPrompt}>
+            Start a new program, or run this one again?
+          </Text>
+
+          <View style={styles.card}>
+            {programState.available_programs.map((program, i) => {
+              const isActive = program.key === programState.active_program;
+              const isQueued = program.key === programState.pending_program;
+              return (
+                <TouchableOpacity
+                  key={program.key}
+                  style={[styles.programRow, i > 0 && styles.programRowBorder]}
+                  disabled={working}
+                  onPress={() => handleSelectProgram(program.key)}
+                  activeOpacity={0.7}
+                >
+                  <Text style={styles.programName}>{program.label}</Text>
+                  <View style={styles.programRowRight}>
+                    {isQueued ? (
+                      <Text style={styles.queuedBadge}>QUEUED</Text>
+                    ) : null}
+                    <Text style={styles.actionLabel}>
+                      {isActive ? 'RESTART' : 'START'}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+
+          {working ? <ActivityIndicator color={COLORS.text} /> : null}
         </View>
       </SafeAreaView>
     );
@@ -410,7 +527,13 @@ export default function HomeScreen() {
                   onPress={() =>
                     router.push({
                       pathname: '/workout',
-                      params: { week: weekNumber, day: selectedIdx },
+                      // workout.js indexes straight into the server's
+                      // Mon(0)…Sun(6) days array, so convert from this
+                      // screen's Sun(0)…Sat(6) display index.
+                      params: {
+                        week: weekNumber,
+                        day: serverDayIdx(selectedIdx),
+                      },
                     })
                   }
                   activeOpacity={0.85}
@@ -721,5 +844,88 @@ const styles = StyleSheet.create({
   mutedText: {
     color: COLORS.textMuted,
     fontSize: 15,
+  },
+
+  // Program-complete takeover
+  takeoverBody: {
+    flex: 1,
+    alignItems: 'center',
+    paddingHorizontal: 24,
+    paddingTop: 80,
+  },
+  takeoverTitle: {
+    color: COLORS.text,
+    fontSize: 24,
+    fontWeight: '800',
+    marginTop: 16,
+  },
+  takeoverSubtitle: {
+    color: COLORS.textMuted,
+    fontSize: 15,
+    textAlign: 'center',
+    marginTop: 8,
+  },
+  takeoverPrompt: {
+    color: COLORS.text,
+    fontSize: 15,
+    fontWeight: '600',
+    textAlign: 'center',
+    marginTop: 28,
+    marginBottom: 14,
+  },
+  pendingBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: COLORS.accentDim,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    marginTop: 20,
+  },
+  pendingText: {
+    color: COLORS.text,
+    fontSize: 13,
+  },
+  card: {
+    width: '100%',
+    backgroundColor: COLORS.surface,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    overflow: 'hidden',
+  },
+  programRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+  },
+  programRowBorder: {
+    borderTopWidth: 1,
+    borderTopColor: COLORS.border,
+  },
+  programRowRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  programName: {
+    color: COLORS.text,
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  queuedBadge: {
+    color: COLORS.accent,
+    fontSize: 11,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+  },
+  actionLabel: {
+    color: COLORS.textMuted,
+    fontSize: 12,
+    fontWeight: '700',
+    letterSpacing: 0.5,
   },
 });

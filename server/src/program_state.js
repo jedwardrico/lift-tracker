@@ -1,4 +1,4 @@
-const { PROGRAMS } = require('./workout_data');
+const { PROGRAMS, DAYS } = require('./workout_data');
 
 function toDateKey(date) {
   const y = date.getFullYear();
@@ -17,6 +17,47 @@ function effectiveMonday(from = new Date()) {
   return toDateKey(d);
 }
 
+// The last non-rest workout day (by program order) in a program's final
+// week — "the last workout" a user finishes to complete the program.
+function lastWorkoutDay(db, programKey) {
+  const lastWeek = db
+    .prepare(
+      'SELECT id FROM weeks WHERE program = ? ORDER BY week_number DESC LIMIT 1'
+    )
+    .get(programKey);
+  if (!lastWeek) return null;
+
+  const days = db
+    .prepare(
+      'SELECT id, day_of_week, is_rest_day FROM workout_days WHERE week_id = ?'
+    )
+    .all(lastWeek.id);
+  const byDay = Object.fromEntries(days.map((d) => [d.day_of_week, d]));
+
+  for (const day of [...DAYS].reverse()) {
+    if (byDay[day] && !byDay[day].is_rest_day) return byDay[day];
+  }
+  return null;
+}
+
+// True once the active program's last workout has a completed log timestamped
+// on or after the current cycle's start — scoped to cycle_started_at (an
+// exact moment, not just a calendar date) so a same-day restart doesn't
+// immediately count the previous cycle's final log as completing this one.
+function isProgramComplete(db, programKey, cycleStartedAt) {
+  const day = lastWorkoutDay(db, programKey);
+  if (!day) return false;
+
+  const completed = db
+    .prepare(
+      `SELECT COUNT(*) AS c FROM workout_logs wl
+       JOIN exercises e ON e.id = wl.exercise_id
+       WHERE e.workout_day_id = ? AND wl.completed = 1 AND wl.logged_at >= ?`
+    )
+    .get(day.id, cycleStartedAt);
+  return completed.c > 0;
+}
+
 // Reads program_settings, committing a staged switch/restart if its
 // effective date has arrived. Called on every read so no scheduler/cron is
 // needed — the transition just applies itself the first time anyone asks.
@@ -29,12 +70,19 @@ function getProgramState(db) {
   ) {
     db.prepare(
       `UPDATE program_settings
-       SET active_program = ?, program_start_date = ?, pending_program = NULL, pending_start_date = NULL
+       SET active_program = ?, program_start_date = ?, cycle_started_at = datetime('now'), pending_program = NULL, pending_start_date = NULL
        WHERE id = 1`
     ).run(row.pending_program, row.pending_start_date);
     return getProgramState(db);
   }
-  return row;
+  return {
+    ...row,
+    program_complete: isProgramComplete(
+      db,
+      row.active_program,
+      row.cycle_started_at
+    ),
+  };
 }
 
 function stageProgram(db, programKey) {
@@ -60,10 +108,20 @@ function restartProgram(db) {
   return stageProgram(db, state.active_program);
 }
 
+// Clears a staged switch/restart, leaving the active program running as-is.
+function cancelPending(db) {
+  getProgramState(db); // commit any switch whose date has already arrived
+  db.prepare(
+    'UPDATE program_settings SET pending_program = NULL, pending_start_date = NULL WHERE id = 1'
+  ).run();
+  return getProgramState(db);
+}
+
 module.exports = {
   PROGRAMS,
   effectiveMonday,
   getProgramState,
   switchProgram,
   restartProgram,
+  cancelPending,
 };
