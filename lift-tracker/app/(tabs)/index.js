@@ -10,6 +10,8 @@ import {
   StatusBar,
   PanResponder,
   Animated,
+  Easing,
+  Dimensions,
 } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
 
@@ -122,17 +124,6 @@ export default function HomeScreen() {
   const weeksRef = useRef(availableWeeks);
   weeksRef.current = availableWeeks;
 
-  const shiftWeek = (delta) => {
-    setWeekOffset((o) => {
-      const weeks = weeksRef.current;
-      const minOffset = Math.min(...weeks) - 1;
-      const maxOffset = Math.max(...weeks) - 1;
-      return Math.max(minOffset, Math.min(maxOffset, o + delta));
-    });
-  };
-  const shiftWeekRef = useRef(shiftWeek);
-  shiftWeekRef.current = shiftWeek;
-
   // Keep mutable refs so the once-created content PanResponder always sees
   // the latest selectedIdx and weekOffset without stale closures.
   const selectedIdxRef = useRef(selectedIdx);
@@ -141,6 +132,46 @@ export default function HomeScreen() {
   weekOffsetRef.current = weekOffset;
 
   const slideAnim = useRef(new Animated.Value(0)).current;
+  const SLIDE_WIDTH = Dimensions.get('window').width;
+
+  const animatedShift = useCallback(
+    (delta, newWeekOffset, newSelectedIdx) => {
+      const outX = delta > 0 ? -SLIDE_WIDTH : SLIDE_WIDTH;
+      Animated.timing(slideAnim, {
+        toValue: outX,
+        duration: 160,
+        easing: Easing.in(Easing.ease),
+        useNativeDriver: true,
+      }).start(() => {
+        slideAnim.setValue(-outX);
+        setWeekOffset(newWeekOffset);
+        setSelectedIdx(newSelectedIdx);
+        Animated.timing(slideAnim, {
+          toValue: 0,
+          duration: 200,
+          easing: Easing.out(Easing.ease),
+          useNativeDriver: true,
+        }).start();
+      });
+    },
+    [slideAnim, SLIDE_WIDTH]
+  );
+  const animatedShiftRef = useRef(animatedShift);
+  animatedShiftRef.current = animatedShift;
+
+  const shiftWeek = useCallback((delta) => {
+    const weeks = weeksRef.current;
+    const minOffset = Math.min(...weeks) - 1;
+    const maxOffset = Math.max(...weeks) - 1;
+    const newOffset = Math.max(
+      minOffset,
+      Math.min(maxOffset, weekOffsetRef.current + delta)
+    );
+    if (newOffset === weekOffsetRef.current) return;
+    animatedShiftRef.current(delta, newOffset, selectedIdxRef.current);
+  }, []);
+  const shiftWeekRef = useRef(shiftWeek);
+  shiftWeekRef.current = shiftWeek;
 
   const shiftDay = useCallback((delta) => {
     const weeks = weeksRef.current;
@@ -153,32 +184,16 @@ export default function HomeScreen() {
     let nextWeek = curWeek;
 
     if (nextDay < 0) {
-      if (curWeek <= minOffset) return; // already at start
+      if (curWeek <= minOffset) return;
       nextWeek = curWeek - 1;
       nextDay = 6;
     } else if (nextDay > 6) {
-      if (curWeek >= maxOffset) return; // already at end
+      if (curWeek >= maxOffset) return;
       nextWeek = curWeek + 1;
       nextDay = 0;
     }
 
-    // Slide out in the swipe direction, then snap in from opposite side.
-    const outX = delta > 0 ? -30 : 30;
-    Animated.sequence([
-      Animated.timing(slideAnim, {
-        toValue: outX,
-        duration: 120,
-        useNativeDriver: true,
-      }),
-      Animated.timing(slideAnim, {
-        toValue: 0,
-        duration: 0,
-        useNativeDriver: true,
-      }),
-    ]).start();
-
-    setWeekOffset(nextWeek);
-    setSelectedIdx(nextDay);
+    animatedShiftRef.current(delta, nextWeek, nextDay);
   }, []);
 
   const shiftDayRef = useRef(shiftDay);
