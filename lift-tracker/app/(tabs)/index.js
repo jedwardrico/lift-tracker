@@ -54,15 +54,22 @@ const MONTHS = [
   'DEC',
 ];
 
-// Program week 1 is anchored to this Sunday. The display week runs Sun–Sat;
-// server days are stored Mon–Sun so serverDayIdx() maps between them.
-const PROGRAM_START = new Date(2026, 8, 6); // Sun Sep 6, 2026 (month is 0-indexed)
+// Program week 1 is anchored to whatever date the server reports as the
+// active program's start (see the `/program` fetch below) — this always
+// falls on a Monday, except for the one program active before this
+// per-program start date existed. The display week runs Sun–Sat; server
+// days are stored Mon–Sun so serverDayIdx() maps between them.
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
+function parseDateKey(dateKey) {
+  const [y, m, d] = dateKey.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+
 // Whole days between the program start and today (can be negative before start).
-function daysSinceStart() {
-  const start = new Date(PROGRAM_START);
+function daysSinceStart(programStart) {
+  const start = new Date(programStart);
   start.setHours(0, 0, 0, 0);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -70,13 +77,13 @@ function daysSinceStart() {
 }
 
 // Program-week offset (0 = week 1) that contains today; clamped at 0.
-function currentWeekOffset() {
-  return Math.max(0, Math.floor(daysSinceStart() / 7));
+function currentWeekOffset(programStart) {
+  return Math.max(0, Math.floor(daysSinceStart(programStart) / 7));
 }
 
 // The Sun=0…Sat=6 display index for today within its program week.
-function todayDayIndex() {
-  const diff = daysSinceStart();
+function todayDayIndex(programStart) {
+  const diff = daysSinceStart(programStart);
   return ((diff % 7) + 7) % 7;
 }
 
@@ -96,28 +103,44 @@ function toDateKey(date) {
 }
 
 // Dates for the 7 days of the program week at `offset` (0 = week 1).
-function getWeekDates(offset = 0) {
+function getWeekDates(programStart, offset = 0) {
   return Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(PROGRAM_START);
-    d.setDate(PROGRAM_START.getDate() + offset * 7 + i);
+    const d = new Date(programStart);
+    d.setDate(programStart.getDate() + offset * 7 + i);
     return d;
   });
 }
 
 export default function HomeScreen() {
   const router = useRouter();
-  const todayIdx = todayDayIndex();
-  const currentOffset = currentWeekOffset();
-  const [selectedIdx, setSelectedIdx] = useState(todayIdx);
-  const [weekOffset, setWeekOffset] = useState(currentOffset);
+  const [programStart, setProgramStart] = useState(null);
+  const [selectedIdx, setSelectedIdx] = useState(0);
+  const [weekOffset, setWeekOffset] = useState(0);
   const [availableWeeks, setAvailableWeeks] = useState([1]);
   const [weekData, setWeekData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [completedDates, setCompletedDates] = useState(new Set());
 
-  const weekDates = getWeekDates(weekOffset);
+  const currentOffset = programStart ? currentWeekOffset(programStart) : 0;
+  const todayIdx = programStart ? todayDayIndex(programStart) : 0;
+  const weekDates = programStart ? getWeekDates(programStart, weekOffset) : [];
   const weekNumber = weekOffset + 1;
   const isCurrentWeek = weekOffset === currentOffset;
+
+  // Fetch the active program's start date once on mount, then land the view
+  // on whichever week/day that makes "today".
+  useEffect(() => {
+    fetch(`${BASE_URL}/program`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (!data?.program_start_date) return;
+        const start = parseDateKey(data.program_start_date);
+        setProgramStart(start);
+        setWeekOffset(currentWeekOffset(start));
+        setSelectedIdx(todayDayIndex(start));
+      })
+      .catch((err) => console.error('Failed to load program:', err));
+  }, []);
 
   // Keep the latest available-week list in a ref so the (once-created)
   // PanResponder always clamps against fresh bounds.
@@ -261,6 +284,17 @@ export default function HomeScreen() {
       .catch((err) => console.error('Failed to load week:', err))
       .finally(() => setLoading(false));
   }, [weekNumber]);
+
+  if (!programStart) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="light-content" />
+        <View style={styles.centeredMsg}>
+          <Text style={styles.mutedText}>Loading…</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   const selectedDate = weekDates[selectedIdx];
   const monthLabel = `${MONTHS[selectedDate.getMonth()]} '${selectedDate.getFullYear().toString().slice(2)}`;

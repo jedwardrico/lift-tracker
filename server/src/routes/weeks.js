@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { getDb } = require('../db');
+const { getProgramState } = require('../program_state');
 
 // Most recent exercise swap logged at the same "spot" (same day_of_week +
 // order_num) in an *earlier* week. Lets a swap made in a prior week carry
@@ -46,19 +47,23 @@ function withCarriedSwaps(db, exercises, dayOfWeek, weekNumber) {
   }));
 }
 
-// GET /weeks - list all weeks
+// GET /weeks - list all weeks for the active program
 router.get('/', (req, res) => {
   const db = getDb();
-  const weeks = db.prepare('SELECT * FROM weeks ORDER BY week_number').all();
+  const { active_program } = getProgramState(db);
+  const weeks = db
+    .prepare('SELECT * FROM weeks WHERE program = ? ORDER BY week_number')
+    .all(active_program);
   res.json(weeks);
 });
 
 // GET /weeks/:weekNumber - get a full week with all days and exercises
 router.get('/:weekNumber', (req, res) => {
   const db = getDb();
+  const { active_program } = getProgramState(db);
   const week = db
-    .prepare('SELECT * FROM weeks WHERE week_number = ?')
-    .get(req.params.weekNumber);
+    .prepare('SELECT * FROM weeks WHERE program = ? AND week_number = ?')
+    .get(active_program, req.params.weekNumber);
   if (!week) return res.status(404).json({ error: 'Week not found' });
 
   const days = db
@@ -97,10 +102,11 @@ router.get('/:weekNumber', (req, res) => {
 router.get('/:weekNumber/days/:day', (req, res) => {
   const db = getDb();
   const { weekNumber, day } = req.params;
+  const { active_program } = getProgramState(db);
 
   const week = db
-    .prepare('SELECT * FROM weeks WHERE week_number = ?')
-    .get(weekNumber);
+    .prepare('SELECT * FROM weeks WHERE program = ? AND week_number = ?')
+    .get(active_program, weekNumber);
   if (!week) return res.status(404).json({ error: 'Week not found' });
 
   const workoutDay = db

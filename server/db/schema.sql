@@ -1,6 +1,21 @@
 CREATE TABLE IF NOT EXISTS weeks (
   id INTEGER PRIMARY KEY,
-  week_number INTEGER NOT NULL UNIQUE
+  program TEXT NOT NULL DEFAULT 'creeping_death_ii',
+  week_number INTEGER NOT NULL,
+  UNIQUE(program, week_number)
+);
+
+-- Singleton row (id always 1) tracking which program is live and when its
+-- week 1 started. A switch/restart is staged in pending_program /
+-- pending_start_date and only takes effect once that date arrives (see
+-- program_state.js's lazy-commit-on-read), so an in-progress week always
+-- finishes out before the new program begins.
+CREATE TABLE IF NOT EXISTS program_settings (
+  id INTEGER PRIMARY KEY CHECK (id = 1),
+  active_program TEXT NOT NULL,
+  program_start_date TEXT NOT NULL,
+  pending_program TEXT,
+  pending_start_date TEXT
 );
 
 CREATE TABLE IF NOT EXISTS workout_days (
