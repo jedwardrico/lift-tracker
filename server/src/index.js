@@ -6,6 +6,7 @@ app.use(express.json());
 app.use('/weeks', require('./routes/weeks'));
 app.use('/exercises', require('./routes/exercises'));
 app.use('/logs', require('./routes/logs'));
+app.use('/program', require('./routes/program'));
 
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 

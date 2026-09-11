@@ -1,6 +1,7 @@
 const Database = require('better-sqlite3');
 const path = require('path');
 const fs = require('fs');
+const { seedAllPrograms } = require('./seed_program');
 
 const DB_PATH = path.join(__dirname, '..', 'db', 'gamma_bomb.sqlite');
 const SCHEMA_PATH =
@@ -34,8 +35,61 @@ function getDb() {
 
     relaxExerciseSlotColumns(db);
     renameExerciseColumns(db);
+    addProgramColumnToWeeks(db);
+    seedDefaultProgramSettings(db);
+    seedAllPrograms(db);
   }
   return db;
+}
+
+// Older databases created weeks with a single-program UNIQUE(week_number).
+// Multiple programs now coexist (so switching programs never wipes history),
+// so week_number alone is no longer unique — rebuild with a `program` column
+// and UNIQUE(program, week_number). Existing rows are assumed to belong to
+// creeping_death_ii, the program that was hardcoded before this migration.
+// No-op on fresh or already-migrated databases.
+function addProgramColumnToWeeks(db) {
+  const weekCols = db.prepare('PRAGMA table_info(weeks)').all();
+  if (weekCols.find((c) => c.name === 'program')) return;
+
+  db.pragma('foreign_keys = OFF');
+  db.transaction(() => {
+    db.exec(`
+      CREATE TABLE weeks_new (
+        id INTEGER PRIMARY KEY,
+        program TEXT NOT NULL DEFAULT 'creeping_death_ii',
+        week_number INTEGER NOT NULL,
+        UNIQUE(program, week_number)
+      );
+      INSERT INTO weeks_new (id, program, week_number)
+        SELECT id, 'creeping_death_ii', week_number FROM weeks;
+      DROP TABLE weeks;
+      ALTER TABLE weeks_new RENAME TO weeks;
+    `);
+    const violations = db.prepare('PRAGMA foreign_key_check').all();
+    if (violations.length > 0) {
+      throw new Error(
+        `weeks rebuild left ${violations.length} foreign key violation(s)`
+      );
+    }
+  })();
+  db.pragma('foreign_keys = ON');
+}
+
+// Seeds the singleton program_settings row on first boot, preserving the
+// program/date that was previously hardcoded (creeping_death_ii, anchored to
+// the app's old PROGRAM_START constant) so existing installs don't jump to a
+// different week. No-op once the row exists.
+function seedDefaultProgramSettings(db) {
+  const existing = db
+    .prepare('SELECT COUNT(*) AS c FROM program_settings')
+    .get();
+  if (existing.c > 0) return;
+
+  db.prepare(
+    `INSERT INTO program_settings (id, active_program, program_start_date, pending_program, pending_start_date)
+     VALUES (1, 'creeping_death_ii', '2026-09-06', NULL, NULL)`
+  ).run();
 }
 
 // Older databases created exercises.workout_day_id / order_num as NOT NULL.

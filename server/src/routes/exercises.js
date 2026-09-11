@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { getDb } = require('../db');
+const { getProgramState } = require('../program_state');
 
 // GET /exercises - filter exercises by body part or name.
 // ?distinct=1 returns the unique exercise catalog (one row per body_part+exercise_name),
@@ -10,15 +11,25 @@ router.get('/', (req, res) => {
   const { body_part, exercise_name, distinct } = req.query;
 
   if (distinct) {
-    // One representative full row per unique body_part+exercise_name, so the swap picker
-    // can show and adopt the exercise's details (exercise_description, rpe, etc.).
+    // Scoped to the active program's exercises plus program-less custom
+    // exercises (workout_day_id IS NULL), so switching programs doesn't
+    // surface the other program's exercises in the swap picker. Scoping
+    // happens before picking the MIN(id) representative row, so a
+    // same-named exercise in the inactive program can't shadow this one.
+    const { active_program } = getProgramState(db);
     const catalog = db
       .prepare(
-        `SELECT * FROM exercises
-         WHERE id IN (SELECT MIN(id) FROM exercises GROUP BY body_part, exercise_name)
+        `WITH scoped AS (
+           SELECT e.* FROM exercises e
+           LEFT JOIN workout_days wd ON wd.id = e.workout_day_id
+           LEFT JOIN weeks w ON w.id = wd.week_id
+           WHERE e.workout_day_id IS NULL OR w.program = ?
+         )
+         SELECT * FROM scoped
+         WHERE id IN (SELECT MIN(id) FROM scoped GROUP BY body_part, exercise_name)
          ORDER BY body_part, exercise_name`
       )
-      .all();
+      .all(active_program);
     return res.json(catalog);
   }
 
