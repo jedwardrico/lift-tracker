@@ -57,10 +57,10 @@ export default function CompleteScreen() {
             {completedLogs.map((log, i) => (
               <View key={i} style={styles.logEntry}>
                 <Text style={styles.logExName}>
-                  {log.exercise?.subtitle ?? '—'}
+                  {log.exercise?.exercise_name ?? '—'}
                 </Text>
                 <Text style={styles.logCategory}>
-                  {log.exercise?.title ?? ''}
+                  {log.exercise?.body_part ?? ''}
                 </Text>
                 {log.sets.map((s, j) => (
                   <View key={s.id ?? j} style={styles.setRow}>

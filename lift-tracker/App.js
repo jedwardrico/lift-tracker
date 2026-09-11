@@ -244,11 +244,11 @@ export default function App() {
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         {/* Category + Exercise */}
         <View style={styles.exerciseHeader}>
-          <Text style={styles.categoryText}>{exercise?.title ?? ''}</Text>
+          <Text style={styles.categoryText}>{exercise?.body_part ?? ''}</Text>
           <View style={styles.exerciseTitleRow}>
             <View style={styles.exerciseTitleLeft}>
               <Text style={styles.exerciseName}>
-                {exercise?.subtitle ?? '—'}
+                {exercise?.exercise_name ?? '—'}
               </Text>
             </View>
             <TouchableOpacity style={styles.moreButton}>

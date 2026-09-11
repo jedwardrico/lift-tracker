@@ -250,8 +250,8 @@ export default function HomeScreen() {
   const exercises = dayData?.exercises ?? [];
 
   const groupedExercises = exercises.reduce((acc, ex) => {
-    if (!acc[ex.title]) acc[ex.title] = [];
-    acc[ex.title].push(ex);
+    if (!acc[ex.body_part]) acc[ex.body_part] = [];
+    acc[ex.body_part].push(ex);
     return acc;
   }, {});
 
@@ -403,7 +403,7 @@ export default function HomeScreen() {
                               </View>
                               <View style={styles.exerciseInfo}>
                                 <Text style={styles.exerciseName}>
-                                  {ex.subtitle}
+                                  {ex.exercise_name}
                                 </Text>
                                 {setsReps && (
                                   <Text style={styles.setsReps}>

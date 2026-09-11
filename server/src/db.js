@@ -33,6 +33,7 @@ function getDb() {
     }
 
     relaxExerciseSlotColumns(db);
+    renameExerciseColumns(db);
   }
   return db;
 }
@@ -55,16 +56,16 @@ function relaxExerciseSlotColumns(db) {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         workout_day_id INTEGER REFERENCES workout_days(id),
         order_num INTEGER,
-        title TEXT NOT NULL,
-        subtitle TEXT NOT NULL,
-        body TEXT NOT NULL,
+        body_part TEXT NOT NULL,
+        exercise_name TEXT NOT NULL,
+        exercise_description TEXT NOT NULL,
         rpe TEXT,
         sets INTEGER,
         rep_range TEXT
       );
       INSERT INTO exercises_new
-        (id, workout_day_id, order_num, title, subtitle, body, rpe, sets, rep_range)
-        SELECT id, workout_day_id, order_num, title, subtitle, body, rpe, sets, rep_range
+        (id, workout_day_id, order_num, body_part, exercise_name, exercise_description, rpe, sets, rep_range)
+        SELECT id, workout_day_id, order_num, body_part, exercise_name, exercise_description, rpe, sets, rep_range
         FROM exercises;
       DROP TABLE exercises;
       ALTER TABLE exercises_new RENAME TO exercises;
@@ -78,6 +79,24 @@ function relaxExerciseSlotColumns(db) {
     }
   })();
   db.pragma('foreign_keys = ON');
+}
+
+// Renames title→body_part, subtitle→exercise_name, body→exercise_description
+// on the exercises table. No-op if the columns are already renamed.
+function renameExerciseColumns(db) {
+  const exCols = db
+    .prepare('PRAGMA table_info(exercises)')
+    .all()
+    .map((c) => c.name);
+  if (exCols.includes('title')) {
+    db.exec('ALTER TABLE exercises RENAME COLUMN title TO body_part');
+  }
+  if (exCols.includes('subtitle')) {
+    db.exec('ALTER TABLE exercises RENAME COLUMN subtitle TO exercise_name');
+  }
+  if (exCols.includes('body')) {
+    db.exec('ALTER TABLE exercises RENAME COLUMN body TO exercise_description');
+  }
 }
 
 module.exports = { getDb };

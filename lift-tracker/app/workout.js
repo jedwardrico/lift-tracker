@@ -203,8 +203,8 @@ export default function WorkoutScreen() {
   // The exercise whose identity/details (name, category, body, RPE) are shown.
   // The working set rows always stay as the slot's, per the set/rep scheme.
   const displayExercise = override ?? exercise;
-  const exerciseName = displayExercise?.subtitle ?? '';
-  const exerciseCategory = displayExercise?.title ?? '';
+  const exerciseName = displayExercise?.exercise_name ?? '';
+  const exerciseCategory = displayExercise?.body_part ?? '';
 
   // Swap the on-screen exercise, sliding the old content off and the new
   // content in from the direction of travel. Forward (higher index) slides out
@@ -272,16 +272,18 @@ export default function WorkoutScreen() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          title: exercise?.title ?? 'Custom',
-          subtitle: name,
-          body: '',
+          body_part: exercise?.body_part ?? 'Custom',
+          exercise_name: name,
+          exercise_description: '',
         }),
       });
       const created = await res.json();
       if (created?.id) {
         setCatalog((prev) =>
           [...prev, created].sort((a, b) =>
-            `${a.title}${a.subtitle}`.localeCompare(`${b.title}${b.subtitle}`)
+            `${a.body_part}${a.exercise_name}`.localeCompare(
+              `${b.body_part}${b.exercise_name}`
+            )
           )
         );
         applySwap(created);
@@ -310,14 +312,15 @@ export default function WorkoutScreen() {
       const swap = overrides[exerciseIndex];
       const isRealSwap =
         swap &&
-        (swap.subtitle !== exercise.subtitle || swap.title !== exercise.title);
+        (swap.exercise_name !== exercise.exercise_name ||
+          swap.body_part !== exercise.body_part);
       const effective = isRealSwap ? swap : exercise;
       const logEntry = {
         exercise: {
           ...exercise, // keep slot id/order as the anchor for exercise_id
-          title: effective.title,
-          subtitle: effective.subtitle,
-          body: effective.body,
+          body_part: effective.body_part,
+          exercise_name: effective.exercise_name,
+          exercise_description: effective.exercise_description,
           rpe: effective.rpe,
         },
         swappedExerciseId: isRealSwap ? swap.id : null,
@@ -548,8 +551,10 @@ export default function WorkoutScreen() {
                   <Text style={styles.moreButtonText}>•••</Text>
                 </TouchableOpacity>
               </View>
-              {displayExercise?.body ? (
-                <Text style={styles.exerciseBody}>{displayExercise.body}</Text>
+              {displayExercise?.exercise_description ? (
+                <Text style={styles.exerciseBody}>
+                  {displayExercise.exercise_description}
+                </Text>
               ) : null}
             </View>
 
@@ -752,7 +757,7 @@ export default function WorkoutScreen() {
               <TouchableOpacity style={styles.resetRow} onPress={resetSwap}>
                 <Ionicons name="refresh" size={16} color={COLORS.blue} />
                 <Text style={styles.resetText}>
-                  Reset to {exercise?.subtitle ?? 'original'}
+                  Reset to {exercise?.exercise_name ?? 'original'}
                 </Text>
               </TouchableOpacity>
             ) : null}
@@ -798,14 +803,14 @@ export default function WorkoutScreen() {
                   const q = swapSearch.trim().toLowerCase();
                   if (!q) return true;
                   return (
-                    item.subtitle.toLowerCase().includes(q) ||
-                    item.title.toLowerCase().includes(q)
+                    item.exercise_name.toLowerCase().includes(q) ||
+                    item.body_part.toLowerCase().includes(q)
                   );
                 })
                 .map((item) => {
                   const selected =
-                    exerciseName === item.subtitle &&
-                    exerciseCategory === item.title;
+                    exerciseName === item.exercise_name &&
+                    exerciseCategory === item.body_part;
                   return (
                     <TouchableOpacity
                       key={item.id}
@@ -813,8 +818,12 @@ export default function WorkoutScreen() {
                       onPress={() => applySwap(item)}
                     >
                       <View style={{ flex: 1 }}>
-                        <Text style={styles.catalogName}>{item.subtitle}</Text>
-                        <Text style={styles.catalogCategory}>{item.title}</Text>
+                        <Text style={styles.catalogName}>
+                          {item.exercise_name}
+                        </Text>
+                        <Text style={styles.catalogCategory}>
+                          {item.body_part}
+                        </Text>
                       </View>
                       {selected ? (
                         <Ionicons

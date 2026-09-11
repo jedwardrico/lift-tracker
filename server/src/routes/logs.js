@@ -20,8 +20,8 @@ router.get('/', (req, res) => {
   let query = `
     SELECT wl.id, wl.exercise_id, wl.logged_at, wl.completed, wl.duration_seconds,
            wl.swapped_exercise_id,
-           COALESCE(se.title, e.title) AS title,
-           COALESCE(se.subtitle, e.subtitle) AS subtitle
+           COALESCE(se.body_part, e.body_part) AS body_part,
+           COALESCE(se.exercise_name, e.exercise_name) AS exercise_name
     FROM workout_logs wl
     JOIN exercises e ON e.id = wl.exercise_id
     LEFT JOIN exercises se ON se.id = wl.swapped_exercise_id

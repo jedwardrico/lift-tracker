@@ -18,9 +18,9 @@ CREATE TABLE IF NOT EXISTS exercises (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   workout_day_id INTEGER REFERENCES workout_days(id),
   order_num INTEGER,
-  title TEXT NOT NULL,
-  subtitle TEXT NOT NULL,
-  body TEXT NOT NULL,
+  body_part TEXT NOT NULL,
+  exercise_name TEXT NOT NULL,
+  exercise_description TEXT NOT NULL,
   rpe TEXT,
   sets INTEGER,
   rep_range TEXT
