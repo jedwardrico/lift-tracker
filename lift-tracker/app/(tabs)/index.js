@@ -137,47 +137,44 @@ export default function HomeScreen() {
 
   const slideAnim = useRef(new Animated.Value(0)).current;
 
-  const shiftDay = useCallback(
-    (delta) => {
-      const weeks = weeksRef.current;
-      const minOffset = Math.min(...weeks) - 1;
-      const maxOffset = Math.max(...weeks) - 1;
-      const curDay = selectedIdxRef.current;
-      const curWeek = weekOffsetRef.current;
+  const shiftDay = useCallback((delta) => {
+    const weeks = weeksRef.current;
+    const minOffset = Math.min(...weeks) - 1;
+    const maxOffset = Math.max(...weeks) - 1;
+    const curDay = selectedIdxRef.current;
+    const curWeek = weekOffsetRef.current;
 
-      let nextDay = curDay + delta;
-      let nextWeek = curWeek;
+    let nextDay = curDay + delta;
+    let nextWeek = curWeek;
 
-      if (nextDay < 0) {
-        if (curWeek <= minOffset) return; // already at start
-        nextWeek = curWeek - 1;
-        nextDay = 6;
-      } else if (nextDay > 6) {
-        if (curWeek >= maxOffset) return; // already at end
-        nextWeek = curWeek + 1;
-        nextDay = 0;
-      }
+    if (nextDay < 0) {
+      if (curWeek <= minOffset) return; // already at start
+      nextWeek = curWeek - 1;
+      nextDay = 6;
+    } else if (nextDay > 6) {
+      if (curWeek >= maxOffset) return; // already at end
+      nextWeek = curWeek + 1;
+      nextDay = 0;
+    }
 
-      // Slide out in the swipe direction, then snap in from opposite side.
-      const outX = delta > 0 ? -30 : 30;
-      Animated.sequence([
-        Animated.timing(slideAnim, {
-          toValue: outX,
-          duration: 120,
-          useNativeDriver: true,
-        }),
-        Animated.timing(slideAnim, {
-          toValue: 0,
-          duration: 0,
-          useNativeDriver: true,
-        }),
-      ]).start();
+    // Slide out in the swipe direction, then snap in from opposite side.
+    const outX = delta > 0 ? -30 : 30;
+    Animated.sequence([
+      Animated.timing(slideAnim, {
+        toValue: outX,
+        duration: 120,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 0,
+        useNativeDriver: true,
+      }),
+    ]).start();
 
-      setWeekOffset(nextWeek);
-      setSelectedIdx(nextDay);
-    },
-    []
-  );
+    setWeekOffset(nextWeek);
+    setSelectedIdx(nextDay);
+  }, []);
 
   const shiftDayRef = useRef(shiftDay);
   shiftDayRef.current = shiftDay;
