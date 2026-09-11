@@ -28,15 +28,14 @@ const COLORS = {
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000';
 
-const DAY_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 const API_DAYS = [
+  'sunday',
   'monday',
   'tuesday',
   'wednesday',
   'thursday',
   'friday',
   'saturday',
-  'sunday',
 ];
 const MONTHS = [
   'JAN',
@@ -53,9 +52,9 @@ const MONTHS = [
   'DEC',
 ];
 
-// Program week 1 is anchored to this Monday. Every subsequent program week is
-// exactly 7 days later, so the calendar advances automatically over time.
-const PROGRAM_START = new Date(2026, 8, 7); // Mon Sep 7, 2026 (month is 0-indexed)
+// Program week 1 is anchored to this Sunday. The display week runs Sun–Sat;
+// server days are stored Mon–Sun so serverDayIdx() maps between them.
+const PROGRAM_START = new Date(2026, 8, 6); // Sun Sep 6, 2026 (month is 0-indexed)
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
@@ -73,10 +72,16 @@ function currentWeekOffset() {
   return Math.max(0, Math.floor(daysSinceStart() / 7));
 }
 
-// The Mon=0…Sun=6 index for today within its program week.
+// The Sun=0…Sat=6 display index for today within its program week.
 function todayDayIndex() {
   const diff = daysSinceStart();
   return ((diff % 7) + 7) % 7;
+}
+
+// Display weeks run Sun(0)…Sat(6); the server returns days Mon(0)…Sun(6).
+// This maps a display index to its position in the server's days array.
+function serverDayIdx(displayIdx) {
+  return (displayIdx + 6) % 7;
 }
 
 // Local YYYY-MM-DD key for a Date, used to match calendar days against the
@@ -245,7 +250,7 @@ export default function HomeScreen() {
   const selectedDate = weekDates[selectedIdx];
   const monthLabel = `${MONTHS[selectedDate.getMonth()]} '${selectedDate.getFullYear().toString().slice(2)}`;
 
-  const dayData = weekData?.days?.[selectedIdx];
+  const dayData = weekData?.days?.[serverDayIdx(selectedIdx)];
   const isRestDay = dayData?.is_rest_day ?? false;
   const exercises = dayData?.exercises ?? [];
 
@@ -279,7 +284,7 @@ export default function HomeScreen() {
       {/* Week day strip (swipe left/right to change weeks) */}
       <View style={styles.weekStrip} {...panResponder.panHandlers}>
         {weekDates.map((date, i) => {
-          const day = weekData?.days?.[i];
+          const day = weekData?.days?.[serverDayIdx(i)];
           const hasWorkout =
             day && !day.is_rest_day && (day.exercises?.length ?? 0) > 0;
           const isSelected = i === selectedIdx;
@@ -292,11 +297,6 @@ export default function HomeScreen() {
               style={styles.dayCell}
               onPress={() => setSelectedIdx(i)}
             >
-              <Text
-                style={[styles.dayLabel, isSelected && styles.dayLabelActive]}
-              >
-                {DAY_LABELS[i]}
-              </Text>
               <Text
                 style={[
                   styles.dateNum,
