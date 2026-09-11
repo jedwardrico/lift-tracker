@@ -76,6 +76,7 @@ export default function WorkoutScreen() {
   const [overrides, setOverrides] = useState({});
   const [swapModalVisible, setSwapModalVisible] = useState(false);
   const [customInput, setCustomInput] = useState('');
+  const [swapSearch, setSwapSearch] = useState('');
   const [catalog, setCatalog] = useState([]);
   const [completedLogs, setCompletedLogs] = useState([]);
   const [timerSeconds, setTimerSeconds] = useState(0);
@@ -246,6 +247,7 @@ export default function WorkoutScreen() {
   // the set/rep scheme the user is working through stays exactly as-is.
   const openSwap = () => {
     setCustomInput('');
+    setSwapSearch('');
     setSwapModalVisible(true);
   };
   const applySwap = (ex) => {
@@ -755,35 +757,75 @@ export default function WorkoutScreen() {
               </TouchableOpacity>
             ) : null}
 
+            <View style={styles.searchRow}>
+              <Ionicons
+                name="search"
+                size={16}
+                color={COLORS.textMuted}
+                style={styles.searchIcon}
+              />
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Search exercises"
+                placeholderTextColor={COLORS.textDim}
+                value={swapSearch}
+                onChangeText={setSwapSearch}
+                keyboardAppearance="dark"
+                returnKeyType="search"
+                autoCorrect={false}
+              />
+              {swapSearch.length > 0 ? (
+                <TouchableOpacity
+                  onPress={() => setSwapSearch('')}
+                  hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                >
+                  <Ionicons
+                    name="close-circle"
+                    size={18}
+                    color={COLORS.textMuted}
+                  />
+                </TouchableOpacity>
+              ) : null}
+            </View>
+
             <ScrollView
               style={styles.catalogList}
               keyboardShouldPersistTaps="handled"
               showsVerticalScrollIndicator={false}
             >
-              {catalog.map((item) => {
-                const selected =
-                  exerciseName === item.subtitle &&
-                  exerciseCategory === item.title;
-                return (
-                  <TouchableOpacity
-                    key={item.id}
-                    style={styles.catalogRow}
-                    onPress={() => applySwap(item)}
-                  >
-                    <View style={{ flex: 1 }}>
-                      <Text style={styles.catalogName}>{item.subtitle}</Text>
-                      <Text style={styles.catalogCategory}>{item.title}</Text>
-                    </View>
-                    {selected ? (
-                      <Ionicons
-                        name="checkmark"
-                        size={20}
-                        color={COLORS.green}
-                      />
-                    ) : null}
-                  </TouchableOpacity>
-                );
-              })}
+              {catalog
+                .filter((item) => {
+                  const q = swapSearch.trim().toLowerCase();
+                  if (!q) return true;
+                  return (
+                    item.subtitle.toLowerCase().includes(q) ||
+                    item.title.toLowerCase().includes(q)
+                  );
+                })
+                .map((item) => {
+                  const selected =
+                    exerciseName === item.subtitle &&
+                    exerciseCategory === item.title;
+                  return (
+                    <TouchableOpacity
+                      key={item.id}
+                      style={styles.catalogRow}
+                      onPress={() => applySwap(item)}
+                    >
+                      <View style={{ flex: 1 }}>
+                        <Text style={styles.catalogName}>{item.subtitle}</Text>
+                        <Text style={styles.catalogCategory}>{item.title}</Text>
+                      </View>
+                      {selected ? (
+                        <Ionicons
+                          name="checkmark"
+                          size={20}
+                          color={COLORS.green}
+                        />
+                      ) : null}
+                    </TouchableOpacity>
+                  );
+                })}
             </ScrollView>
           </View>
         </View>
@@ -1109,6 +1151,26 @@ const styles = StyleSheet.create({
     color: COLORS.blue,
     fontSize: 15,
     fontWeight: '600',
+  },
+  searchRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: COLORS.inputBg,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    paddingHorizontal: 10,
+    marginBottom: 8,
+    height: 40,
+  },
+  searchIcon: {
+    marginRight: 6,
+  },
+  searchInput: {
+    flex: 1,
+    color: COLORS.text,
+    fontSize: 15,
+    height: 40,
   },
   catalogList: {
     flexGrow: 0,
