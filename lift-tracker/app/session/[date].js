@@ -147,8 +147,8 @@ export default function SessionDetailScreen() {
         ) : (
           logs.map((log) => (
             <View key={log.id} style={styles.exerciseCard}>
-              <Text style={styles.exerciseCategory}>{log.title}</Text>
-              <Text style={styles.exerciseName}>{log.subtitle}</Text>
+              <Text style={styles.exerciseCategory}>{log.body_part}</Text>
+              <Text style={styles.exerciseName}>{log.exercise_name}</Text>
 
               <View style={styles.setsHeader}>
                 <Text style={[styles.setCol, styles.setColNum]}>Set</Text>

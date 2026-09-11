@@ -3,20 +3,20 @@ const router = express.Router();
 const { getDb } = require('../db');
 
 // GET /exercises - filter exercises by body part or name.
-// ?distinct=1 returns the unique exercise catalog (one row per title+subtitle),
+// ?distinct=1 returns the unique exercise catalog (one row per body_part+exercise_name),
 // used to populate the in-workout swap picker.
 router.get('/', (req, res) => {
   const db = getDb();
-  const { title, subtitle, distinct } = req.query;
+  const { body_part, exercise_name, distinct } = req.query;
 
   if (distinct) {
-    // One representative full row per unique title+subtitle, so the swap picker
-    // can show and adopt the exercise's details (body, rpe, etc.).
+    // One representative full row per unique body_part+exercise_name, so the swap picker
+    // can show and adopt the exercise's details (exercise_description, rpe, etc.).
     const catalog = db
       .prepare(
         `SELECT * FROM exercises
-         WHERE id IN (SELECT MIN(id) FROM exercises GROUP BY title, subtitle)
-         ORDER BY title, subtitle`
+         WHERE id IN (SELECT MIN(id) FROM exercises GROUP BY body_part, exercise_name)
+         ORDER BY body_part, exercise_name`
       )
       .all();
     return res.json(catalog);
@@ -25,13 +25,13 @@ router.get('/', (req, res) => {
   let query = 'SELECT * FROM exercises WHERE 1=1';
   const params = [];
 
-  if (title) {
-    query += ' AND title = ?';
-    params.push(title);
+  if (body_part) {
+    query += ' AND body_part = ?';
+    params.push(body_part);
   }
-  if (subtitle) {
-    query += ' AND subtitle LIKE ?';
-    params.push(`%${subtitle}%`);
+  if (exercise_name) {
+    query += ' AND exercise_name LIKE ?';
+    params.push(`%${exercise_name}%`);
   }
 
   query += ' ORDER BY id';
@@ -40,23 +40,32 @@ router.get('/', (req, res) => {
 
 // POST /exercises — create a new user exercise and link it to the program
 // catalog (no fixed day/slot). Returned row can then be used as a swap target.
-// Body: { title, subtitle, body?, rpe?, sets?, rep_range? }
+// Body: { body_part, exercise_name, exercise_description?, rpe?, sets?, rep_range? }
 router.post('/', (req, res) => {
   const db = getDb();
-  const { title, subtitle, body, rpe, sets, rep_range } = req.body;
+  const {
+    body_part,
+    exercise_name,
+    exercise_description,
+    rpe,
+    sets,
+    rep_range,
+  } = req.body;
 
-  if (!title?.trim() || !subtitle?.trim())
-    return res.status(400).json({ error: 'title and subtitle are required' });
+  if (!body_part?.trim() || !exercise_name?.trim())
+    return res
+      .status(400)
+      .json({ error: 'body_part and exercise_name are required' });
 
   const result = db
     .prepare(
-      `INSERT INTO exercises (workout_day_id, order_num, title, subtitle, body, rpe, sets, rep_range)
+      `INSERT INTO exercises (workout_day_id, order_num, body_part, exercise_name, exercise_description, rpe, sets, rep_range)
        VALUES (NULL, NULL, ?, ?, ?, ?, ?, ?)`
     )
     .run(
-      title.trim(),
-      subtitle.trim(),
-      body?.trim() ?? '',
+      body_part.trim(),
+      exercise_name.trim(),
+      exercise_description?.trim() ?? '',
       rpe ?? null,
       sets ?? null,
       rep_range ?? null

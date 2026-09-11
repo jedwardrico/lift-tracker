@@ -7,10 +7,16 @@ const { getDb } = require('../db');
 // forward to this week's session. Returns the swapped-in exercise only when it
 // differs (by name) from the current week's programmed exercise, so the caller
 // can surface "the changed exercise" without extra comparison.
-function carriedSwapFor(db, dayOfWeek, orderNum, weekNumber, currentSubtitle) {
+function carriedSwapFor(
+  db,
+  dayOfWeek,
+  orderNum,
+  weekNumber,
+  currentExerciseName
+) {
   const row = db
     .prepare(
-      `SELECT se.id, se.title, se.subtitle, se.body, se.rpe, se.sets, se.rep_range
+      `SELECT se.id, se.body_part, se.exercise_name, se.exercise_description, se.rpe, se.sets, se.rep_range
        FROM workout_logs wl
        JOIN exercises e ON e.id = wl.exercise_id
        JOIN workout_days wd ON wd.id = e.workout_day_id
@@ -23,7 +29,7 @@ function carriedSwapFor(db, dayOfWeek, orderNum, weekNumber, currentSubtitle) {
        LIMIT 1`
     )
     .get(dayOfWeek, orderNum, weekNumber);
-  if (!row || row.subtitle === currentSubtitle) return null;
+  if (!row || row.exercise_name === currentExerciseName) return null;
   return row;
 }
 
@@ -35,7 +41,7 @@ function withCarriedSwaps(db, exercises, dayOfWeek, weekNumber) {
       dayOfWeek,
       ex.order_num,
       weekNumber,
-      ex.subtitle
+      ex.exercise_name
     ),
   }));
 }
