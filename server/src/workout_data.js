@@ -22,14 +22,11 @@ const PROGRAMS = {
     label: 'Creeping Death II',
     workoutData: require('../data/creeping_death_ii.json'),
   },
-  // Pure Bodybuilding Phase 2 is an asynchronous Push/Pull/Legs/Arms program
-  // that runs on a 10-slot cycle per program-week (not a real calendar week),
-  // which doesn't fit this app's fixed 7-day (Mon-Sun) week model. To store
-  // it, the entire 10-week program (100 day-slots total) was flattened into
-  // one continuous sequence and re-chunked into 7-slot groups here — so a
-  // JSON week's "monday" is just the next slot in that sequence, not the
-  // program's actual Monday, and JSON week boundaries don't line up with the
-  // PDF's own week boundaries.
+  // Pure Bodybuilding Phase 2 is a Pull/Push/Legs/Arms & Weak Points program.
+  // Each PDF week contains two sub-weeks of exercises (A and B), which this
+  // JSON splits into 20 separate program weeks, each laid out as:
+  // Mon = Pull, Tue = Push, Wed = Rest, Thu = Legs, Fri = Arms & Weak Points,
+  // Sat = Rest, Sun = Rest.
   pure_bodybuilding_phase_2: {
     label: 'Pure Bodybuilding Phase 2',
     workoutData: require('../data/pure_bodybuilding_phase_2.json'),
