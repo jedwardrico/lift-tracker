@@ -2,6 +2,20 @@ const express = require('express');
 const router = express.Router();
 const { getDb } = require('../db');
 const { getProgramState } = require('../program_state');
+const { PROGRAMS } = require('../workout_data');
+
+// Resolves which program key a request should read: an explicit ?program=
+// override (used to read a staged switch/restart's weeks before its
+// effective Monday actually arrives — see program_state.js's auto-commit),
+// falling back to whichever program is currently active.
+function resolveProgramKey(req, db) {
+  const { program } = req.query;
+  if (program) {
+    if (!PROGRAMS[program]) return null;
+    return program;
+  }
+  return getProgramState(db).active_program;
+}
 
 // Most recent exercise swap logged at the same "spot" (same day_of_week +
 // order_num) in an *earlier* week. Lets a swap made in a prior week carry
@@ -47,23 +61,26 @@ function withCarriedSwaps(db, exercises, dayOfWeek, weekNumber) {
   }));
 }
 
-// GET /weeks - list all weeks for the active program
+// GET /weeks - list all weeks for the active program (or ?program=key)
 router.get('/', (req, res) => {
   const db = getDb();
-  const { active_program } = getProgramState(db);
+  const programKey = resolveProgramKey(req, db);
+  if (!programKey) return res.status(400).json({ error: 'Unknown program' });
   const weeks = db
     .prepare('SELECT * FROM weeks WHERE program = ? ORDER BY week_number')
-    .all(active_program);
+    .all(programKey);
   res.json(weeks);
 });
 
-// GET /weeks/:weekNumber - get a full week with all days and exercises
+// GET /weeks/:weekNumber - get a full week with all days and exercises,
+// for the active program (or ?program=key)
 router.get('/:weekNumber', (req, res) => {
   const db = getDb();
-  const { active_program } = getProgramState(db);
+  const programKey = resolveProgramKey(req, db);
+  if (!programKey) return res.status(400).json({ error: 'Unknown program' });
   const week = db
     .prepare('SELECT * FROM weeks WHERE program = ? AND week_number = ?')
-    .get(active_program, req.params.weekNumber);
+    .get(programKey, req.params.weekNumber);
   if (!week) return res.status(404).json({ error: 'Week not found' });
 
   const days = db
@@ -98,15 +115,17 @@ router.get('/:weekNumber', (req, res) => {
   res.json(result);
 });
 
-// GET /weeks/:weekNumber/days/:day - get a specific day
+// GET /weeks/:weekNumber/days/:day - get a specific day, for the active
+// program (or ?program=key)
 router.get('/:weekNumber/days/:day', (req, res) => {
   const db = getDb();
   const { weekNumber, day } = req.params;
-  const { active_program } = getProgramState(db);
+  const programKey = resolveProgramKey(req, db);
+  if (!programKey) return res.status(400).json({ error: 'Unknown program' });
 
   const week = db
     .prepare('SELECT * FROM weeks WHERE program = ? AND week_number = ?')
-    .get(active_program, weekNumber);
+    .get(programKey, weekNumber);
   if (!week) return res.status(404).json({ error: 'Week not found' });
 
   const workoutDay = db
