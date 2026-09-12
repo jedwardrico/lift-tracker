@@ -1,6 +1,6 @@
-# Lift Tracker — Creeping Death II
+# Lift Tracker
 
-A workout tracker for the Creeping Death II program by John Meadows. A 12-week Pull/Push/Legs hypertrophy split.
+A workout tracker that runs hypertrophy programs and logs your sets as you go. Multiple programs are supported and can be switched between without losing history — Gamma Bomb, Creeping Death II (John Meadows), and Pure Bodybuilding Phase 2 ship out of the box.
 
 ## Project Structure
 
@@ -55,32 +55,48 @@ Override the host port with the `PORT` env var (default `3000`):
 PORT=4000 docker compose up
 ```
 
+### Programs
+
+The server ships with several programs (see `server/data/*.json`), each with its own number of weeks and day layout. Exactly one program is "active" at a time; switching programs (or restarting the active one) stages the change for the coming Monday so the in-progress week isn't disrupted, and history from every program is kept so switching back and forth never loses past logs.
+
+| Method | Path              | Description                                                  |
+| ------ | ----------------- | -------------------------------------------------------------- |
+| `GET`  | `/program`        | Current program state (active/pending program, start dates)    |
+| `POST` | `/program/switch`  | Stage a switch to a different program. Body: `{ program }`     |
+| `POST` | `/program/restart` | Stage a restart of the active program back to week 1           |
+| `POST` | `/program/cancel`  | Cancel a staged switch/restart; the active program keeps running |
+
 ### Endpoints
 
-| Method   | Path                    | Description                                            |
-| -------- | ----------------------- | ------------------------------------------------------ |
-| `GET`    | `/weeks`                | All 12 weeks                                           |
-| `GET`    | `/weeks/:n`             | Full week with every day and exercise                  |
-| `GET`    | `/weeks/:n/days/:day`   | Single day (e.g. `/weeks/1/days/monday`)               |
-| `GET`    | `/exercises`            | All exercises (filter with `?title=Back&subtitle=row`) |
-| `GET`    | `/exercises/:id`        | Single exercise                                        |
-| `GET`    | `/exercises/:id/logs`   | All workout logs for an exercise                       |
-| `POST`   | `/logs`                 | Log a workout session with sets                        |
-| `GET`    | `/logs/:id`             | Get a logged session with all its sets                 |
-| `PUT`    | `/logs/:id`             | Replace sets on a log                                  |
-| `PATCH`  | `/logs/:id/sets/:setId` | Update a single set                                    |
-| `DELETE` | `/logs/:id`             | Delete a log                                           |
+| Method   | Path                    | Description                                                        |
+| -------- | ----------------------- | ------------------------------------------------------------------- |
+| `GET`    | `/weeks`                | All weeks in the active program                                     |
+| `GET`    | `/weeks/:n`             | Full week with every day and exercise                               |
+| `GET`    | `/weeks/:n/days/:day`   | Single day (e.g. `/weeks/1/days/monday`)                            |
+| `GET`    | `/exercises`            | All exercises (filter with `?body_part=Back&exercise_name=row`)     |
+| `GET`    | `/exercises?distinct=1` | Unique exercise catalog for the active program, for swap pickers    |
+| `POST`   | `/exercises`            | Create a custom exercise not tied to a program slot                 |
+| `GET`    | `/exercises/:id`        | Single exercise                                                     |
+| `GET`    | `/exercises/:id/logs`   | All workout logs for an exercise                                    |
+| `POST`   | `/logs`                 | Log a workout session with sets                                     |
+| `GET`    | `/logs`                 | All completed logs (filter with `?date=YYYY-MM-DD`)                 |
+| `GET`    | `/logs/:id`             | Get a logged session with all its sets                              |
+| `PUT`    | `/logs/:id`             | Update a log's timestamp/completion or replace its sets             |
+| `PATCH`  | `/logs/:id/sets/:setId` | Update a single set                                                  |
+| `DELETE` | `/logs/:id`             | Delete a log                                                         |
 
 ### Exercise fields
 
 Each exercise includes:
 
-- `title` — body part (e.g. `"Back"`)
-- `subtitle` — exercise name (e.g. `"Meadows row"`)
-- `body` — full description from the program
+- `body_part` — body part (e.g. `"Back"`)
+- `exercise_name` — exercise name (e.g. `"Meadows row"`)
+- `exercise_description` — full description from the program
 - `rpe` — rate of perceived exertion (e.g. `"10"` or `"8-10"`)
 - `sets` — prescribed number of working sets
 - `rep_range` — prescribed reps (e.g. `"8"` or `"8-10"`)
+
+A program exercise can be swapped out for a session; `GET /weeks/:n` and `GET /weeks/:n/days/:day` annotate each exercise with `carried_exercise` when an earlier week logged a swap at that same day/slot, so the substitution carries forward until swapped again.
 
 ### Logging a session
 
@@ -88,6 +104,7 @@ Each exercise includes:
 POST /logs
 {
   "exercise_id": 1,
+  "completed": true,
   "sets": [
     { "set_number": 1, "reps": 8, "weight": 135, "weight_unit": "lbs" },
     { "set_number": 2, "reps": 8, "weight": 155 },
@@ -96,7 +113,7 @@ POST /logs
 }
 ```
 
-`logged_at` defaults to now (ISO 8601). `weight_unit` defaults to `"lbs"`.
+`logged_at` defaults to now (ISO 8601). `weight_unit` defaults to `"lbs"`. Pass `swapped_exercise_id` instead of logging against the programmed `exercise_id` directly to record a swap.
 
 ---
 
@@ -126,19 +143,3 @@ npm run web         # run in browser
 ```
 
 > The app uses `expo-dev-client`. You must run `expo run:ios` or `expo run:android` at least once to build the native shell before using `npm start`.
-
----
-
-## Day Schedule
-
-The program runs Monday–Saturday on a Pull/Push/Legs rotation, with Sunday as a rest day.
-
-| Day       | Workout                                 |
-| --------- | --------------------------------------- |
-| Monday    | Pull — Back, Biceps, Abs                |
-| Tuesday   | Push — Chest, Shoulders, Triceps        |
-| Wednesday | Legs — Legs, Calves                     |
-| Thursday  | Pull (pump) — Back, Biceps, Abs         |
-| Friday    | Push (pump) — Chest, Shoulders, Triceps |
-| Saturday  | Legs (pump) — Legs, Calves              |
-| Sunday    | Rest                                    |
