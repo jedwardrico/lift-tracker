@@ -119,6 +119,63 @@ function getWeekDates(programStart, offset = 0) {
   });
 }
 
+// Whole weeks between two YYYY-MM-DD Mondays.
+function weekOffsetBetween(fromKey, toKey) {
+  const days = Math.round(
+    (parseDateKey(toKey) - parseDateKey(fromKey)) / MS_PER_DAY
+  );
+  return Math.round(days / 7);
+}
+
+// Which program (and which of *its own* week numbers) governs the display
+// week at `weekOffset` (0 = the active program's week 1). A staged
+// switch/restart takes over every display week from its pending_start_date
+// onward — previewed here ahead of the server's own auto-commit, which only
+// flips active_program once that Monday actually arrives (see
+// getProgramState) — so browsing forward shows the incoming program right
+// away instead of stale content from the one it's replacing.
+function resolveWeekProgram(programState, weekOffset) {
+  if (programState?.pending_program && programState.pending_start_date) {
+    const pendingOffset = weekOffsetBetween(
+      programState.program_start_date,
+      programState.pending_start_date
+    );
+    if (weekOffset >= pendingOffset) {
+      return {
+        program: programState.pending_program,
+        weekNumber: weekOffset - pendingOffset + 1,
+      };
+    }
+  }
+  return {
+    program: programState?.active_program,
+    weekNumber: weekOffset + 1,
+  };
+}
+
+// The [min, max] week offsets that can be swiped to: bounded below by the
+// active program's first week. Above, once a switch/restart is staged,
+// resolveWeekProgram routes every offset from the pending program's start
+// onward to it regardless of how many weeks the active program has left, so
+// the ceiling must be the pending program's own last week — not the active
+// program's, which would let swiping run past the pending program's end
+// into weeks it doesn't have.
+function weekOffsetBounds(programState, activeWeeks, pendingWeeks) {
+  if (!activeWeeks?.length) return null;
+  const minOffset = Math.min(...activeWeeks) - 1;
+  if (programState?.pending_program && pendingWeeks?.length) {
+    const pendingOffset = weekOffsetBetween(
+      programState.program_start_date,
+      programState.pending_start_date
+    );
+    return {
+      minOffset,
+      maxOffset: pendingOffset + Math.max(...pendingWeeks) - 1,
+    };
+  }
+  return { minOffset, maxOffset: Math.max(...activeWeeks) - 1 };
+}
+
 export default function HomeScreen() {
   const router = useRouter();
   const [programState, setProgramState] = useState(null);
@@ -126,6 +183,11 @@ export default function HomeScreen() {
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [weekOffset, setWeekOffset] = useState(0);
   const [availableWeeks, setAvailableWeeks] = useState([1]);
+  // Week numbers of a staged switch/restart's own program, counted from its
+  // own start date — null when nothing is pending. Lets swiping preview the
+  // incoming program (see resolveWeekProgram) before the server auto-commits
+  // it on its effective Monday.
+  const [pendingWeeks, setPendingWeeks] = useState(null);
   const [weekData, setWeekData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [completedDates, setCompletedDates] = useState(new Set());
@@ -136,23 +198,37 @@ export default function HomeScreen() {
   const currentOffset = programStart ? currentWeekOffset(programStart) : 0;
   const todayIdx = programStart ? todayDayIndex(programStart) : 0;
   const weekDates = programStart ? getWeekDates(programStart, weekOffset) : [];
-  const weekNumber = weekOffset + 1;
+  const resolvedWeek = programState
+    ? resolveWeekProgram(programState, weekOffset)
+    : null;
   const isCurrentWeek = weekOffset === currentOffset;
 
   // Discover which program weeks exist so swiping can't run off the ends.
   // Also re-run after a switch/restart, since the new program can have a
-  // different week count.
-  const refreshWeeksList = useCallback(() => {
-    fetch(`${BASE_URL}/weeks`)
-      .then((r) => r.json())
-      .then((list) => {
-        if (Array.isArray(list) && list.length) {
-          const nums = list.map((w) => w.week_number);
-          setAvailableWeeks(nums);
-          // If today has run past the final program week, land on the last one.
-          const maxOffset = Math.max(...nums) - 1;
-          setWeekOffset((o) => Math.min(o, maxOffset));
+  // different week count. `state` should be the freshest known /program
+  // response — passed explicitly rather than read off programState, which
+  // may not have finished re-rendering into its ref yet when a caller wants
+  // to refresh right after applying a fetch's result.
+  const refreshWeeksList = useCallback((state) => {
+    const pendingProgram = state?.pending_program;
+    const requests = [fetch(`${BASE_URL}/weeks`).then((r) => r.json())];
+    if (pendingProgram) {
+      requests.push(
+        fetch(`${BASE_URL}/weeks?program=${pendingProgram}`).then((r) =>
+          r.json()
+        )
+      );
+    }
+    Promise.all(requests)
+      .then(([activeList, pendingList]) => {
+        if (Array.isArray(activeList) && activeList.length) {
+          setAvailableWeeks(activeList.map((w) => w.week_number));
         }
+        setPendingWeeks(
+          Array.isArray(pendingList) && pendingList.length
+            ? pendingList.map((w) => w.week_number)
+            : null
+        );
       })
       .catch((err) => console.error('Failed to load week list:', err));
   }, []);
@@ -193,14 +269,29 @@ export default function HomeScreen() {
             data.program_start_date !== prev.program_start_date;
           if (changed) {
             applyProgramState(data);
-            refreshWeeksList();
           } else {
             setProgramState(data);
           }
+          // Always refresh, not just when the active program changed: a
+          // pending switch/restart can be staged or cancelled without
+          // active_program moving at all, and pendingWeeks needs to track it.
+          refreshWeeksList(data);
         })
         .catch((err) => console.error('Failed to load program:', err));
     }, [applyProgramState, refreshWeeksList])
   );
+
+  // Keeps weekOffset inside whatever range is currently swipeable, given the
+  // active program's own weeks and (once a switch/restart is staged) the
+  // pending program's — e.g. if today has run past the final program week,
+  // or a newly-loaded program has fewer weeks than where we'd wandered to.
+  useEffect(() => {
+    const bounds = weekOffsetBounds(programState, availableWeeks, pendingWeeks);
+    if (!bounds) return;
+    setWeekOffset((o) =>
+      Math.max(bounds.minOffset, Math.min(bounds.maxOffset, o))
+    );
+  }, [programState, availableWeeks, pendingWeeks]);
 
   // Called from the "program complete" takeover screen when the user picks
   // a program to start (or the active one, to restart).
@@ -217,7 +308,7 @@ export default function HomeScreen() {
         .then((r) => r.json())
         .then((data) => {
           applyProgramState(data);
-          refreshWeeksList();
+          refreshWeeksList(data);
         })
         .catch((err) => {
           console.error('Failed to update program:', err);
@@ -228,10 +319,12 @@ export default function HomeScreen() {
     [working, programState, applyProgramState, refreshWeeksList]
   );
 
-  // Keep the latest available-week list in a ref so the (once-created)
-  // PanResponder always clamps against fresh bounds.
+  // Keep the latest available-week lists in refs so the (once-created)
+  // PanResponders always clamp against fresh bounds.
   const weeksRef = useRef(availableWeeks);
   weeksRef.current = availableWeeks;
+  const pendingWeeksRef = useRef(pendingWeeks);
+  pendingWeeksRef.current = pendingWeeks;
 
   // Keep mutable refs so the once-created content PanResponder always sees
   // the latest selectedIdx and weekOffset without stale closures.
@@ -269,12 +362,15 @@ export default function HomeScreen() {
   animatedShiftRef.current = animatedShift;
 
   const shiftWeek = useCallback((delta) => {
-    const weeks = weeksRef.current;
-    const minOffset = Math.min(...weeks) - 1;
-    const maxOffset = Math.max(...weeks) - 1;
+    const bounds = weekOffsetBounds(
+      programStateRef.current,
+      weeksRef.current,
+      pendingWeeksRef.current
+    );
+    if (!bounds) return;
     const newOffset = Math.max(
-      minOffset,
-      Math.min(maxOffset, weekOffsetRef.current + delta)
+      bounds.minOffset,
+      Math.min(bounds.maxOffset, weekOffsetRef.current + delta)
     );
     if (newOffset === weekOffsetRef.current) return;
     animatedShiftRef.current(delta, newOffset, selectedIdxRef.current);
@@ -283,9 +379,13 @@ export default function HomeScreen() {
   shiftWeekRef.current = shiftWeek;
 
   const shiftDay = useCallback((delta) => {
-    const weeks = weeksRef.current;
-    const minOffset = Math.min(...weeks) - 1;
-    const maxOffset = Math.max(...weeks) - 1;
+    const bounds = weekOffsetBounds(
+      programStateRef.current,
+      weeksRef.current,
+      pendingWeeksRef.current
+    );
+    if (!bounds) return;
+    const { minOffset, maxOffset } = bounds;
     const curDay = selectedIdxRef.current;
     const curWeek = weekOffsetRef.current;
 
@@ -347,13 +447,16 @@ export default function HomeScreen() {
   );
 
   useEffect(() => {
+    if (!resolvedWeek) return;
     setLoading(true);
-    fetch(`${BASE_URL}/weeks/${weekNumber}`)
+    fetch(
+      `${BASE_URL}/weeks/${resolvedWeek.weekNumber}?program=${resolvedWeek.program}`
+    )
       .then((r) => r.json())
       .then((data) => setWeekData(data))
       .catch((err) => console.error('Failed to load week:', err))
       .finally(() => setLoading(false));
-  }, [weekNumber]);
+  }, [resolvedWeek?.program, resolvedWeek?.weekNumber]);
 
   if (!programStart) {
     return (
@@ -541,7 +644,8 @@ export default function HomeScreen() {
                       API_DAYS[selectedIdx].slice(1)}
                   </Text>
                   <Text style={styles.exerciseCount}>
-                    Week {weekNumber} · {exercises.length} exercises
+                    Week {resolvedWeek.weekNumber} · {exercises.length}{' '}
+                    exercises
                   </Text>
                 </View>
 
@@ -553,9 +657,13 @@ export default function HomeScreen() {
                       pathname: '/workout',
                       // workout.js indexes straight into the server's
                       // Mon(0)…Sun(6) days array, so convert from this
-                      // screen's Sun(0)…Sat(6) display index.
+                      // screen's Sun(0)…Sat(6) display index. Also pass which
+                      // program governs this week — it may be a staged
+                      // switch/restart's pending program, previewed here
+                      // ahead of the server's own auto-commit.
                       params: {
-                        week: weekNumber,
+                        week: resolvedWeek.weekNumber,
+                        program: resolvedWeek.program,
                         day: serverDayIdx(selectedIdx),
                       },
                     })

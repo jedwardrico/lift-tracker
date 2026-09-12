@@ -59,7 +59,7 @@ function resolveActiveDay(data, dayIndex) {
 
 export default function WorkoutScreen() {
   const router = useRouter();
-  const { week, day } = useLocalSearchParams();
+  const { week, day, program } = useLocalSearchParams();
   const weekNumber = week != null && week !== '' ? parseInt(week, 10) : 1;
   const dayIndex = day != null && day !== '' ? parseInt(day, 10) : null;
   const [weekData, setWeekData] = useState(null);
@@ -101,7 +101,14 @@ export default function WorkoutScreen() {
   }, []);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/weeks/${weekNumber || 1}`)
+    // Home passes along which program governs this week — it may be a staged
+    // switch/restart's pending program, previewed before its effective
+    // Monday actually arrives server-side. Falls back to the active program
+    // when absent (e.g. a stale deep link).
+    const url = program
+      ? `${BASE_URL}/weeks/${weekNumber || 1}?program=${program}`
+      : `${BASE_URL}/weeks/${weekNumber || 1}`;
+    fetch(url)
       .then((r) => r.json())
       .then((data) => {
         setWeekData(data);
@@ -122,7 +129,7 @@ export default function WorkoutScreen() {
       })
       .catch((err) => console.error('Failed to load week:', err))
       .finally(() => setLoading(false));
-  }, [weekNumber, dayIndex]);
+  }, [weekNumber, dayIndex, program]);
 
   // Unique exercise catalog for the swap picker.
   useEffect(() => {
