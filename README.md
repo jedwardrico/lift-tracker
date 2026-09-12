@@ -49,6 +49,8 @@ docker compose down -v
 docker compose up --build
 ```
 
+**In production, always run the container with `db_data` explicitly mounted** (via `docker compose up`, or `docker run -v db_data:/app/db ...` if not using Compose). The image declares `/app/db` as a `VOLUME`, so starting it *without* an explicit mount still runs — but Docker silently backs it with a fresh anonymous volume instead. An updater like Watchtower that recreates the container on every new image (e.g. on every merge to `main`) will then mint a brand-new empty anonymous volume each time, silently resetting the database — active program, any scheduled switch, and all logged history — back to defaults on every deploy.
+
 Override the host port with the `PORT` env var (default `3000`):
 
 ```bash

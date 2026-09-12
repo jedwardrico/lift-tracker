@@ -40,54 +40,97 @@ function parseSetsAndReps(exercise_description) {
   return { sets, rep_range };
 }
 
-// Seeds a single program's weeks/days/exercises. Additive only — never
-// touches other programs' rows or any workout_logs, so switching the active
-// program never loses history. No-op if this program already has weeks.
+// Seeds a single program's weeks/days/exercises, upserting on every boot so a
+// content fix shipped in a new server version (a corrected description, a
+// reordered week, a rest day turned into a training day) actually takes
+// effect for an already-running deployment — a prior version of this
+// function no-op'd entirely once a program had any weeks, so a JSON change
+// after first seed never reached a persisted DB. Rows are matched by their
+// program slot (program+week_number, week_id+day_of_week,
+// workout_day_id+order_num) and updated in place rather than replaced, so
+// exercise ids — and the workout_logs that reference them — stay stable
+// across a content fix. Never touches other programs' rows.
 function seedProgram(db, programKey) {
   const program = PROGRAMS[programKey];
   if (!program) throw new Error(`Unknown program: ${programKey}`);
 
-  const already = db
-    .prepare('SELECT COUNT(*) AS c FROM weeks WHERE program = ?')
-    .get(programKey);
-  if (already.c > 0) return false;
-
+  const findWeek = db.prepare(
+    'SELECT id FROM weeks WHERE program = ? AND week_number = ?'
+  );
   const insertWeek = db.prepare(
     'INSERT INTO weeks (program, week_number) VALUES (?, ?)'
+  );
+  const findDay = db.prepare(
+    'SELECT id, is_rest_day FROM workout_days WHERE week_id = ? AND day_of_week = ?'
   );
   const insertDay = db.prepare(
     'INSERT INTO workout_days (week_id, day_of_week, is_rest_day) VALUES (?, ?, ?)'
   );
+  const updateDay = db.prepare(
+    'UPDATE workout_days SET is_rest_day = ? WHERE id = ?'
+  );
+  const findExercise = db.prepare(
+    'SELECT id FROM exercises WHERE workout_day_id = ? AND order_num = ?'
+  );
   const insertExercise = db.prepare(
     'INSERT INTO exercises (workout_day_id, order_num, body_part, exercise_name, exercise_description, rpe, sets, rep_range) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+  );
+  const updateExercise = db.prepare(
+    `UPDATE exercises
+     SET body_part = ?, exercise_name = ?, exercise_description = ?, rpe = ?, sets = ?, rep_range = ?
+     WHERE id = ?`
   );
 
   const seedAll = db.transaction(() => {
     for (const weekData of program.workoutData) {
-      const weekResult = insertWeek.run(programKey, weekData.week);
-      const weekId = weekResult.lastInsertRowid;
+      const existingWeek = findWeek.get(programKey, weekData.week);
+      const weekId = existingWeek
+        ? existingWeek.id
+        : insertWeek.run(programKey, weekData.week).lastInsertRowid;
 
       for (const day of DAYS) {
         const dayData = weekData.days[day];
         if (!dayData) continue;
 
-        const dayResult = insertDay.run(weekId, day, dayData.isRestDay ? 1 : 0);
-        const dayId = dayResult.lastInsertRowid;
+        const isRestDay = dayData.isRestDay ? 1 : 0;
+        const existingDay = findDay.get(weekId, day);
+        let dayId;
+        if (existingDay) {
+          dayId = existingDay.id;
+          if (existingDay.is_rest_day !== isRestDay) {
+            updateDay.run(isRestDay, dayId);
+          }
+        } else {
+          dayId = insertDay.run(weekId, day, isRestDay).lastInsertRowid;
+        }
 
         for (const exercise of dayData.exercises) {
           const { sets, rep_range } = parseSetsAndReps(
             exercise.exercise_description
           );
-          insertExercise.run(
-            dayId,
-            exercise.order,
-            exercise.body_part,
-            exercise.exercise_name,
-            exercise.exercise_description,
-            exercise.rpe ?? null,
-            sets,
-            rep_range
-          );
+          const existingExercise = findExercise.get(dayId, exercise.order);
+          if (existingExercise) {
+            updateExercise.run(
+              exercise.body_part,
+              exercise.exercise_name,
+              exercise.exercise_description,
+              exercise.rpe ?? null,
+              sets,
+              rep_range,
+              existingExercise.id
+            );
+          } else {
+            insertExercise.run(
+              dayId,
+              exercise.order,
+              exercise.body_part,
+              exercise.exercise_name,
+              exercise.exercise_description,
+              exercise.rpe ?? null,
+              sets,
+              rep_range
+            );
+          }
         }
       }
     }
@@ -95,7 +138,6 @@ function seedProgram(db, programKey) {
 
   seedAll();
   console.log(`Seeded ${program.workoutData.length} weeks for ${programKey}.`);
-  return true;
 }
 
 function seedAllPrograms(db) {
