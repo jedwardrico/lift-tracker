@@ -167,12 +167,40 @@ export default function HomeScreen() {
     setSelectedIdx(todayDayIndex(start));
   }, []);
 
-  useEffect(() => {
-    fetch(`${BASE_URL}/program`)
-      .then((r) => r.json())
-      .then(applyProgramState)
-      .catch((err) => console.error('Failed to load program:', err));
-  }, [applyProgramState]);
+  // Keep the latest programState in a ref so the focus-sync effect below can
+  // compare against it without needing to be recreated on every fetch.
+  const programStateRef = useRef(programState);
+  programStateRef.current = programState;
+
+  // Re-checks /program every time this screen gains focus (including on
+  // mount). The server auto-commits a staged switch/restart once its
+  // effective Monday arrives (see getProgramState), so this is what notices
+  // that a program change has taken effect — e.g. after switching in
+  // Settings and coming back, or simply because that Monday has now passed.
+  // When the active program (or its start date) actually changed, snap the
+  // view back to today under the new program instead of continuing to browse
+  // stale week numbers against it; otherwise leave the current browsing
+  // position alone.
+  useFocusEffect(
+    useCallback(() => {
+      fetch(`${BASE_URL}/program`)
+        .then((r) => r.json())
+        .then((data) => {
+          const prev = programStateRef.current;
+          const changed =
+            !prev ||
+            data.active_program !== prev.active_program ||
+            data.program_start_date !== prev.program_start_date;
+          if (changed) {
+            applyProgramState(data);
+            refreshWeeksList();
+          } else {
+            setProgramState(data);
+          }
+        })
+        .catch((err) => console.error('Failed to load program:', err));
+    }, [applyProgramState, refreshWeeksList])
+  );
 
   // Called from the "program complete" takeover screen when the user picks
   // a program to start (or the active one, to restart).
@@ -301,10 +329,6 @@ export default function HomeScreen() {
       },
     })
   ).current;
-
-  useEffect(() => {
-    refreshWeeksList();
-  }, [refreshWeeksList]);
 
   // Load the dates of completed workouts so the strip can mark them green.
   // Runs on focus so a workout finished this session shows up on return.
