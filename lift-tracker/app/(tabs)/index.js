@@ -547,12 +547,6 @@ export default function HomeScreen() {
   const isRestDay = dayData?.is_rest_day ?? false;
   const exercises = dayData?.exercises ?? [];
 
-  const groupedExercises = exercises.reduce((acc, ex) => {
-    if (!acc[ex.body_part]) acc[ex.body_part] = [];
-    acc[ex.body_part].push(ex);
-    return acc;
-  }, {});
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -682,45 +676,41 @@ export default function HomeScreen() {
                   </Text>
                 </View>
 
-                {/* Exercise list */}
+                {/* Exercise list, in program order (not grouped by body part —
+                    the PDF interleaves body parts within a day) */}
                 <View style={styles.exerciseList}>
-                  {Object.entries(groupedExercises).map(
-                    ([bodyPart, exList]) => (
-                      <View key={bodyPart} style={styles.exerciseGroup}>
-                        <Text style={styles.bodyPartLabel}>
-                          {bodyPart.toUpperCase()}
-                        </Text>
-                        {exList.map((ex) => {
-                          const setsReps =
-                            ex.sets && ex.rep_range
-                              ? `${ex.sets} × ${ex.rep_range}`
-                              : ex.rpe
-                                ? `RPE ${ex.rpe}`
-                                : null;
+                  {exercises.map((ex) => {
+                    const setsReps =
+                      ex.sets && ex.rep_range
+                        ? `${ex.sets} × ${ex.rep_range}`
+                        : ex.rpe
+                          ? `RPE ${ex.rpe}`
+                          : null;
 
-                          return (
-                            <View key={ex.id} style={styles.exerciseRow}>
-                              <View style={styles.exerciseIcon}>
-                                <Text style={styles.exerciseIconText}>
-                                  {bodyPart.charAt(0).toUpperCase()}
-                                </Text>
-                              </View>
-                              <View style={styles.exerciseInfo}>
-                                <Text style={styles.exerciseName}>
-                                  {ex.exercise_name}
-                                </Text>
-                                {setsReps && (
-                                  <Text style={styles.setsReps}>
-                                    {setsReps}
-                                  </Text>
-                                )}
-                              </View>
-                            </View>
-                          );
-                        })}
+                    return (
+                      <View key={ex.id} style={styles.exerciseRow}>
+                        <View style={styles.exerciseIcon}>
+                          <Text style={styles.exerciseIconText}>
+                            {ex.body_part?.charAt(0).toUpperCase() ?? ''}
+                          </Text>
+                        </View>
+                        <View style={styles.exerciseInfo}>
+                          <Text style={styles.exerciseName}>
+                            {ex.exercise_name}
+                          </Text>
+                          <Text style={styles.bodyPartLabel}>
+                            {ex.body_part?.toUpperCase()}
+                            {setsReps ? (
+                              <Text style={styles.setsReps}>
+                                {'  ·  '}
+                                {setsReps}
+                              </Text>
+                            ) : null}
+                          </Text>
+                        </View>
                       </View>
-                    )
-                  )}
+                    );
+                  })}
                 </View>
               </>
             )}
@@ -914,15 +904,12 @@ const styles = StyleSheet.create({
   exerciseList: {
     gap: 8,
   },
-  exerciseGroup: {
-    marginBottom: 12,
-  },
   bodyPartLabel: {
     color: COLORS.textMuted,
     fontSize: 11,
     fontWeight: '700',
     letterSpacing: 1.5,
-    marginBottom: 8,
+    marginTop: 2,
   },
   exerciseRow: {
     flexDirection: 'row',
@@ -957,9 +944,8 @@ const styles = StyleSheet.create({
   },
   setsReps: {
     color: COLORS.accent,
-    fontSize: 13,
-    marginTop: 2,
-    fontWeight: '500',
+    fontSize: 11,
+    fontWeight: '700',
   },
 
   // States
