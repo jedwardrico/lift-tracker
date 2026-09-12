@@ -547,6 +547,20 @@ export default function HomeScreen() {
   const isRestDay = dayData?.is_rest_day ?? false;
   const exercises = dayData?.exercises ?? [];
 
+  // Bunch consecutive exercises that share a body part into the same
+  // section, without reordering — a day can interleave body parts (e.g.
+  // push/pull/arms), so grouping globally by body part would scramble the
+  // program's true order.
+  const exerciseSections = [];
+  for (const ex of exercises) {
+    const last = exerciseSections[exerciseSections.length - 1];
+    if (last && last.bodyPart === ex.body_part) {
+      last.exercises.push(ex);
+    } else {
+      exerciseSections.push({ bodyPart: ex.body_part, exercises: [ex] });
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -676,41 +690,47 @@ export default function HomeScreen() {
                   </Text>
                 </View>
 
-                {/* Exercise list, in program order (not grouped by body part —
-                    the PDF interleaves body parts within a day) */}
+                {/* Exercise list, grouped into body-part sections by
+                    consecutive run — the program can interleave body parts
+                    within a day, so this preserves order_num order instead
+                    of grouping globally by body part */}
                 <View style={styles.exerciseList}>
-                  {exercises.map((ex) => {
-                    const setsReps =
-                      ex.sets && ex.rep_range
-                        ? `${ex.sets} × ${ex.rep_range}`
-                        : ex.rpe
-                          ? `RPE ${ex.rpe}`
-                          : null;
+                  {exerciseSections.map((section, sectionIdx) => (
+                    <View
+                      key={`${section.bodyPart}-${sectionIdx}`}
+                      style={styles.exerciseGroup}
+                    >
+                      <Text style={styles.bodyPartLabel}>
+                        {section.bodyPart.toUpperCase()}
+                      </Text>
+                      {section.exercises.map((ex) => {
+                        const setsReps =
+                          ex.sets && ex.rep_range
+                            ? `${ex.sets} × ${ex.rep_range}`
+                            : ex.rpe
+                              ? `RPE ${ex.rpe}`
+                              : null;
 
-                    return (
-                      <View key={ex.id} style={styles.exerciseRow}>
-                        <View style={styles.exerciseIcon}>
-                          <Text style={styles.exerciseIconText}>
-                            {ex.body_part?.charAt(0).toUpperCase() ?? ''}
-                          </Text>
-                        </View>
-                        <View style={styles.exerciseInfo}>
-                          <Text style={styles.exerciseName}>
-                            {ex.exercise_name}
-                          </Text>
-                          <Text style={styles.bodyPartLabel}>
-                            {ex.body_part?.toUpperCase()}
-                            {setsReps ? (
-                              <Text style={styles.setsReps}>
-                                {'  ·  '}
-                                {setsReps}
+                        return (
+                          <View key={ex.id} style={styles.exerciseRow}>
+                            <View style={styles.exerciseIcon}>
+                              <Text style={styles.exerciseIconText}>
+                                {section.bodyPart.charAt(0).toUpperCase()}
                               </Text>
-                            ) : null}
-                          </Text>
-                        </View>
-                      </View>
-                    );
-                  })}
+                            </View>
+                            <View style={styles.exerciseInfo}>
+                              <Text style={styles.exerciseName}>
+                                {ex.exercise_name}
+                              </Text>
+                              {setsReps && (
+                                <Text style={styles.setsReps}>{setsReps}</Text>
+                              )}
+                            </View>
+                          </View>
+                        );
+                      })}
+                    </View>
+                  ))}
                 </View>
               </>
             )}
@@ -904,12 +924,15 @@ const styles = StyleSheet.create({
   exerciseList: {
     gap: 8,
   },
+  exerciseGroup: {
+    marginBottom: 12,
+  },
   bodyPartLabel: {
     color: COLORS.textMuted,
     fontSize: 11,
     fontWeight: '700',
     letterSpacing: 1.5,
-    marginTop: 2,
+    marginBottom: 8,
   },
   exerciseRow: {
     flexDirection: 'row',
@@ -944,8 +967,9 @@ const styles = StyleSheet.create({
   },
   setsReps: {
     color: COLORS.accent,
-    fontSize: 11,
-    fontWeight: '700',
+    fontSize: 13,
+    marginTop: 2,
+    fontWeight: '500',
   },
 
   // States
