@@ -723,9 +723,7 @@ export default function HomeScreen() {
                                 {ex.exercise_name}
                               </Text>
                               {setsReps && (
-                                <Text style={styles.setsReps}>
-                                  {setsReps}
-                                </Text>
+                                <Text style={styles.setsReps}>{setsReps}</Text>
                               )}
                             </View>
                           </View>
