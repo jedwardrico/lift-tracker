@@ -7,6 +7,7 @@ const {
   switchProgram,
   restartProgram,
   cancelPending,
+  rescheduleStart,
 } = require('../program_state');
 
 function serialize(state) {
@@ -50,6 +51,19 @@ router.post('/restart', (req, res) => {
 // keeps running unchanged.
 router.post('/cancel', (req, res) => {
   res.json(serialize(cancelPending(getDb())));
+});
+
+// POST /program/reschedule - change the start date of whichever program
+// hasn't started counting yet: a staged switch/restart if one is pending,
+// otherwise the active program's own start date.
+// Body: { start_date } (must be a Monday, YYYY-MM-DD)
+router.post('/reschedule', (req, res) => {
+  const { start_date } = req.body;
+  try {
+    res.json(serialize(rescheduleStart(getDb(), start_date)));
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 });
 
 module.exports = router;
