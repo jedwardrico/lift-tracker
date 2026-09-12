@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import appConfig from '../../app.json';
 
 const COLORS = {
   bg: '#0a0a0a',
@@ -28,6 +29,7 @@ const COLORS = {
 };
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000';
+const APP_VERSION = appConfig.expo.version;
 
 const MONTHS = [
   'Jan',
@@ -80,6 +82,7 @@ export default function SettingsScreen() {
   const [loading, setLoading] = useState(true);
   const [working, setWorking] = useState(false);
   const [datePickerVisible, setDatePickerVisible] = useState(false);
+  const [serverVersion, setServerVersion] = useState(null);
 
   const mondays = useMemo(() => mondayOptions(), []);
 
@@ -95,6 +98,18 @@ export default function SettingsScreen() {
     useCallback(() => {
       loadProgram();
     }, [loadProgram])
+  );
+
+  useFocusEffect(
+    useCallback(() => {
+      fetch(`${BASE_URL}/health`)
+        .then((r) => r.json())
+        .then((data) => setServerVersion(data.version ?? 'unknown'))
+        .catch((err) => {
+          console.error('Failed to load server version:', err);
+          setServerVersion('unreachable');
+        });
+    }, [])
   );
 
   const confirmSwitch = useCallback((program) => {
@@ -372,6 +387,20 @@ export default function SettingsScreen() {
               </View>
             </View>
           </Modal>
+
+          <Text style={styles.sectionLabel}>ABOUT</Text>
+          <View style={styles.card}>
+            <View style={styles.programRow}>
+              <Text style={styles.programName}>App Version</Text>
+              <Text style={styles.mutedText}>{APP_VERSION}</Text>
+            </View>
+            <View style={[styles.programRow, styles.programRowBorder]}>
+              <Text style={styles.programName}>Server Version</Text>
+              <Text style={styles.mutedText}>
+                {serverVersion ?? 'Loading…'}
+              </Text>
+            </View>
+          </View>
         </View>
       )}
     </SafeAreaView>

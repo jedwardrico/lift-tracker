@@ -1,4 +1,5 @@
 const express = require('express');
+const { version } = require('../package.json');
 const app = express();
 
 app.use(express.json());
@@ -8,7 +9,7 @@ app.use('/exercises', require('./routes/exercises'));
 app.use('/logs', require('./routes/logs'));
 app.use('/program', require('./routes/program'));
 
-app.get('/health', (req, res) => res.json({ status: 'ok' }));
+app.get('/health', (req, res) => res.json({ status: 'ok', version }));
 
 app.use((req, res) => res.status(404).json({ error: 'Not found' }));
 
