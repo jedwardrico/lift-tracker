@@ -12,6 +12,7 @@ import {
   PanResponder,
   Modal,
   Animated,
+  AppState,
   useWindowDimensions,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -83,6 +84,7 @@ export default function WorkoutScreen() {
   const [completedLogs, setCompletedLogs] = useState([]);
   const [timerSeconds, setTimerSeconds] = useState(0);
   const timerRef = useRef(null);
+  const startTimeRef = useRef(Date.now());
   const savedSetsMap = useRef({});
   const { width: screenWidth } = useWindowDimensions();
   // Horizontal offset of the exercise content, driven for the slide transition
@@ -131,8 +133,16 @@ export default function WorkoutScreen() {
   }, []);
 
   useEffect(() => {
-    timerRef.current = setInterval(() => setTimerSeconds((s) => s + 1), 1000);
-    return () => clearInterval(timerRef.current);
+    const tick = () =>
+      setTimerSeconds(Math.floor((Date.now() - startTimeRef.current) / 1000));
+    timerRef.current = setInterval(tick, 1000);
+    const appStateSub = AppState.addEventListener('change', (state) => {
+      if (state === 'active') tick();
+    });
+    return () => {
+      clearInterval(timerRef.current);
+      appStateSub.remove();
+    };
   }, []);
 
   const formatTimer = (s) => {
@@ -170,24 +180,28 @@ export default function WorkoutScreen() {
     );
   };
 
-  const prevReps = completedLogs.reduce(
-    (acc, log) =>
-      acc +
-      log.sets.reduce(
-        (a, s) => a + (s.completed ? parseInt(s.reps) || 0 : 0),
-        0
-      ),
-    0
-  );
-  const prevWeight = completedLogs.reduce(
-    (acc, log) =>
-      acc +
-      log.sets.reduce(
-        (a, s) => a + (s.completed ? parseFloat(s.weight) || 0 : 0),
-        0
-      ),
-    0
-  );
+  const prevReps = completedLogs
+    .filter((l) => l.exerciseIndex !== exerciseIndex)
+    .reduce(
+      (acc, log) =>
+        acc +
+        log.sets.reduce(
+          (a, s) => a + (s.completed ? parseInt(s.reps) || 0 : 0),
+          0
+        ),
+      0
+    );
+  const prevWeight = completedLogs
+    .filter((l) => l.exerciseIndex !== exerciseIndex)
+    .reduce(
+      (acc, log) =>
+        acc +
+        log.sets.reduce(
+          (a, s) => a + (s.completed ? parseFloat(s.weight) || 0 : 0),
+          0
+        ),
+      0
+    );
   const totalReps =
     prevReps +
     sets.reduce((acc, s) => acc + (s.completed ? parseInt(s.reps) || 0 : 0), 0);
@@ -318,6 +332,7 @@ export default function WorkoutScreen() {
           swap.body_part !== exercise.body_part);
       const effective = isRealSwap ? swap : exercise;
       const logEntry = {
+        exerciseIndex,
         exercise: {
           ...exercise, // keep slot id/order as the anchor for exercise_id
           body_part: effective.body_part,
@@ -336,7 +351,10 @@ export default function WorkoutScreen() {
       };
 
       if (!isLast) {
-        const updatedLogs = [...completedLogs, logEntry];
+        const updatedLogs = [
+          ...completedLogs.filter((l) => l.exerciseIndex !== exerciseIndex),
+          logEntry,
+        ];
         setCompletedLogs(updatedLogs);
         await AsyncStorage.setItem(
           WORKOUT_STORAGE_KEY,
@@ -349,7 +367,12 @@ export default function WorkoutScreen() {
       // Last exercise — post everything to the server now that the workout is done
       clearInterval(timerRef.current);
       const workoutDuration = timerSeconds;
-      const allLogs = [...completedLogs, logEntry];
+      const allLogs = [
+        ...completedLogs
+          .filter((l) => l.exerciseIndex !== exerciseIndex)
+          .sort((a, b) => a.exerciseIndex - b.exerciseIndex),
+        logEntry,
+      ];
 
       const savedIds = (
         await Promise.all(
