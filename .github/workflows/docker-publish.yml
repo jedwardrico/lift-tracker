@@ -17,12 +17,32 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Bump server version
+        id: version
+        run: |
+          npm version patch --no-git-tag-version
+          echo "value=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+        working-directory: server
+
+      - name: Commit version bump
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add server/package.json server/package-lock.json
+          git commit -m "chore: bump server version to ${{ steps.version.outputs.value }} [skip ci]"
+          git push
 
       - name: Log in to the Container registry
         uses: docker/login-action@v3
@@ -30,11 +50,6 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Read server version
-        id: version
-        run: echo "value=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
-        working-directory: server
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
