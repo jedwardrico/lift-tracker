@@ -25,7 +25,7 @@ const PROGRAMS = {
   // Pure Bodybuilding Phase 2 is a Pull/Push/Legs/Arms & Weak Points program.
   // Each PDF week contains two sub-weeks of exercises (A and B), which this
   // JSON splits into 20 separate program weeks, each laid out as:
-  // Mon = Pull, Tue = Push, Wed = Rest, Thu = Legs, Fri = Arms & Weak Points,
+  // Mon = Pull, Tue = Push, Wed = Cardio, Thu = Legs, Fri = Arms & Weak Points,
   // Sat = Rest, Sun = Rest.
   pure_bodybuilding_phase_2: {
     label: 'Pure Bodybuilding Phase 2',
