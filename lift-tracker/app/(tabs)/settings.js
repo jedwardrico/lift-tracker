@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
+  Modal,
+  FlatList,
 } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -47,10 +49,39 @@ function formatDateKey(dateKey) {
   return `${MONTHS[m - 1]} ${d}, ${y}`;
 }
 
+function toDateKey(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
+// Programs only ever start on a Monday, so the picker offers a range of
+// Mondays (past ones to correct/backdate a start, future ones to push it
+// out) instead of a full calendar.
+function mondayOptions(weeksBack = 8, weeksForward = 16) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const daysSinceMonday = (today.getDay() + 6) % 7; // Mon=0 .. Sun=6
+  const thisMonday = new Date(today);
+  thisMonday.setDate(today.getDate() - daysSinceMonday);
+
+  const keys = [];
+  for (let i = -weeksBack; i <= weeksForward; i++) {
+    const d = new Date(thisMonday);
+    d.setDate(thisMonday.getDate() + i * 7);
+    keys.push(toDateKey(d));
+  }
+  return keys;
+}
+
 export default function SettingsScreen() {
   const [state, setState] = useState(null);
   const [loading, setLoading] = useState(true);
   const [working, setWorking] = useState(false);
+  const [datePickerVisible, setDatePickerVisible] = useState(false);
+
+  const mondays = useMemo(() => mondayOptions(), []);
 
   const loadProgram = useCallback(() => {
     return fetch(`${BASE_URL}/program`)
@@ -156,6 +187,30 @@ export default function SettingsScreen() {
     );
   }, []);
 
+  const changeStartDate = useCallback(async (dateKey) => {
+    setDatePickerVisible(false);
+    setWorking(true);
+    try {
+      const res = await fetch(`${BASE_URL}/program/reschedule`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ start_date: dateKey }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || 'Failed to reschedule');
+      setState(json);
+    } catch (err) {
+      console.error('Failed to change start date:', err);
+      Alert.alert('Error', 'Could not change the start date.');
+    } finally {
+      setWorking(false);
+    }
+  }, []);
+
+  const startDate = state?.pending_program
+    ? state.pending_start_date
+    : state?.program_start_date;
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -238,6 +293,85 @@ export default function SettingsScreen() {
               </>
             )}
           </TouchableOpacity>
+
+          <Text style={styles.sectionLabel}>START DATE</Text>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => setDatePickerVisible(true)}
+            disabled={working}
+            activeOpacity={0.7}
+          >
+            <View style={styles.programRow}>
+              <View>
+                <Text style={styles.programName}>
+                  {formatDateKey(startDate)}
+                </Text>
+                <Text style={styles.startDateHint}>
+                  {state.pending_program
+                    ? 'Upcoming program starts this date'
+                    : 'Current program started this date'}
+                </Text>
+              </View>
+              <Ionicons
+                name="chevron-forward"
+                size={18}
+                color={COLORS.textMuted}
+              />
+            </View>
+          </TouchableOpacity>
+
+          <Modal
+            visible={datePickerVisible}
+            transparent
+            animationType="slide"
+            onRequestClose={() => setDatePickerVisible(false)}
+          >
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalSheet}>
+                <View style={styles.modalHeader}>
+                  <Text style={styles.modalTitle}>Start Date</Text>
+                  <TouchableOpacity
+                    onPress={() => setDatePickerVisible(false)}
+                    hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                  >
+                    <Ionicons name="close" size={22} color={COLORS.textMuted} />
+                  </TouchableOpacity>
+                </View>
+                <Text style={styles.modalSubtitle}>
+                  Programs always start on a Monday.
+                </Text>
+                <FlatList
+                  data={mondays}
+                  keyExtractor={(item) => item}
+                  style={styles.modalList}
+                  renderItem={({ item }) => {
+                    const selected = item === startDate;
+                    return (
+                      <TouchableOpacity
+                        style={[
+                          styles.modalRow,
+                          selected && styles.modalRowSelected,
+                        ]}
+                        onPress={() => changeStartDate(item)}
+                        activeOpacity={0.7}
+                      >
+                        <Text style={styles.modalRowText}>
+                          {formatDateKey(item)}
+                        </Text>
+                        {selected ? (
+                          <Ionicons
+                            name="checkmark"
+                            size={18}
+                            color={COLORS.accent}
+                          />
+                        ) : null}
+                      </TouchableOpacity>
+                    );
+                  }}
+                />
+              </View>
+            </View>
+          </Modal>
         </View>
       )}
     </SafeAreaView>
@@ -350,10 +484,64 @@ const styles = StyleSheet.create({
     borderColor: COLORS.border,
     borderRadius: 12,
     paddingVertical: 14,
+    marginBottom: 28,
   },
   restartBtnText: {
     color: COLORS.text,
     fontSize: 15,
     fontWeight: '700',
+  },
+  startDateHint: {
+    color: COLORS.textMuted,
+    fontSize: 12,
+    marginTop: 4,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0,0,0,0.6)',
+  },
+  modalSheet: {
+    backgroundColor: COLORS.surface,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    paddingTop: 16,
+    paddingHorizontal: 20,
+    maxHeight: '70%',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 4,
+  },
+  modalTitle: {
+    color: COLORS.text,
+    fontSize: 17,
+    fontWeight: '700',
+  },
+  modalSubtitle: {
+    color: COLORS.textMuted,
+    fontSize: 12,
+    marginBottom: 8,
+  },
+  modalList: {
+    marginBottom: 12,
+  },
+  modalRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 14,
+    borderTopWidth: 1,
+    borderTopColor: COLORS.border,
+  },
+  modalRowSelected: {
+    backgroundColor: COLORS.accentDim,
+  },
+  modalRowText: {
+    color: COLORS.text,
+    fontSize: 15,
+    fontWeight: '600',
   },
 });

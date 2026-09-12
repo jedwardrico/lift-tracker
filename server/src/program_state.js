@@ -117,6 +117,35 @@ function cancelPending(db) {
   return getProgramState(db);
 }
 
+function isMondayDateKey(dateStr) {
+  if (typeof dateStr !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+    return false;
+  }
+  const d = new Date(`${dateStr}T00:00:00`);
+  return !Number.isNaN(d.getTime()) && d.getDay() === 1;
+}
+
+// Changes the start date of whichever program hasn't started counting yet:
+// a staged switch/restart's pending_start_date if one exists, otherwise the
+// active program's own program_start_date. Both must land on a Monday, the
+// only day a program is ever allowed to start.
+function rescheduleStart(db, newDate) {
+  if (!isMondayDateKey(newDate)) {
+    throw new Error('Start date must be a Monday (YYYY-MM-DD)');
+  }
+  const state = getProgramState(db); // commit any switch whose date has already arrived
+  if (state.pending_program) {
+    db.prepare(
+      'UPDATE program_settings SET pending_start_date = ? WHERE id = 1'
+    ).run(newDate);
+  } else {
+    db.prepare(
+      'UPDATE program_settings SET program_start_date = ? WHERE id = 1'
+    ).run(newDate);
+  }
+  return getProgramState(db);
+}
+
 module.exports = {
   PROGRAMS,
   effectiveMonday,
@@ -124,4 +153,5 @@ module.exports = {
   switchProgram,
   restartProgram,
   cancelPending,
+  rescheduleStart,
 };
