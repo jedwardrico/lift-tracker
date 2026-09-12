@@ -27,8 +27,13 @@ jobs:
         run: npm install
         working-directory: lift-tracker
 
+      - name: Read app version
+        id: version
+        run: echo "value=$(node -p "require('./app.json').expo.version")" >> "$GITHUB_OUTPUT"
+        working-directory: lift-tracker
+
       - name: Publish EAS Update
-        run: npx eas-cli update --branch production --platform ios --message "Deploy ${{ github.sha }}"
+        run: npx eas-cli update --branch production --platform ios --message "v${{ steps.version.outputs.value }} (${{ github.sha }})"
         working-directory: lift-tracker
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
