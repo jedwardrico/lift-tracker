@@ -396,7 +396,9 @@ export default function SettingsScreen() {
             </View>
             <View style={[styles.programRow, styles.programRowBorder]}>
               <Text style={styles.programName}>Server Version</Text>
-              <Text style={styles.mutedText}>{serverVersion ?? 'Loading…'}</Text>
+              <Text style={styles.mutedText}>
+                {serverVersion ?? 'Loading…'}
+              </Text>
             </View>
           </View>
         </View>
