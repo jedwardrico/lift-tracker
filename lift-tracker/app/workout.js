@@ -13,6 +13,7 @@ import {
   Modal,
   Animated,
   AppState,
+  Alert,
   useWindowDimensions,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -407,10 +408,42 @@ export default function WorkoutScreen() {
     }
   };
 
+  // Checking off a set is how the app knows work actually happened on it —
+  // silently treating an unchecked set as done (or skipped) would let a
+  // stray tap through Next/Finish erase that signal without the user
+  // noticing. Confirming first costs one tap when it's intentional (a
+  // warm-up set, a set cut short) and catches it when it isn't.
   const handleNext = async () => {
     const isLast = exerciseIndex === exercises.length - 1;
     const localSets = [...sets];
 
+    if (exercise) {
+      const incompleteCount = localSets.filter((s) => !s.completed).length;
+      if (incompleteCount > 0) {
+        Alert.alert(
+          incompleteCount === 1
+            ? '1 set not checked off'
+            : `${incompleteCount} sets not checked off`,
+          isLast
+            ? "You're about to finish the workout without marking every set on this exercise complete."
+            : "You're about to move on without marking every set on this exercise complete.",
+          [
+            { text: 'Go back', style: 'cancel' },
+            {
+              text: isLast ? 'Finish anyway' : 'Continue anyway',
+              onPress: () => proceedNext(isLast, localSets),
+            },
+          ]
+        );
+        return;
+      }
+      await proceedNext(isLast, localSets);
+    } else if (!isLast) {
+      navigateTo(exerciseIndex + 1);
+    }
+  };
+
+  const proceedNext = async (isLast, localSets) => {
     if (exercise) {
       const allDone = localSets.every((s) => s.completed);
       setCompletedExercises((prev) => {
@@ -541,8 +574,6 @@ export default function WorkoutScreen() {
           totalWeight: workoutTotalWeight,
         },
       });
-    } else if (!isLast) {
-      navigateTo(exerciseIndex + 1);
     }
   };
 
