@@ -40,6 +40,26 @@ function parseSetsAndReps(exercise_description) {
   return { sets, rep_range };
 }
 
+// Generates the day's focus summary from its programmed exercises' body
+// parts, in first-appearance order (e.g. "Back, Biceps & Abs Day"). Rest
+// days get a fixed label instead.
+function focusSummaryFor(dayData) {
+  if (dayData.isRestDay) return 'Rest Day';
+
+  const bodyParts = [];
+  for (const exercise of dayData.exercises) {
+    if (!bodyParts.includes(exercise.body_part)) {
+      bodyParts.push(exercise.body_part);
+    }
+  }
+  if (bodyParts.length === 0) return null;
+  if (bodyParts.length === 1) return `${bodyParts[0]} Day`;
+
+  const last = bodyParts[bodyParts.length - 1];
+  const rest = bodyParts.slice(0, -1);
+  return `${rest.join(', ')} & ${last} Day`;
+}
+
 // Seeds a single program's weeks/days/exercises, upserting on every boot so a
 // content fix shipped in a new server version (a corrected description, a
 // reordered week, a rest day turned into a training day) actually takes
@@ -61,13 +81,13 @@ function seedProgram(db, programKey) {
     'INSERT INTO weeks (program, week_number) VALUES (?, ?)'
   );
   const findDay = db.prepare(
-    'SELECT id, is_rest_day FROM workout_days WHERE week_id = ? AND day_of_week = ?'
+    'SELECT id, is_rest_day, focus_summary FROM workout_days WHERE week_id = ? AND day_of_week = ?'
   );
   const insertDay = db.prepare(
-    'INSERT INTO workout_days (week_id, day_of_week, is_rest_day) VALUES (?, ?, ?)'
+    'INSERT INTO workout_days (week_id, day_of_week, is_rest_day, focus_summary) VALUES (?, ?, ?, ?)'
   );
   const updateDay = db.prepare(
-    'UPDATE workout_days SET is_rest_day = ? WHERE id = ?'
+    'UPDATE workout_days SET is_rest_day = ?, focus_summary = ? WHERE id = ?'
   );
   const findExercise = db.prepare(
     'SELECT id FROM exercises WHERE workout_day_id = ? AND order_num = ?'
@@ -93,15 +113,24 @@ function seedProgram(db, programKey) {
         if (!dayData) continue;
 
         const isRestDay = dayData.isRestDay ? 1 : 0;
+        const focusSummary = focusSummaryFor(dayData);
         const existingDay = findDay.get(weekId, day);
         let dayId;
         if (existingDay) {
           dayId = existingDay.id;
-          if (existingDay.is_rest_day !== isRestDay) {
-            updateDay.run(isRestDay, dayId);
+          if (
+            existingDay.is_rest_day !== isRestDay ||
+            existingDay.focus_summary !== focusSummary
+          ) {
+            updateDay.run(isRestDay, focusSummary, dayId);
           }
         } else {
-          dayId = insertDay.run(weekId, day, isRestDay).lastInsertRowid;
+          dayId = insertDay.run(
+            weekId,
+            day,
+            isRestDay,
+            focusSummary
+          ).lastInsertRowid;
         }
 
         for (const exercise of dayData.exercises) {
@@ -146,4 +175,9 @@ function seedAllPrograms(db) {
   }
 }
 
-module.exports = { seedProgram, seedAllPrograms, parseSetsAndReps };
+module.exports = {
+  seedProgram,
+  seedAllPrograms,
+  parseSetsAndReps,
+  focusSummaryFor,
+};

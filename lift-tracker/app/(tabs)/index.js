@@ -756,7 +756,7 @@ export default function HomeScreen() {
                 <View style={styles.descCard}>
                   <Text style={styles.descTitle}>Today's Focus</Text>
                   <Text style={styles.descBody}>
-                    {dayData?.description ??
+                    {dayData?.focus_summary ??
                       'Session notes and coach instructions will appear here once added to your program.'}
                   </Text>
                 </View>
