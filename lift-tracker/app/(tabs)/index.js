@@ -5,6 +5,7 @@ import {
   Text,
   StyleSheet,
   ScrollView,
+  RefreshControl,
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
@@ -190,7 +191,9 @@ export default function HomeScreen() {
   const [pendingWeeks, setPendingWeeks] = useState(null);
   const [weekData, setWeekData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [weekLoadError, setWeekLoadError] = useState(false);
   const [completedDates, setCompletedDates] = useState(new Set());
+  const [refreshing, setRefreshing] = useState(false);
 
   const programStart = programState
     ? parseDateKey(programState.program_start_date)
@@ -431,32 +434,58 @@ export default function HomeScreen() {
   ).current;
 
   // Load the dates of completed workouts so the strip can mark them green.
+  const loadCompletedDates = useCallback(() => {
+    return fetch(`${BASE_URL}/logs`)
+      .then((r) => r.json())
+      .then((logs) => {
+        if (!Array.isArray(logs)) return;
+        setCompletedDates(
+          new Set(logs.map((log) => log.logged_at.slice(0, 10)))
+        );
+      })
+      .catch((err) => console.error('Failed to load completed logs:', err));
+  }, []);
+
   // Runs on focus so a workout finished this session shows up on return.
   useFocusEffect(
     useCallback(() => {
-      fetch(`${BASE_URL}/logs`)
+      loadCompletedDates();
+    }, [loadCompletedDates])
+  );
+
+  const loadWeekData = useCallback(
+    (showSpinner = true) => {
+      if (!resolvedWeek) return Promise.resolve();
+      if (showSpinner) setLoading(true);
+      setWeekLoadError(false);
+      return fetch(
+        `${BASE_URL}/weeks/${resolvedWeek.weekNumber}?program=${resolvedWeek.program}`
+      )
         .then((r) => r.json())
-        .then((logs) => {
-          if (!Array.isArray(logs)) return;
-          setCompletedDates(
-            new Set(logs.map((log) => log.logged_at.slice(0, 10)))
-          );
+        .then((data) => setWeekData(data))
+        .catch((err) => {
+          console.error('Failed to load week:', err);
+          setWeekLoadError(true);
         })
-        .catch((err) => console.error('Failed to load completed logs:', err));
-    }, [])
+        .finally(() => setLoading(false));
+    },
+    [resolvedWeek?.program, resolvedWeek?.weekNumber]
   );
 
   useEffect(() => {
-    if (!resolvedWeek) return;
-    setLoading(true);
-    fetch(
-      `${BASE_URL}/weeks/${resolvedWeek.weekNumber}?program=${resolvedWeek.program}`
-    )
-      .then((r) => r.json())
-      .then((data) => setWeekData(data))
-      .catch((err) => console.error('Failed to load week:', err))
-      .finally(() => setLoading(false));
-  }, [resolvedWeek?.program, resolvedWeek?.weekNumber]);
+    loadWeekData();
+  }, [loadWeekData]);
+
+  // Pull-to-refresh on the day content: re-fetches this week's data and the
+  // completed-dates strip. Leaves /program alone — a pull gesture shouldn't
+  // reset which week/day is being browsed the way a program-change sync
+  // would (see the useFocusEffect above).
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    Promise.all([loadWeekData(false), loadCompletedDates()]).finally(() =>
+      setRefreshing(false)
+    );
+  }, [loadWeekData, loadCompletedDates]);
 
   if (!programStart) {
     return (
@@ -629,10 +658,28 @@ export default function HomeScreen() {
             style={styles.scroll}
             contentContainerStyle={styles.scrollContent}
             showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                tintColor={COLORS.textMuted}
+              />
+            }
           >
             {loading ? (
               <View style={styles.centeredMsg}>
                 <Text style={styles.mutedText}>Loading…</Text>
+              </View>
+            ) : weekLoadError ? (
+              <View style={styles.centeredMsg}>
+                <Text style={styles.restTitle}>Couldn't load this week</Text>
+                <Text style={styles.mutedText}>Check your connection</Text>
+                <TouchableOpacity
+                  style={styles.retryBtn}
+                  onPress={() => loadWeekData()}
+                >
+                  <Text style={styles.retryBtnText}>Retry</Text>
+                </TouchableOpacity>
               </View>
             ) : isRestDay ? (
               <View style={styles.centeredMsg}>
@@ -986,6 +1033,19 @@ const styles = StyleSheet.create({
   mutedText: {
     color: COLORS.textMuted,
     fontSize: 15,
+  },
+  retryBtn: {
+    marginTop: 12,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  retryBtnText: {
+    color: COLORS.text,
+    fontSize: 14,
+    fontWeight: '700',
   },
 
   // Program-complete takeover

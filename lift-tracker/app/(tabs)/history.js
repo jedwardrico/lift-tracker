@@ -5,6 +5,7 @@ import {
   Text,
   StyleSheet,
   ScrollView,
+  RefreshControl,
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
@@ -81,13 +82,19 @@ export default function HistoryScreen() {
   const router = useRouter();
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [loadError, setLoadError] = useState(false);
 
   const loadHistory = useCallback((showSpinner = true) => {
     if (showSpinner) setLoading(true);
+    setLoadError(false);
     return fetch(`${BASE_URL}/logs`)
       .then((r) => r.json())
       .then((data) => setSessions(groupByDate(data)))
-      .catch((err) => console.error('Failed to load history:', err))
+      .catch((err) => {
+        console.error('Failed to load history:', err);
+        setLoadError(true);
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -96,6 +103,11 @@ export default function HistoryScreen() {
       loadHistory();
     }, [loadHistory])
   );
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    loadHistory(false).finally(() => setRefreshing(false));
+  }, [loadHistory]);
 
   const deleteSession = useCallback(
     (date, logs) => {
@@ -139,10 +151,28 @@ export default function HistoryScreen() {
         style={styles.scroll}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor={COLORS.textMuted}
+          />
+        }
       >
         {loading ? (
           <View style={styles.centeredMsg}>
             <Text style={styles.mutedText}>Loading…</Text>
+          </View>
+        ) : loadError ? (
+          <View style={styles.centeredMsg}>
+            <Text style={styles.emptyTitle}>Couldn't load history</Text>
+            <Text style={styles.mutedText}>Check your connection</Text>
+            <TouchableOpacity
+              style={styles.retryBtn}
+              onPress={() => loadHistory()}
+            >
+              <Text style={styles.retryBtnText}>Retry</Text>
+            </TouchableOpacity>
           </View>
         ) : sessions.length === 0 ? (
           <View style={styles.centeredMsg}>
@@ -330,5 +360,18 @@ const styles = StyleSheet.create({
   mutedText: {
     color: COLORS.textMuted,
     fontSize: 15,
+  },
+  retryBtn: {
+    marginTop: 8,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  retryBtnText: {
+    color: COLORS.text,
+    fontSize: 14,
+    fontWeight: '700',
   },
 });
