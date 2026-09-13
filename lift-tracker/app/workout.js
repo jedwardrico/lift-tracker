@@ -165,10 +165,21 @@ export default function WorkoutScreen() {
   const slideX = useRef(new Animated.Value(0)).current;
   const isAnimating = useRef(false);
 
+  // Identifies which programmed session `workout_in_progress` belongs to, so
+  // stale progress from an abandoned workout never bleeds into a different
+  // one (e.g. reps/weight totals starting non-zero on a fresh workout).
+  const sessionKey = `${weekNumber}-${dayIndex}-${program ?? ''}`;
+
   useEffect(() => {
     AsyncStorage.getItem(WORKOUT_STORAGE_KEY)
       .then((val) => {
-        if (val) setCompletedLogs(JSON.parse(val));
+        if (!val) return;
+        const parsed = JSON.parse(val);
+        if (parsed?.sessionKey === sessionKey) {
+          setCompletedLogs(parsed.logs);
+        } else {
+          AsyncStorage.removeItem(WORKOUT_STORAGE_KEY).catch(() => {});
+        }
       })
       .catch(() => {});
   }, []);
@@ -551,7 +562,7 @@ export default function WorkoutScreen() {
         setCompletedLogs(updatedLogs);
         await AsyncStorage.setItem(
           WORKOUT_STORAGE_KEY,
-          JSON.stringify(updatedLogs)
+          JSON.stringify({ sessionKey, logs: updatedLogs })
         );
         navigateTo(exerciseIndex + 1);
         return;
