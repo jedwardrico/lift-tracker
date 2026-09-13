@@ -195,7 +195,13 @@ export default function HomeScreen() {
   const [working, setWorking] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [weekOffset, setWeekOffset] = useState(0);
-  const [availableWeeks, setAvailableWeeks] = useState([1]);
+  // Starts empty (not [1]) so weekOffsetBounds()'s !activeWeeks?.length guard
+  // makes the clamp effect below a no-op until the real /weeks list has
+  // loaded — otherwise that placeholder [1] gives a bogus {0, 0} bound that
+  // clamps weekOffset back to week 1 right after applyProgramState() lands
+  // it on today's real (often later) week, since /weeks resolves slightly
+  // after /program.
+  const [availableWeeks, setAvailableWeeks] = useState([]);
   // Week numbers of a staged switch/restart's own program, counted from its
   // own start date — null when nothing is pending. Lets swiping preview the
   // incoming program (see resolveWeekProgram) before the server auto-commits
