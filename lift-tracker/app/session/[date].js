@@ -5,9 +5,12 @@ import {
   Text,
   StyleSheet,
   ScrollView,
+  TextInput,
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -63,6 +66,9 @@ export default function SessionDetailScreen() {
   const router = useRouter();
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [editing, setEditing] = useState(false);
+  const [draftLogs, setDraftLogs] = useState([]);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     fetch(`${BASE_URL}/logs?date=${date}`)
@@ -71,6 +77,76 @@ export default function SessionDetailScreen() {
       .catch((err) => console.error('Failed to load session:', err))
       .finally(() => setLoading(false));
   }, [date]);
+
+  const startEditing = () => {
+    setDraftLogs(
+      logs.map((log) => ({ ...log, sets: log.sets.map((s) => ({ ...s })) }))
+    );
+    setEditing(true);
+  };
+
+  const cancelEditing = () => {
+    setEditing(false);
+    setDraftLogs([]);
+  };
+
+  const updateDraftSet = (logId, setId, field, value) => {
+    setDraftLogs((prev) =>
+      prev.map((log) =>
+        log.id !== logId
+          ? log
+          : {
+              ...log,
+              sets: log.sets.map((s) =>
+                s.id === setId ? { ...s, [field]: value } : s
+              ),
+            }
+      )
+    );
+  };
+
+  const saveEdits = async () => {
+    setSaving(true);
+    try {
+      const patches = [];
+      const savedLogs = draftLogs.map((log) => {
+        const original = logs.find((l) => l.id === log.id);
+        return {
+          ...log,
+          sets: log.sets.map((s) => {
+            const origSet = original?.sets.find((os) => os.id === s.id);
+            // A blank field is treated as "leave unchanged" rather than
+            // "clear" — the PATCH endpoint uses COALESCE for partial
+            // updates, which can't persist an explicit null over an
+            // existing value.
+            const repsStr = String(s.reps ?? '').trim();
+            const weightStr = String(s.weight ?? '').trim();
+            const reps = repsStr === '' ? origSet?.reps : parseInt(repsStr, 10);
+            const weight =
+              weightStr === '' ? origSet?.weight : parseFloat(weightStr);
+            if (reps !== origSet?.reps || weight !== origSet?.weight) {
+              patches.push(
+                fetch(`${BASE_URL}/logs/${log.id}/sets/${s.id}`, {
+                  method: 'PATCH',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ reps, weight }),
+                })
+              );
+            }
+            return { ...s, reps, weight };
+          }),
+        };
+      });
+      await Promise.all(patches);
+      setLogs(savedLogs);
+      setEditing(false);
+    } catch (err) {
+      console.error('Failed to save session edits:', err);
+      Alert.alert('Error', 'Could not save your changes.');
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const totalReps = logs.reduce(
     (acc, log) => acc + log.sets.reduce((a, s) => a + (s.reps || 0), 0),
@@ -90,11 +166,38 @@ export default function SessionDetailScreen() {
       <StatusBar barStyle="light-content" />
 
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={22} color={COLORS.text} />
+        <TouchableOpacity
+          style={styles.backBtn}
+          onPress={() => (editing ? cancelEditing() : router.back())}
+        >
+          <Ionicons
+            name={editing ? 'close' : 'arrow-back'}
+            size={22}
+            color={COLORS.text}
+          />
         </TouchableOpacity>
         <Text style={styles.headerDate}>{date ? formatDate(date) : ''}</Text>
-        <View style={{ width: 36 }} />
+        <TouchableOpacity
+          style={styles.backBtn}
+          onPress={editing ? saveEdits : startEditing}
+          disabled={saving || (!editing && logs.length === 0)}
+        >
+          {saving ? (
+            <ActivityIndicator size="small" color={COLORS.green} />
+          ) : (
+            <Ionicons
+              name={editing ? 'checkmark' : 'pencil'}
+              size={22}
+              color={
+                !editing && logs.length === 0
+                  ? COLORS.textDim
+                  : editing
+                    ? COLORS.green
+                    : COLORS.text
+              }
+            />
+          )}
+        </TouchableOpacity>
       </View>
 
       {!loading && logs.length > 0 && (
@@ -145,7 +248,7 @@ export default function SessionDetailScreen() {
             <Text style={styles.mutedText}>No data for this session</Text>
           </View>
         ) : (
-          logs.map((log) => (
+          (editing ? draftLogs : logs).map((log) => (
             <View key={log.id} style={styles.exerciseCard}>
               <Text style={styles.exerciseCategory}>{log.body_part}</Text>
               <Text style={styles.exerciseName}>{log.exercise_name}</Text>
@@ -167,12 +270,46 @@ export default function SessionDetailScreen() {
                   >
                     {s.set_number ?? i + 1}
                   </Text>
-                  <Text style={[styles.setCell, styles.setColData]}>
-                    {s.reps ?? '—'}
-                  </Text>
-                  <Text style={[styles.setCell, styles.setColData]}>
-                    {s.weight ? `${s.weight} ${s.weight_unit ?? 'lb'}` : '—'}
-                  </Text>
+                  {editing ? (
+                    <TextInput
+                      style={[
+                        styles.setCell,
+                        styles.setColData,
+                        styles.setInput,
+                      ]}
+                      value={s.reps != null ? String(s.reps) : ''}
+                      onChangeText={(v) =>
+                        updateDraftSet(log.id, s.id, 'reps', v)
+                      }
+                      keyboardType="numeric"
+                      keyboardAppearance="dark"
+                      selectTextOnFocus
+                    />
+                  ) : (
+                    <Text style={[styles.setCell, styles.setColData]}>
+                      {s.reps ?? '—'}
+                    </Text>
+                  )}
+                  {editing ? (
+                    <TextInput
+                      style={[
+                        styles.setCell,
+                        styles.setColData,
+                        styles.setInput,
+                      ]}
+                      value={s.weight != null ? String(s.weight) : ''}
+                      onChangeText={(v) =>
+                        updateDraftSet(log.id, s.id, 'weight', v)
+                      }
+                      keyboardType="numeric"
+                      keyboardAppearance="dark"
+                      selectTextOnFocus
+                    />
+                  ) : (
+                    <Text style={[styles.setCell, styles.setColData]}>
+                      {s.weight ? `${s.weight} ${s.weight_unit ?? 'lb'}` : '—'}
+                    </Text>
+                  )}
                 </View>
               ))}
             </View>
@@ -303,6 +440,14 @@ const styles = StyleSheet.create({
   setNumText: {
     color: COLORS.textDim,
     fontWeight: '600',
+  },
+  setInput: {
+    marginHorizontal: 4,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    borderRadius: 6,
+    backgroundColor: COLORS.surfaceHigh,
+    paddingVertical: 4,
   },
   centeredMsg: {
     paddingTop: 80,
