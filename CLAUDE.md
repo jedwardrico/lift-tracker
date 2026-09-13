@@ -1,3 +1,11 @@
+# Claude Code Behavior Rules
+
+## Subscription & 5-Hour Quota Constraints
+
+- **Mandatory Usage Check**: You MUST run the `/usage` or `/context` command before starting a heavy multi-file refactor task to verify session health.
+- **Quota Warnings**: If you detect that our chat history is nearing the auto-compact threshold, or if a single file read is going to ingest more than 30,000 tokens, you **MUST print a bold warning** to the terminal instructing the user to type `/compact` or `/clear` before proceeding.
+- **Efficiency Rule**: Provide incredibly concise code fixes. Never output conversational pleasantries, essay-long architecture summaries, or line-by-line file readouts unless explicitly asked.
+
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
@@ -66,6 +74,7 @@ A husky pre-commit hook runs `npm run lint && npm run format:check` inside `lift
 - `src/routes/*.js` — One file per resource (`weeks`, `exercises`, `logs`, `program`); route handlers talk to `better-sqlite3` directly with prepared statements, no ORM/query-builder layer.
 
 Key domain concepts:
+
 - **Program vs. week vs. day vs. exercise**: a program has many weeks, a week has many days (some `is_rest_day`), a day has many exercise slots. Exactly one program is "active"; switching stages a pending change rather than applying it immediately.
 - **Exercise swaps carry forward**: `GET /weeks/:n` and `GET /weeks/:n/days/:day` annotate an exercise with `carried_exercise` when an earlier week logged a swap (`swapped_exercise_id`) at the same day/slot — the substitution persists until swapped again, not just for the week it was logged.
 - **Exercise identity across weeks**: a program's exercise rows are per-week (a new `exercise_id` each week for "the same lift"), so matching "the same exercise last time" across weeks is done by `exercise_name`, not `exercise_id` (see `findPrevLog` in the app).
