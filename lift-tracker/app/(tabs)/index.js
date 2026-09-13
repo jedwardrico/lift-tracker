@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import {
   View,
   Text,
@@ -15,6 +15,7 @@ import {
   Dimensions,
   Alert,
   ActivityIndicator,
+  Modal,
 } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -194,6 +195,7 @@ export default function HomeScreen() {
   const [weekLoadError, setWeekLoadError] = useState(false);
   const [completedDates, setCompletedDates] = useState(new Set());
   const [refreshing, setRefreshing] = useState(false);
+  const [weekPickerVisible, setWeekPickerVisible] = useState(false);
 
   const programStart = programState
     ? parseDateKey(programState.program_start_date)
@@ -205,6 +207,25 @@ export default function HomeScreen() {
     ? resolveWeekProgram(programState, weekOffset)
     : null;
   const isCurrentWeek = weekOffset === currentOffset;
+
+  // Every week offset that can be jumped to directly from the month picker,
+  // rather than swiping one week at a time.
+  const weekPickerOptions = useMemo(() => {
+    if (!programStart) return [];
+    const bounds = weekOffsetBounds(programState, availableWeeks, pendingWeeks);
+    if (!bounds) return [];
+    const opts = [];
+    for (let offset = bounds.minOffset; offset <= bounds.maxOffset; offset++) {
+      const resolved = resolveWeekProgram(programState, offset);
+      opts.push({
+        offset,
+        weekNumber: resolved.weekNumber,
+        program: resolved.program,
+        start: getWeekDates(programStart, offset)[0],
+      });
+    }
+    return opts;
+  }, [programStart, programState, availableWeeks, pendingWeeks]);
 
   // Discover which program weeks exist so swiping can't run off the ends.
   // Also re-run after a switch/restart, since the new program can have a
@@ -596,7 +617,10 @@ export default function HomeScreen() {
 
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.monthPicker}>
+        <TouchableOpacity
+          style={styles.monthPicker}
+          onPress={() => setWeekPickerVisible(true)}
+        >
           <Text style={styles.monthText}>{monthLabel}</Text>
           <Text style={styles.chevron}>{'  ›'}</Text>
         </TouchableOpacity>
@@ -759,7 +783,16 @@ export default function HomeScreen() {
                               : null;
 
                         return (
-                          <View key={ex.id} style={styles.exerciseRow}>
+                          <TouchableOpacity
+                            key={ex.id}
+                            style={styles.exerciseRow}
+                            activeOpacity={0.7}
+                            onPress={() =>
+                              router.push(
+                                `/exercise/${encodeURIComponent(ex.exercise_name)}?bodyPart=${encodeURIComponent(section.bodyPart)}`
+                              )
+                            }
+                          >
                             <View style={styles.exerciseIcon}>
                               <Text style={styles.exerciseIconText}>
                                 {section.bodyPart.charAt(0).toUpperCase()}
@@ -773,7 +806,12 @@ export default function HomeScreen() {
                                 <Text style={styles.setsReps}>{setsReps}</Text>
                               )}
                             </View>
-                          </View>
+                            <Ionicons
+                              name="stats-chart"
+                              size={16}
+                              color={COLORS.textMuted}
+                            />
+                          </TouchableOpacity>
                         );
                       })}
                     </View>
@@ -785,6 +823,75 @@ export default function HomeScreen() {
           </ScrollView>
         </Animated.View>
       </View>
+
+      {/* Jump directly to any week, instead of swiping one at a time */}
+      <Modal
+        visible={weekPickerVisible}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setWeekPickerVisible(false)}
+      >
+        <View style={styles.weekModalOverlay}>
+          <View style={styles.weekModalSheet}>
+            <View style={styles.weekModalHeader}>
+              <Text style={styles.weekModalTitle}>Jump to Week</Text>
+              <TouchableOpacity
+                onPress={() => setWeekPickerVisible(false)}
+                hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              >
+                <Ionicons name="close" size={22} color={COLORS.textMuted} />
+              </TouchableOpacity>
+            </View>
+            <ScrollView
+              style={styles.weekModalList}
+              showsVerticalScrollIndicator={false}
+            >
+              {weekPickerOptions.map((opt) => {
+                const isSelected = opt.offset === weekOffset;
+                const programLabel =
+                  opt.program !== programState.active_program
+                    ? programState.available_programs.find(
+                        (p) => p.key === opt.program
+                      )?.label
+                    : null;
+                return (
+                  <TouchableOpacity
+                    key={opt.offset}
+                    style={[
+                      styles.weekModalRow,
+                      isSelected && styles.weekModalRowSelected,
+                    ]}
+                    onPress={() => {
+                      setWeekOffset(opt.offset);
+                      setWeekPickerVisible(false);
+                    }}
+                    activeOpacity={0.7}
+                  >
+                    <View>
+                      <Text style={styles.weekModalRowText}>
+                        Week {opt.weekNumber} · {MONTHS[opt.start.getMonth()]}{' '}
+                        {opt.start.getDate()}
+                      </Text>
+                      {programLabel ? (
+                        <Text style={styles.weekModalRowSub}>
+                          {programLabel}
+                        </Text>
+                      ) : null}
+                    </View>
+                    {isSelected ? (
+                      <Ionicons
+                        name="checkmark"
+                        size={18}
+                        color={COLORS.accent}
+                      />
+                    ) : null}
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -1129,5 +1236,55 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '700',
     letterSpacing: 0.5,
+  },
+
+  // Week jump picker
+  weekModalOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0,0,0,0.6)',
+  },
+  weekModalSheet: {
+    backgroundColor: COLORS.surface,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    paddingTop: 16,
+    paddingHorizontal: 20,
+    maxHeight: '70%',
+  },
+  weekModalHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  weekModalTitle: {
+    color: COLORS.text,
+    fontSize: 17,
+    fontWeight: '700',
+  },
+  weekModalList: {
+    marginBottom: 12,
+  },
+  weekModalRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 14,
+    borderTopWidth: 1,
+    borderTopColor: COLORS.border,
+  },
+  weekModalRowSelected: {
+    backgroundColor: COLORS.accentDim,
+  },
+  weekModalRowText: {
+    color: COLORS.text,
+    fontSize: 15,
+    fontWeight: '600',
+  },
+  weekModalRowSub: {
+    color: COLORS.textMuted,
+    fontSize: 12,
+    marginTop: 2,
   },
 });

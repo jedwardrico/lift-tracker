@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import {
   View,
   Text,
@@ -13,6 +13,7 @@ import {
   Modal,
   Animated,
   AppState,
+  Alert,
   useWindowDimensions,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -34,14 +35,69 @@ const COLORS = {
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000';
 const WORKOUT_STORAGE_KEY = 'workout_in_progress';
 
-function buildInitialSets(count, repRange) {
-  const reps = repRange ? repRange.split('-')[0] : '8';
-  return Array.from({ length: count || 2 }, (_, i) => ({
-    id: i + 1,
-    reps,
-    weight: '',
-    completed: false,
-  }));
+function buildInitialSets(count, repRange, prevSets) {
+  const fallbackReps = repRange ? repRange.split('-')[0] : '8';
+  return Array.from({ length: count || 2 }, (_, i) => {
+    const prev = prevSets?.[i];
+    return {
+      id: i + 1,
+      reps: prev?.reps != null ? String(prev.reps) : fallbackReps,
+      weight: prev?.weight != null ? String(prev.weight) : '',
+      completed: false,
+    };
+  });
+}
+
+// Finds the most recent completed log for the same real-world exercise,
+// matched by name rather than exercise_id — a program row's exercise_id is
+// scoped to one specific week, so the same lift recurs as a different row
+// every week. `logs` must already be sorted newest-first, as GET /logs
+// returns them.
+function findPrevLog(logs, exerciseName) {
+  if (!Array.isArray(logs) || !exerciseName) return null;
+  const name = exerciseName.trim().toLowerCase();
+  return (
+    logs.find((l) => (l.exercise_name || '').trim().toLowerCase() === name) ??
+    null
+  );
+}
+
+function prevSetsFromLog(log) {
+  if (!log) return null;
+  return [...log.sets]
+    .sort((a, b) => a.set_number - b.set_number)
+    .map((s) => ({ reps: s.reps, weight: s.weight }));
+}
+
+const SHORT_MONTHS = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
+
+function formatShortDate(isoString) {
+  const d = new Date(isoString);
+  return `${SHORT_MONTHS[d.getMonth()]} ${d.getDate()}`;
+}
+
+function formatPrevSummary(prevSets) {
+  if (!prevSets?.length) return '';
+  return prevSets
+    .map((s) =>
+      s.weight != null
+        ? `${s.weight}×${s.reps ?? '—'}`
+        : `${s.reps ?? '—'} reps`
+    )
+    .join(', ');
 }
 
 // Resolve the day the user picked on the home screen. `dayIndex` is Mon(0)…
@@ -82,6 +138,10 @@ export default function WorkoutScreen() {
   const [swapSearch, setSwapSearch] = useState('');
   const [catalog, setCatalog] = useState([]);
   const [completedLogs, setCompletedLogs] = useState([]);
+  // All completed logs across every exercise/week, fetched once up front so
+  // "last time" lookups (by exercise name) can happen synchronously while
+  // navigating between exercises — see findPrevLog.
+  const [allLogs, setAllLogs] = useState([]);
   const [timerSeconds, setTimerSeconds] = useState(0);
   const timerRef = useRef(null);
   const startTimeRef = useRef(Date.now());
@@ -108,15 +168,20 @@ export default function WorkoutScreen() {
     const url = program
       ? `${BASE_URL}/weeks/${weekNumber || 1}?program=${program}`
       : `${BASE_URL}/weeks/${weekNumber || 1}`;
-    fetch(url)
-      .then((r) => r.json())
-      .then((data) => {
+    Promise.all([
+      fetch(url).then((r) => r.json()),
+      // Fetched once up front (not per-exercise) so navigating between
+      // exercises can look up prior sets synchronously, with no risk of a
+      // slow request landing after the user has already started editing.
+      fetch(`${BASE_URL}/logs`)
+        .then((r) => r.json())
+        .catch(() => []),
+    ])
+      .then(([data, logs]) => {
         setWeekData(data);
+        setAllLogs(Array.isArray(logs) ? logs : []);
         const activeDay = resolveActiveDay(data, dayIndex);
         const firstExercise = activeDay?.exercises?.[0];
-        if (firstExercise) {
-          setSets(buildInitialSets(firstExercise.sets, firstExercise.reps));
-        }
         // Carry forward a swap made in an earlier week: the server sends
         // carried_exercise (a full exercise row) only when a prior week's
         // logged exercise at the same slot differs from this week's program.
@@ -126,6 +191,14 @@ export default function WorkoutScreen() {
           if (ex.carried_exercise) seeded[i] = ex.carried_exercise;
         });
         if (Object.keys(seeded).length > 0) setOverrides(seeded);
+        if (firstExercise) {
+          const effectiveName =
+            seeded[0]?.exercise_name ?? firstExercise.exercise_name;
+          const prevSets = prevSetsFromLog(findPrevLog(logs, effectiveName));
+          setSets(
+            buildInitialSets(firstExercise.sets, firstExercise.reps, prevSets)
+          );
+        }
       })
       .catch((err) => console.error('Failed to load week:', err))
       .finally(() => setLoading(false));
@@ -229,16 +302,35 @@ export default function WorkoutScreen() {
   const exerciseName = displayExercise?.exercise_name ?? '';
   const exerciseCategory = displayExercise?.body_part ?? '';
 
+  // Reference for "last time" — always tracks whichever exercise is
+  // currently displayed, including a mid-session swap, since progress is
+  // measured against the specific lift being performed, not the program
+  // slot. Doesn't retroactively rewrite the sets the user is filling in —
+  // see swapExercise's comment on why swapping keeps the slot's sets as-is.
+  const prevLog = useMemo(
+    () => findPrevLog(allLogs, exerciseName),
+    [allLogs, exerciseName]
+  );
+  const prevSets = useMemo(() => prevSetsFromLog(prevLog), [prevLog]);
+
   // Swap the on-screen exercise, sliding the old content off and the new
   // content in from the direction of travel. Forward (higher index) slides out
   // to the left and in from the right; back does the reverse.
   const swapExercise = (targetIndex) => {
     savedSetsMap.current[exerciseIndex] = sets;
     const targetExercise = exercises[targetIndex];
-    setSets(
-      savedSetsMap.current[targetIndex] ??
-        buildInitialSets(targetExercise.sets, targetExercise.reps)
-    );
+    let nextSets = savedSetsMap.current[targetIndex];
+    if (!nextSets) {
+      const effectiveName =
+        overrides[targetIndex]?.exercise_name ?? targetExercise.exercise_name;
+      const prevSets = prevSetsFromLog(findPrevLog(allLogs, effectiveName));
+      nextSets = buildInitialSets(
+        targetExercise.sets,
+        targetExercise.reps,
+        prevSets
+      );
+    }
+    setSets(nextSets);
     setNote('');
     setSwapModalVisible(false);
     setExerciseIndex(targetIndex);
@@ -316,10 +408,42 @@ export default function WorkoutScreen() {
     }
   };
 
+  // Checking off a set is how the app knows work actually happened on it —
+  // silently treating an unchecked set as done (or skipped) would let a
+  // stray tap through Next/Finish erase that signal without the user
+  // noticing. Confirming first costs one tap when it's intentional (a
+  // warm-up set, a set cut short) and catches it when it isn't.
   const handleNext = async () => {
     const isLast = exerciseIndex === exercises.length - 1;
     const localSets = [...sets];
 
+    if (exercise) {
+      const incompleteCount = localSets.filter((s) => !s.completed).length;
+      if (incompleteCount > 0) {
+        Alert.alert(
+          incompleteCount === 1
+            ? '1 set not checked off'
+            : `${incompleteCount} sets not checked off`,
+          isLast
+            ? "You're about to finish the workout without marking every set on this exercise complete."
+            : "You're about to move on without marking every set on this exercise complete.",
+          [
+            { text: 'Go back', style: 'cancel' },
+            {
+              text: isLast ? 'Finish anyway' : 'Continue anyway',
+              onPress: () => proceedNext(isLast, localSets),
+            },
+          ]
+        );
+        return;
+      }
+      await proceedNext(isLast, localSets);
+    } else if (!isLast) {
+      navigateTo(exerciseIndex + 1);
+    }
+  };
+
+  const proceedNext = async (isLast, localSets) => {
     if (exercise) {
       const allDone = localSets.every((s) => s.completed);
       setCompletedExercises((prev) => {
@@ -450,8 +574,6 @@ export default function WorkoutScreen() {
           totalWeight: workoutTotalWeight,
         },
       });
-    } else if (!isLast) {
-      navigateTo(exerciseIndex + 1);
     }
   };
 
@@ -603,6 +725,21 @@ export default function WorkoutScreen() {
                     RPE {displayExercise.rpe}
                   </Text>
                 ) : null}
+              </View>
+            ) : null}
+
+            {/* Last time reference */}
+            {prevLog ? (
+              <View style={styles.prevRow}>
+                <Ionicons
+                  name="time-outline"
+                  size={13}
+                  color={COLORS.textDim}
+                />
+                <Text style={styles.prevText}>
+                  Last time ({formatShortDate(prevLog.logged_at)}):{' '}
+                  {formatPrevSummary(prevSets)}
+                </Text>
               </View>
             ) : null}
 
@@ -1004,6 +1141,17 @@ const styles = StyleSheet.create({
     color: COLORS.textMuted,
     fontSize: 14,
     lineHeight: 22,
+  },
+  prevRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 16,
+    paddingBottom: 10,
+  },
+  prevText: {
+    color: COLORS.textDim,
+    fontSize: 13,
   },
   setsTable: {
     paddingHorizontal: 16,
