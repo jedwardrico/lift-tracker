@@ -712,7 +712,16 @@ export default function HomeScreen() {
                               : null;
 
                         return (
-                          <View key={ex.id} style={styles.exerciseRow}>
+                          <TouchableOpacity
+                            key={ex.id}
+                            style={styles.exerciseRow}
+                            activeOpacity={0.7}
+                            onPress={() =>
+                              router.push(
+                                `/exercise/${encodeURIComponent(ex.exercise_name)}?bodyPart=${encodeURIComponent(section.bodyPart)}`
+                              )
+                            }
+                          >
                             <View style={styles.exerciseIcon}>
                               <Text style={styles.exerciseIconText}>
                                 {section.bodyPart.charAt(0).toUpperCase()}
@@ -726,7 +735,12 @@ export default function HomeScreen() {
                                 <Text style={styles.setsReps}>{setsReps}</Text>
                               )}
                             </View>
-                          </View>
+                            <Ionicons
+                              name="stats-chart"
+                              size={16}
+                              color={COLORS.textMuted}
+                            />
+                          </TouchableOpacity>
                         );
                       })}
                     </View>
