@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Haptics from 'expo-haptics';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import {
   View,
@@ -245,6 +246,10 @@ export default function WorkoutScreen() {
   };
 
   const toggleComplete = (id) => {
+    const set = sets.find((s) => s.id === id);
+    if (set && !set.completed) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    }
     setSets((prev) =>
       prev.map((s) => (s.id === id ? { ...s, completed: !s.completed } : s))
     );
@@ -565,6 +570,7 @@ export default function WorkoutScreen() {
         0
       );
 
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       router.replace({
         pathname: '/complete',
         params: {
