@@ -40,6 +40,7 @@ function getDb() {
     addCycleStartedAtColumn(db);
     addFocusSummaryColumnToWorkoutDays(db);
     seedDefaultProgramSettings(db);
+    fixLegacySundayStartDate(db);
     seedAllPrograms(db);
   }
   return db;
@@ -93,6 +94,20 @@ function seedDefaultProgramSettings(db) {
     `INSERT INTO program_settings (id, active_program, program_start_date, cycle_started_at, pending_program, pending_start_date)
      VALUES (1, 'creeping_death_ii', ?, ?, NULL, NULL)`
   ).run(startDate, `${startDate} 00:00:00`);
+}
+
+// Databases created before program_start_date was enforced to always be a
+// Monday (see effectiveMonday()/isMondayDateKey()) got seeded with
+// '2026-09-06', a Sunday, left over from the app's old PROGRAM_START
+// constant. The client now assumes program_start_date is always a Monday,
+// so shift that one known-bad value forward a day to the real Monday.
+// No-op once corrected (or on a database that never had it).
+function fixLegacySundayStartDate(db) {
+  db.prepare(
+    `UPDATE program_settings
+     SET program_start_date = '2026-09-07', cycle_started_at = '2026-09-07 00:00:00'
+     WHERE id = 1 AND program_start_date = '2026-09-06'`
+  ).run();
 }
 
 // Older databases predate cycle_started_at. Backfill it from
