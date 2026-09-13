@@ -1,9 +1,5 @@
 # Claude Code Behavior Rules
 
-## Subscription & 5-Hour Quota Constraints
-
-- **Mandatory Usage Check**: You MUST run the `/usage` or `/context` command before starting a heavy multi-file refactor task to verify session health.
-- **Quota Warnings**: If you detect that our chat history is nearing the auto-compact threshold, or if a single file read is going to ingest more than 30,000 tokens, you **MUST print a bold warning** to the terminal instructing the user to type `/compact` or `/clear` before proceeding.
 - **Efficiency Rule**: Provide incredibly concise code fixes. Never output conversational pleasantries, essay-long architecture summaries, or line-by-line file readouts unless explicitly asked.
 
 # CLAUDE.md
