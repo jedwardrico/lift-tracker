@@ -2,6 +2,7 @@ const Database = require('better-sqlite3');
 const path = require('path');
 const fs = require('fs');
 const { seedAllPrograms } = require('./seed_program');
+const { effectiveMonday } = require('./program_state');
 
 const DB_PATH = path.join(__dirname, '..', 'db', 'gamma_bomb.sqlite');
 const SCHEMA_PATH =
@@ -78,20 +79,20 @@ function addProgramColumnToWeeks(db) {
   db.pragma('foreign_keys = ON');
 }
 
-// Seeds the singleton program_settings row on first boot, preserving the
-// program/date that was previously hardcoded (creeping_death_ii, anchored to
-// the app's old PROGRAM_START constant) so existing installs don't jump to a
-// different week. No-op once the row exists.
+// Seeds the singleton program_settings row on first boot, defaulting to
+// creeping_death_ii starting this coming Monday (today, if today already is
+// one). No-op once the row exists.
 function seedDefaultProgramSettings(db) {
   const existing = db
     .prepare('SELECT COUNT(*) AS c FROM program_settings')
     .get();
   if (existing.c > 0) return;
 
+  const startDate = effectiveMonday();
   db.prepare(
     `INSERT INTO program_settings (id, active_program, program_start_date, cycle_started_at, pending_program, pending_start_date)
-     VALUES (1, 'creeping_death_ii', '2026-09-06', '2026-09-06 00:00:00', NULL, NULL)`
-  ).run();
+     VALUES (1, 'creeping_death_ii', ?, ?, NULL, NULL)`
+  ).run(startDate, `${startDate} 00:00:00`);
 }
 
 // Older databases predate cycle_started_at. Backfill it from

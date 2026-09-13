@@ -60,10 +60,9 @@ const MONTHS = [
 ];
 
 // Program week 1 is anchored to whatever date the server reports as the
-// active program's start (see the `/program` fetch below) — this always
-// falls on a Monday, except for the one program active before this
-// per-program start date existed. The display week runs Sun–Sat; server
-// days are stored Mon–Sun so serverDayIdx() maps between them.
+// active program's start (see the `/program` fetch below) — always a
+// Monday. The display week runs Sun–Sat; server days are stored Mon–Sun
+// so serverDayIdx() maps between them.
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
