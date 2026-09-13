@@ -77,6 +77,18 @@ function formatDateKey(dateKey) {
   return `${MONTHS[m - 1]} ${d}, ${y}`;
 }
 
+// programState.program_start_date from the server is always a Monday, but
+// the display week runs Sun–Sat (see serverDayIdx() below) — shift back a
+// day to the Sunday that actually begins the display week. Without this,
+// currentWeekOffset()/todayDayIndex() undercount by a week specifically on
+// Sundays, since that's the only day floor(diff/7) differs between the two.
+function displayWeekStart(programStartDateKey) {
+  const monday = parseDateKey(programStartDateKey);
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() - 1);
+  return sunday;
+}
+
 // Whole days between the program start and today (can be negative before start).
 function daysSinceStart(programStart) {
   const start = new Date(programStart);
@@ -198,7 +210,7 @@ export default function HomeScreen() {
   const [weekPickerVisible, setWeekPickerVisible] = useState(false);
 
   const programStart = programState
-    ? parseDateKey(programState.program_start_date)
+    ? displayWeekStart(programState.program_start_date)
     : null;
   const currentOffset = programStart ? currentWeekOffset(programStart) : 0;
   const todayIdx = programStart ? todayDayIndex(programStart) : 0;
@@ -262,7 +274,7 @@ export default function HomeScreen() {
   const applyProgramState = useCallback((data) => {
     if (!data?.program_start_date) return;
     setProgramState(data);
-    const start = parseDateKey(data.program_start_date);
+    const start = displayWeekStart(data.program_start_date);
     setWeekOffset(currentWeekOffset(start));
     setSelectedIdx(todayDayIndex(start));
   }, []);
