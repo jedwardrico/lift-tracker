@@ -1,0 +1,24 @@
+# For running the pre-built server image on the NAS (or any host that isn't
+# building from source) — see docker-compose.yml for the local-dev variant
+# that builds from ./server instead.
+services:
+  lift-tracker-server:
+    image: ghcr.io/jedwardrico/lift-tracker/server:latest
+    container_name: lift-tracker-server
+    # Makes `docker compose up -d` always re-pull `latest` first, so a
+    # manual redeploy doesn't silently reuse a stale cached image while
+    # waiting on Watchtower's own poll interval.
+    pull_policy: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - db_data:/app/db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  db_data:
