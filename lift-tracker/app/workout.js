@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Haptics from 'expo-haptics';
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import {
   View,
   Text,
@@ -15,6 +15,7 @@ import {
   Animated,
   AppState,
   Alert,
+  Vibration,
   useWindowDimensions,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -35,6 +36,10 @@ const COLORS = {
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000';
 const WORKOUT_STORAGE_KEY = 'workout_in_progress';
+const REST_DURATION_KEY = 'rest_timer_duration';
+// 0 means "off" — completing a set won't auto-start a rest countdown.
+const REST_DURATION_OPTIONS = [0, 30, 60, 90, 120, 180];
+const DEFAULT_REST_DURATION = 90;
 
 function buildInitialSets(count, repRange, prevSets) {
   const fallbackReps = repRange ? repRange.split('-')[0] : '8';
@@ -147,6 +152,13 @@ export default function WorkoutScreen() {
   const timerRef = useRef(null);
   const startTimeRef = useRef(Date.now());
   const savedSetsMap = useRef({});
+  // Rest countdown, auto-started when a set is marked complete. `restDuration`
+  // is the remembered preference (0 = off); `restRemaining` is null while no
+  // countdown is running.
+  const [restDuration, setRestDuration] = useState(DEFAULT_REST_DURATION);
+  const [restRemaining, setRestRemaining] = useState(null);
+  const [restPickerVisible, setRestPickerVisible] = useState(false);
+  const restIntervalRef = useRef(null);
   const { width: screenWidth } = useWindowDimensions();
   // Horizontal offset of the exercise content, driven for the slide transition
   // between exercises. Sits at 0 while an exercise is on screen.
@@ -160,6 +172,48 @@ export default function WorkoutScreen() {
       })
       .catch(() => {});
   }, []);
+
+  useEffect(() => {
+    AsyncStorage.getItem(REST_DURATION_KEY)
+      .then((val) => {
+        if (val != null) setRestDuration(parseInt(val, 10));
+      })
+      .catch(() => {});
+  }, []);
+
+  // Counts a rest period down to zero, vibrating once it ends. Restarting
+  // (e.g. completing another set mid-rest) replaces whatever was running.
+  const startRest = useCallback((duration) => {
+    clearInterval(restIntervalRef.current);
+    if (!duration) return;
+    setRestRemaining(duration);
+    restIntervalRef.current = setInterval(() => {
+      setRestRemaining((prev) => {
+        if (prev == null || prev <= 1) {
+          clearInterval(restIntervalRef.current);
+          if (prev != null) Vibration.vibrate();
+          return null;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  }, []);
+
+  const stopRest = useCallback(() => {
+    clearInterval(restIntervalRef.current);
+    setRestRemaining(null);
+  }, []);
+
+  useEffect(() => () => clearInterval(restIntervalRef.current), []);
+
+  const chooseRestDuration = (duration) => {
+    setRestDuration(duration);
+    setRestPickerVisible(false);
+    AsyncStorage.setItem(REST_DURATION_KEY, String(duration)).catch(() => {});
+    // Picking a duration also starts (or stops, for "Off") a countdown right
+    // away, so the same control doubles as a manual "start rest now" button.
+    startRest(duration);
+  };
 
   useEffect(() => {
     // Home passes along which program governs this week — it may be a staged
@@ -247,12 +301,14 @@ export default function WorkoutScreen() {
 
   const toggleComplete = (id) => {
     const set = sets.find((s) => s.id === id);
-    if (set && !set.completed) {
+    const willComplete = set ? !set.completed : false;
+    if (willComplete) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
     setSets((prev) =>
       prev.map((s) => (s.id === id ? { ...s, completed: !s.completed } : s))
     );
+    if (willComplete) startRest(restDuration);
   };
 
   const updateReps = (id, val) => {
@@ -343,6 +399,7 @@ export default function WorkoutScreen() {
 
   const navigateTo = (targetIndex) => {
     if (isAnimating.current || targetIndex === exerciseIndex) return;
+    stopRest();
     const direction = targetIndex > exerciseIndex ? 1 : -1;
     isAnimating.current = true;
     Animated.timing(slideX, {
@@ -502,6 +559,7 @@ export default function WorkoutScreen() {
 
       // Last exercise — post everything to the server now that the workout is done
       clearInterval(timerRef.current);
+      clearInterval(restIntervalRef.current);
       const workoutDuration = timerSeconds;
       const allLogs = [
         ...completedLogs
@@ -868,9 +926,27 @@ export default function WorkoutScreen() {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navCenter}>
-          <Ionicons name="timer-outline" size={20} color={COLORS.blue} />
-          <Text style={styles.navCenterText}>Select Timer</Text>
+        <TouchableOpacity
+          style={styles.navCenter}
+          onPress={() =>
+            restRemaining != null ? stopRest() : setRestPickerVisible(true)
+          }
+        >
+          <Ionicons
+            name={restRemaining != null ? 'timer' : 'timer-outline'}
+            size={20}
+            color={restRemaining != null ? COLORS.yellow : COLORS.blue}
+          />
+          <Text
+            style={[
+              styles.navCenterText,
+              restRemaining != null && { color: COLORS.yellow },
+            ]}
+          >
+            {restRemaining != null
+              ? `${formatTimer(restRemaining)} · tap to skip`
+              : 'Rest Timer'}
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.navBtn} onPress={handleNext}>
@@ -1013,6 +1089,41 @@ export default function WorkoutScreen() {
             </ScrollView>
           </View>
         </View>
+      </Modal>
+
+      {/* Rest timer duration picker */}
+      <Modal
+        visible={restPickerVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setRestPickerVisible(false)}
+      >
+        <TouchableOpacity
+          style={styles.restModalOverlay}
+          activeOpacity={1}
+          onPress={() => setRestPickerVisible(false)}
+        >
+          <View style={styles.restModalCard}>
+            <Text style={styles.modalTitle}>Rest Timer</Text>
+            <Text style={styles.modalHint}>
+              Starts automatically when you check off a set.
+            </Text>
+            {REST_DURATION_OPTIONS.map((duration) => (
+              <TouchableOpacity
+                key={duration}
+                style={styles.restOptionRow}
+                onPress={() => chooseRestDuration(duration)}
+              >
+                <Text style={styles.restOptionText}>
+                  {duration === 0 ? 'Off' : `${duration}s`}
+                </Text>
+                {duration === restDuration ? (
+                  <Ionicons name="checkmark" size={18} color={COLORS.green} />
+                ) : null}
+              </TouchableOpacity>
+            ))}
+          </View>
+        </TouchableOpacity>
       </Modal>
     </SafeAreaView>
   );
@@ -1386,5 +1497,34 @@ const styles = StyleSheet.create({
     color: COLORS.textMuted,
     fontSize: 13,
     marginTop: 2,
+  },
+  restModalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  restModalCard: {
+    width: '78%',
+    backgroundColor: COLORS.surface,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    paddingHorizontal: 16,
+    paddingTop: 18,
+    paddingBottom: 8,
+  },
+  restOptionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 14,
+    borderTopWidth: 1,
+    borderTopColor: COLORS.border,
+  },
+  restOptionText: {
+    color: COLORS.text,
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
