@@ -27,7 +27,11 @@ CREATE TABLE IF NOT EXISTS workout_days (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   week_id INTEGER NOT NULL REFERENCES weeks(id),
   day_of_week TEXT NOT NULL CHECK(day_of_week IN ('monday','tuesday','wednesday','thursday','friday','saturday','sunday')),
-  is_rest_day INTEGER NOT NULL DEFAULT 0
+  is_rest_day INTEGER NOT NULL DEFAULT 0,
+  -- Generated from the day's exercises (see focusSummaryFor in
+  -- seed_program.js), e.g. "Back, Biceps & Abs Day" or "Rest Day".
+  -- Re-derived on every seed so it stays in sync with program content fixes.
+  focus_summary TEXT
 );
 
 -- workout_day_id / order_num are nullable: exercises created by the user in-app

@@ -37,6 +37,7 @@ function getDb() {
     renameExerciseColumns(db);
     addProgramColumnToWeeks(db);
     addCycleStartedAtColumn(db);
+    addFocusSummaryColumnToWorkoutDays(db);
     seedDefaultProgramSettings(db);
     seedAllPrograms(db);
   }
@@ -150,6 +151,16 @@ function relaxExerciseSlotColumns(db) {
     }
   })();
   db.pragma('foreign_keys = ON');
+}
+
+// Older databases predate focus_summary. seedAllPrograms backfills the actual
+// values for every program day right after this runs, so the column just
+// needs to exist. No-op once the column exists.
+function addFocusSummaryColumnToWorkoutDays(db) {
+  const cols = db.prepare('PRAGMA table_info(workout_days)').all();
+  if (cols.find((c) => c.name === 'focus_summary')) return;
+
+  db.exec('ALTER TABLE workout_days ADD COLUMN focus_summary TEXT');
 }
 
 // Renames title→body_part, subtitle→exercise_name, body→exercise_description

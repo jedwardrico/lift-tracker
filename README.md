@@ -100,6 +100,14 @@ Each exercise includes:
 
 A program exercise can be swapped out for a session; `GET /weeks/:n` and `GET /weeks/:n/days/:day` annotate each exercise with `carried_exercise` when an earlier week logged a swap at that same day/slot, so the substitution carries forward until swapped again.
 
+### Day fields
+
+Each day (in a week's `days` array, or from `GET /weeks/:n/days/:day`) includes:
+
+- `is_rest_day` — whether the day is a rest day
+- `focus_summary` — generated from the day's exercises' body parts, e.g. `"Back, Biceps & Abs Day"`, or `"Rest Day"` for a rest day
+- `exercises` — the day's exercises (empty on a rest day)
+
 ### Logging a session
 
 ```bash
