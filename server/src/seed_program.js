@@ -40,10 +40,18 @@ function parseSetsAndReps(exercise_description) {
   return { sets, rep_range };
 }
 
-// Generates the day's focus summary from its programmed exercises' body
+// A program's day JSON can author its own focus_summary directly (used by
+// Pure Bodybuilding Phase 2, whose summaries are hand-written from each
+// workout's actual exercise content rather than derived from body parts).
+// Programs that don't set it fall back to the generated one below.
+function focusSummaryFor(dayData) {
+  return dayData.focus_summary ?? generateFocusSummary(dayData);
+}
+
+// Generates a day's focus summary from its programmed exercises' body
 // parts, in first-appearance order (e.g. "Back, Biceps & Abs Day"). Rest
 // days get a fixed label instead.
-function focusSummaryFor(dayData) {
+function generateFocusSummary(dayData) {
   if (dayData.isRestDay) return 'Rest Day';
 
   const bodyParts = [];
