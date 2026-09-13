@@ -268,6 +268,8 @@ export default function SettingsScreen() {
           <View style={styles.card}>
             {state.available_programs.map((program, i) => {
               const isActive = program.key === state.active_program;
+              const isScheduled =
+                !isActive && program.key === state.pending_program;
               return (
                 <TouchableOpacity
                   key={program.key}
@@ -280,6 +282,10 @@ export default function SettingsScreen() {
                   {isActive ? (
                     <View style={styles.activeBadge}>
                       <Text style={styles.activeBadgeText}>ACTIVE</Text>
+                    </View>
+                  ) : isScheduled ? (
+                    <View style={styles.scheduledBadge}>
+                      <Text style={styles.scheduledBadgeText}>SCHEDULED</Text>
                     </View>
                   ) : (
                     <Ionicons
@@ -499,6 +505,18 @@ const styles = StyleSheet.create({
   },
   activeBadgeText: {
     color: COLORS.green,
+    fontSize: 11,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+  },
+  scheduledBadge: {
+    backgroundColor: COLORS.accentDim,
+    borderRadius: 6,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  scheduledBadgeText: {
+    color: COLORS.accent,
     fontSize: 11,
     fontWeight: '700',
     letterSpacing: 0.5,
