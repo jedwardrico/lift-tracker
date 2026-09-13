@@ -170,7 +170,6 @@ export default function WorkoutScreen() {
         }
       })
       .catch(() => {});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
