@@ -263,14 +263,30 @@ export default function HomeScreen() {
     if (!data?.program_start_date) return;
     setProgramState(data);
     const start = parseDateKey(data.program_start_date);
-    setWeekOffset(currentWeekOffset(start));
-    setSelectedIdx(todayDayIndex(start));
+    const offset = currentWeekOffset(start);
+    const idx = todayDayIndex(start);
+    setWeekOffset(offset);
+    setSelectedIdx(idx);
+    todayPositionRef.current = { offset, idx };
   }, []);
 
   // Keep the latest programState in a ref so the focus-sync effect below can
   // compare against it without needing to be recreated on every fetch.
   const programStateRef = useRef(programState);
   programStateRef.current = programState;
+
+  // Keep mutable refs so the focus-sync effect below always sees the latest
+  // browsing position without needing to be recreated on every fetch.
+  const selectedIdxRef = useRef(selectedIdx);
+  selectedIdxRef.current = selectedIdx;
+  const weekOffsetRef = useRef(weekOffset);
+  weekOffsetRef.current = weekOffset;
+
+  // The offset/idx that represented "today" as of the last time it was
+  // computed (on mount, or the last time this effect snapped to it) — lets
+  // the focus effect below tell whether the calendar day has rolled forward
+  // since, not just whether the program itself changed.
+  const todayPositionRef = useRef({ offset: currentOffset, idx: todayIdx });
 
   // Re-checks /program every time this screen gains focus (including on
   // mount). The server auto-commits a staged switch/restart once its
@@ -279,8 +295,11 @@ export default function HomeScreen() {
   // Settings and coming back, or simply because that Monday has now passed.
   // When the active program (or its start date) actually changed, snap the
   // view back to today under the new program instead of continuing to browse
-  // stale week numbers against it; otherwise leave the current browsing
-  // position alone.
+  // stale week numbers against it. Otherwise the program itself is unchanged,
+  // but the calendar may still have moved on since we last computed "today"
+  // (e.g. the app was simply reopened a day later) — in that case, snap
+  // forward too, but only if the view was still sitting on the old "today"
+  // (so deliberately browsing a different week isn't disturbed).
   useFocusEffect(
     useCallback(() => {
       fetch(`${BASE_URL}/program`)
@@ -295,6 +314,20 @@ export default function HomeScreen() {
             applyProgramState(data);
           } else {
             setProgramState(data);
+            const start = parseDateKey(data.program_start_date);
+            const freshOffset = currentWeekOffset(start);
+            const freshIdx = todayDayIndex(start);
+            const wasOnToday =
+              weekOffsetRef.current === todayPositionRef.current.offset &&
+              selectedIdxRef.current === todayPositionRef.current.idx;
+            const todayMoved =
+              freshOffset !== todayPositionRef.current.offset ||
+              freshIdx !== todayPositionRef.current.idx;
+            if (wasOnToday && todayMoved) {
+              setWeekOffset(freshOffset);
+              setSelectedIdx(freshIdx);
+            }
+            todayPositionRef.current = { offset: freshOffset, idx: freshIdx };
           }
           // Always refresh, not just when the active program changed: a
           // pending switch/restart can be staged or cancelled without
@@ -349,13 +382,6 @@ export default function HomeScreen() {
   weeksRef.current = availableWeeks;
   const pendingWeeksRef = useRef(pendingWeeks);
   pendingWeeksRef.current = pendingWeeks;
-
-  // Keep mutable refs so the once-created content PanResponder always sees
-  // the latest selectedIdx and weekOffset without stale closures.
-  const selectedIdxRef = useRef(selectedIdx);
-  selectedIdxRef.current = selectedIdx;
-  const weekOffsetRef = useRef(weekOffset);
-  weekOffsetRef.current = weekOffset;
 
   const slideAnim = useRef(new Animated.Value(0)).current;
   const SLIDE_WIDTH = Dimensions.get('window').width;
