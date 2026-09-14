@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Haptics from 'expo-haptics';
+import * as Notifications from 'expo-notifications';
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import {
   View,
@@ -15,11 +16,24 @@ import {
   Animated,
   AppState,
   Alert,
+  Platform,
   Vibration,
   useWindowDimensions,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter, useLocalSearchParams } from 'expo-router';
+
+// Scheduled (not just shown while foregrounded) so the alert still arrives if
+// the app is backgrounded — the JS countdown interval driving `restRemaining`
+// is paused/killed in that case and can't be relied on to fire it.
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowBanner: true,
+    shouldShowList: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 const COLORS = {
   bg: '#0a0a0a',
@@ -159,6 +173,7 @@ export default function WorkoutScreen() {
   const [restRemaining, setRestRemaining] = useState(null);
   const [restPickerVisible, setRestPickerVisible] = useState(false);
   const restIntervalRef = useRef(null);
+  const restNotificationIdRef = useRef(null);
   const { width: screenWidth } = useWindowDimensions();
   // Horizontal offset of the exercise content, driven for the slide transition
   // between exercises. Sits at 0 while an exercise is on screen.
@@ -192,30 +207,75 @@ export default function WorkoutScreen() {
       .catch(() => {});
   }, []);
 
-  // Counts a rest period down to zero, vibrating once it ends. Restarting
-  // (e.g. completing another set mid-rest) replaces whatever was running.
-  const startRest = useCallback((duration) => {
-    clearInterval(restIntervalRef.current);
-    if (!duration) return;
-    setRestRemaining(duration);
-    restIntervalRef.current = setInterval(() => {
-      setRestRemaining((prev) => {
-        if (prev == null || prev <= 1) {
-          clearInterval(restIntervalRef.current);
-          if (prev != null) Vibration.vibrate();
-          return null;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+  useEffect(() => {
+    Notifications.requestPermissionsAsync().catch(() => {});
+    if (Platform.OS === 'android') {
+      Notifications.setNotificationChannelAsync('rest-timer', {
+        name: 'Rest timer',
+        importance: Notifications.AndroidImportance.HIGH,
+      }).catch(() => {});
+    }
   }, []);
+
+  const cancelRestNotification = useCallback(() => {
+    const id = restNotificationIdRef.current;
+    if (!id) return;
+    restNotificationIdRef.current = null;
+    Notifications.cancelScheduledNotificationAsync(id).catch(() => {});
+  }, []);
+
+  // Counts a rest period down to zero, vibrating once it ends. Restarting
+  // (e.g. completing another set mid-rest) replaces whatever was running. A
+  // matching local notification is scheduled alongside so rest end is still
+  // announced if the app gets backgrounded (the countdown interval isn't
+  // guaranteed to keep running then).
+  const startRest = useCallback(
+    (duration) => {
+      clearInterval(restIntervalRef.current);
+      cancelRestNotification();
+      if (!duration) return;
+      setRestRemaining(duration);
+      Notifications.scheduleNotificationAsync({
+        content: {
+          title: 'Rest complete',
+          body: 'Time for your next set.',
+          ...(Platform.OS === 'android' && { channelId: 'rest-timer' }),
+        },
+        trigger: {
+          type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+          seconds: duration,
+        },
+      })
+        .then((id) => {
+          restNotificationIdRef.current = id;
+        })
+        .catch(() => {});
+      restIntervalRef.current = setInterval(() => {
+        setRestRemaining((prev) => {
+          if (prev == null || prev <= 1) {
+            clearInterval(restIntervalRef.current);
+            if (prev != null) Vibration.vibrate();
+            return null;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    },
+    [cancelRestNotification]
+  );
 
   const stopRest = useCallback(() => {
     clearInterval(restIntervalRef.current);
+    cancelRestNotification();
     setRestRemaining(null);
-  }, []);
+  }, [cancelRestNotification]);
 
-  useEffect(() => () => clearInterval(restIntervalRef.current), []);
+  useEffect(() => {
+    return () => {
+      clearInterval(restIntervalRef.current);
+      cancelRestNotification();
+    };
+  }, [cancelRestNotification]);
 
   const chooseRestDuration = (duration) => {
     setRestDuration(duration);
