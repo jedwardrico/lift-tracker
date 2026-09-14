@@ -33,6 +33,9 @@ function getDb() {
         'ALTER TABLE workout_logs ADD COLUMN swapped_exercise_id INTEGER REFERENCES exercises(id)'
       );
     }
+    if (!cols.find((c) => c.name === 'difficulty')) {
+      db.exec('ALTER TABLE workout_logs ADD COLUMN difficulty INTEGER');
+    }
 
     relaxExerciseSlotColumns(db);
     renameExerciseColumns(db);
