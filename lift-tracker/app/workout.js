@@ -42,7 +42,7 @@ const REST_DURATION_OPTIONS = [0, 30, 60, 90, 120, 180];
 const DEFAULT_REST_DURATION = 90;
 
 function buildInitialSets(count, repRange, prevSets) {
-  const fallbackReps = repRange ? repRange.split('-')[0] : '8';
+  const fallbackReps = repRange ? repRange.split('-').pop() : '8';
   return Array.from({ length: count || 2 }, (_, i) => {
     const prev = prevSets?.[i];
     return {
@@ -275,7 +275,11 @@ export default function WorkoutScreen() {
             seeded[0]?.exercise_name ?? firstExercise.exercise_name;
           const prevSets = prevSetsFromLog(findPrevLog(logs, effectiveName));
           setSets(
-            buildInitialSets(firstExercise.sets, firstExercise.reps, prevSets)
+            buildInitialSets(
+              firstExercise.sets,
+              firstExercise.rep_range,
+              prevSets
+            )
           );
         }
       })
@@ -448,7 +452,7 @@ export default function WorkoutScreen() {
       const prevSets = prevSetsFromLog(findPrevLog(allLogs, effectiveName));
       nextSets = buildInitialSets(
         targetExercise.sets,
-        targetExercise.reps,
+        targetExercise.rep_range,
         prevSets
       );
     }
@@ -834,11 +838,11 @@ export default function WorkoutScreen() {
             </View>
 
             {/* Exercise parameters */}
-            {displayExercise?.reps || displayExercise?.rpe ? (
+            {displayExercise?.rep_range || displayExercise?.rpe ? (
               <View style={styles.paramsBlock}>
-                {displayExercise.reps ? (
+                {displayExercise.rep_range ? (
                   <Text style={styles.paramText}>
-                    Reps {displayExercise.reps}
+                    Reps {displayExercise.rep_range}
                   </Text>
                 ) : null}
                 {displayExercise.rpe != null ? (
