@@ -90,6 +90,30 @@ export default function SessionDetailScreen() {
     setDraftLogs([]);
   };
 
+  const deleteExercise = (log) => {
+    Alert.alert(
+      'Delete Exercise',
+      `Remove ${log.exercise_name} from this session? This cannot be undone.`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await fetch(`${BASE_URL}/logs/${log.id}`, { method: 'DELETE' });
+              setLogs((prev) => prev.filter((l) => l.id !== log.id));
+              setDraftLogs((prev) => prev.filter((l) => l.id !== log.id));
+            } catch (err) {
+              console.error('Failed to delete exercise:', err);
+              Alert.alert('Error', 'Could not delete this exercise.');
+            }
+          },
+        },
+      ]
+    );
+  };
+
   const updateDraftSet = (logId, setId, field, value) => {
     setDraftLogs((prev) =>
       prev.map((log) =>
@@ -251,8 +275,25 @@ export default function SessionDetailScreen() {
         ) : (
           (editing ? draftLogs : logs).map((log) => (
             <View key={log.id} style={styles.exerciseCard}>
-              <Text style={styles.exerciseCategory}>{log.body_part}</Text>
-              <Text style={styles.exerciseName}>{log.exercise_name}</Text>
+              <View style={styles.exerciseCardHeader}>
+                <View style={styles.exerciseCardHeaderText}>
+                  <Text style={styles.exerciseCategory}>{log.body_part}</Text>
+                  <Text style={styles.exerciseName}>{log.exercise_name}</Text>
+                </View>
+                {editing && (
+                  <TouchableOpacity
+                    style={styles.deleteBtn}
+                    onPress={() => deleteExercise(log)}
+                    hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                  >
+                    <Ionicons
+                      name="trash-outline"
+                      size={18}
+                      color={COLORS.textMuted}
+                    />
+                  </TouchableOpacity>
+                )}
+              </View>
 
               <View style={styles.setsHeader}>
                 <Text style={[styles.setCol, styles.setColNum]}>Set</Text>
@@ -393,6 +434,18 @@ const styles = StyleSheet.create({
     borderColor: COLORS.border,
     padding: 16,
     marginBottom: 10,
+  },
+  exerciseCardHeader: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+  },
+  exerciseCardHeaderText: {
+    flex: 1,
+  },
+  deleteBtn: {
+    padding: 4,
+    marginLeft: 8,
   },
   exerciseCategory: {
     color: COLORS.textMuted,
