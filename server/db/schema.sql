@@ -56,6 +56,9 @@ CREATE TABLE IF NOT EXISTS workout_logs (
   logged_at TEXT NOT NULL DEFAULT (datetime('now')),
   completed INTEGER NOT NULL DEFAULT 0,
   duration_seconds INTEGER,
+  -- Perceived effort/difficulty of the workout session, 1-10. Only ever set
+  -- on the final log of a session (same one that carries duration_seconds).
+  difficulty INTEGER,
   -- When the user swaps this slot for another exercise, the log keeps
   -- exercise_id as the programmed slot anchor (preserving day/order for
   -- carry-forward) and records the exercise actually performed here.

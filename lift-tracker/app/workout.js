@@ -713,34 +713,36 @@ export default function WorkoutScreen() {
         logEntry,
       ];
 
-      const savedIds = (
-        await Promise.all(
-          allLogs.map((log, i) =>
-            fetch(`${BASE_URL}/logs`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                exercise_id: log.exercise.id,
-                swapped_exercise_id: log.swappedExerciseId ?? undefined,
-                // Record the full workout duration on the final log
-                duration_seconds:
-                  i === allLogs.length - 1 ? workoutDuration : undefined,
-                sets: log.sets.map((s) => ({
-                  set_number: s.set_number,
-                  reps: s.reps,
-                  weight: s.weight,
-                })),
-              }),
+      const savedResults = await Promise.all(
+        allLogs.map((log, i) =>
+          fetch(`${BASE_URL}/logs`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              exercise_id: log.exercise.id,
+              swapped_exercise_id: log.swappedExerciseId ?? undefined,
+              // Record the full workout duration on the final log
+              duration_seconds:
+                i === allLogs.length - 1 ? workoutDuration : undefined,
+              sets: log.sets.map((s) => ({
+                set_number: s.set_number,
+                reps: s.reps,
+                weight: s.weight,
+              })),
+            }),
+          })
+            .then((r) => r.json())
+            .then((data) => data.id ?? null)
+            .catch((err) => {
+              console.error('Failed to log exercise:', err);
+              return null;
             })
-              .then((r) => r.json())
-              .then((data) => data.id ?? null)
-              .catch((err) => {
-                console.error('Failed to log exercise:', err);
-                return null;
-              })
-          )
         )
-      ).filter(Boolean);
+      );
+      // The last entry carries the workout's duration_seconds; the complete
+      // screen edits duration/difficulty on it directly by id.
+      const workoutLogId = savedResults[savedResults.length - 1];
+      const savedIds = savedResults.filter(Boolean);
 
       await Promise.all(
         savedIds.map((id) =>
@@ -778,6 +780,7 @@ export default function WorkoutScreen() {
         pathname: '/complete',
         params: {
           elapsed: timerSeconds,
+          logId: workoutLogId ?? '',
           logs: JSON.stringify(allLogs),
           totalReps: workoutTotalReps,
           totalWeight: workoutTotalWeight,

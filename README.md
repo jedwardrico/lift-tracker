@@ -123,7 +123,7 @@ POST /logs
 }
 ```
 
-`logged_at` defaults to now (ISO 8601). `weight_unit` defaults to `"lbs"`. Pass `swapped_exercise_id` instead of logging against the programmed `exercise_id` directly to record a swap.
+`logged_at` defaults to now (ISO 8601). `weight_unit` defaults to `"lbs"`. Pass `swapped_exercise_id` instead of logging against the programmed `exercise_id` directly to record a swap. `duration_seconds` and `difficulty` (perceived effort, 1-10) describe the whole session and are only set on one log per workout — the app sets both on the final log after the user edits them on the completion screen.
 
 ---
 

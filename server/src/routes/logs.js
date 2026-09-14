@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
 
   let query = `
     SELECT wl.id, wl.exercise_id, wl.logged_at, wl.completed, wl.duration_seconds,
-           wl.swapped_exercise_id,
+           wl.difficulty, wl.swapped_exercise_id,
            COALESCE(se.body_part, e.body_part) AS body_part,
            COALESCE(se.exercise_name, e.exercise_name) AS exercise_name
     FROM workout_logs wl
@@ -50,7 +50,7 @@ router.get('/', (req, res) => {
 });
 
 // POST /logs — create a log with sets inline
-// Body: { exercise_id, logged_at?, completed?, duration_seconds?, swapped_exercise_id?, sets: [{ set_number, reps, weight, weight_unit? }] }
+// Body: { exercise_id, logged_at?, completed?, duration_seconds?, difficulty?, swapped_exercise_id?, sets: [{ set_number, reps, weight, weight_unit? }] }
 router.post('/', (req, res) => {
   const db = getDb();
   const {
@@ -58,12 +58,21 @@ router.post('/', (req, res) => {
     logged_at,
     completed = 0,
     duration_seconds,
+    difficulty,
     swapped_exercise_id,
     sets = [],
   } = req.body;
 
   if (!exercise_id)
     return res.status(400).json({ error: 'exercise_id is required' });
+
+  if (
+    difficulty != null &&
+    (!Number.isInteger(difficulty) || difficulty < 1 || difficulty > 10)
+  )
+    return res
+      .status(400)
+      .json({ error: 'difficulty must be an integer between 1 and 10' });
 
   const exercise = db
     .prepare('SELECT id FROM exercises WHERE id = ?')
@@ -79,7 +88,7 @@ router.post('/', (req, res) => {
   }
 
   const insertLog = db.prepare(
-    'INSERT INTO workout_logs (exercise_id, logged_at, completed, duration_seconds, swapped_exercise_id) VALUES (?, ?, ?, ?, ?)'
+    'INSERT INTO workout_logs (exercise_id, logged_at, completed, duration_seconds, difficulty, swapped_exercise_id) VALUES (?, ?, ?, ?, ?, ?)'
   );
   const insertSet = db.prepare(
     'INSERT INTO sets (workout_log_id, set_number, reps, weight, weight_unit) VALUES (?, ?, ?, ?, ?)'
@@ -91,6 +100,7 @@ router.post('/', (req, res) => {
       logged_at ?? new Date().toISOString(),
       completed ? 1 : 0,
       duration_seconds ?? null,
+      difficulty ?? null,
       swapped_exercise_id ?? null
     );
     const logId = result.lastInsertRowid;
@@ -119,7 +129,7 @@ router.get('/:id', (req, res) => {
 });
 
 // PUT /logs/:id — update logged_at or replace sets
-// Body: { logged_at?, completed?, duration_seconds?, sets? }
+// Body: { logged_at?, completed?, duration_seconds?, difficulty?, sets? }
 router.put('/:id', (req, res) => {
   const db = getDb();
   const existing = db
@@ -127,7 +137,16 @@ router.put('/:id', (req, res) => {
     .get(req.params.id);
   if (!existing) return res.status(404).json({ error: 'Log not found' });
 
-  const { logged_at, completed, duration_seconds, sets } = req.body;
+  const { logged_at, completed, duration_seconds, difficulty, sets } = req.body;
+
+  if (
+    difficulty !== undefined &&
+    difficulty !== null &&
+    (!Number.isInteger(difficulty) || difficulty < 1 || difficulty > 10)
+  )
+    return res
+      .status(400)
+      .json({ error: 'difficulty must be an integer between 1 and 10' });
 
   const update = db.transaction(() => {
     if (logged_at !== undefined) {
@@ -146,6 +165,12 @@ router.put('/:id', (req, res) => {
       db.prepare(
         'UPDATE workout_logs SET duration_seconds = ? WHERE id = ?'
       ).run(duration_seconds ?? null, req.params.id);
+    }
+    if (difficulty !== undefined) {
+      db.prepare('UPDATE workout_logs SET difficulty = ? WHERE id = ?').run(
+        difficulty ?? null,
+        req.params.id
+      );
     }
     if (sets !== undefined) {
       db.prepare('DELETE FROM sets WHERE workout_log_id = ?').run(
