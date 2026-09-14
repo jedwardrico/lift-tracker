@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   View,
   Text,
@@ -34,6 +35,9 @@ const COLORS = {
 };
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000';
+// Must match workout.js's WORKOUT_STORAGE_KEY — this screen only reads it, to
+// offer resuming a workout left in progress; workout.js owns writing/clearing it.
+const WORKOUT_STORAGE_KEY = 'workout_in_progress';
 
 const API_DAYS = [
   'sunday',
@@ -112,6 +116,13 @@ function todayDayIndex(programStart) {
 // This maps a display index to its position in the server's days array.
 function serverDayIdx(displayIdx) {
   return (displayIdx + 6) % 7;
+}
+
+// Inverse of serverDayIdx — a stored in-progress workout keeps the server's
+// Mon(0)…Sun(6) index, so this maps it back to the Sun(0)…Sat(6) index used
+// to label it for display.
+function displayDayIdx(serverIdx) {
+  return (serverIdx + 1) % 7;
 }
 
 // Local YYYY-MM-DD key for a Date, used to match calendar days against the
@@ -213,6 +224,10 @@ export default function HomeScreen() {
   const [completedDates, setCompletedDates] = useState(new Set());
   const [refreshing, setRefreshing] = useState(false);
   const [weekPickerVisible, setWeekPickerVisible] = useState(false);
+  // A workout left mid-way (e.g. exited to this screen) rather than finished
+  // or replaced by starting a different one — see workout.js, which owns
+  // this storage entry. Null when no workout is in progress.
+  const [inProgressWorkout, setInProgressWorkout] = useState(null);
 
   const programStart = programState
     ? displayWeekStart(programState.program_start_date)
@@ -517,6 +532,16 @@ export default function HomeScreen() {
     }, [loadCompletedDates])
   );
 
+  // Re-checks on every focus so returning from Home after exiting a workout
+  // (or finishing/starting a different one) reflects the current state.
+  useFocusEffect(
+    useCallback(() => {
+      AsyncStorage.getItem(WORKOUT_STORAGE_KEY)
+        .then((val) => setInProgressWorkout(val ? JSON.parse(val) : null))
+        .catch(() => setInProgressWorkout(null));
+    }, [])
+  );
+
   const loadWeekData = useCallback(
     (showSpinner = true) => {
       if (!resolvedWeek) return Promise.resolve();
@@ -640,6 +665,16 @@ export default function HomeScreen() {
   const isRestDay = dayData?.is_rest_day ?? false;
   const exercises = dayData?.exercises ?? [];
 
+  // Whether the workout in progress (if any) is for the day currently being
+  // viewed — lets the Start Workout button itself offer to resume instead of
+  // needing a separate banner for this one case.
+  const isResumingSelectedDay =
+    !!inProgressWorkout &&
+    !!resolvedWeek &&
+    Number(inProgressWorkout.weekNumber) === resolvedWeek.weekNumber &&
+    (inProgressWorkout.program ?? null) === (resolvedWeek.program ?? null) &&
+    Number(inProgressWorkout.dayIndex) === serverDayIdx(selectedIdx);
+
   // Bunch consecutive exercises that share a body part into the same
   // section, without reordering — a day can interleave body parts (e.g.
   // push/pull/arms), so grouping globally by body part would scramble the
@@ -677,6 +712,36 @@ export default function HomeScreen() {
           <Text style={styles.todayBtnText}>TODAY</Text>
         </TouchableOpacity>
       </View>
+
+      {/* Resume banner — only for a workout in progress on a day other than
+          the one currently viewed; viewing that day itself resumes via the
+          Start Workout button below (see isResumingSelectedDay). */}
+      {inProgressWorkout && !isResumingSelectedDay ? (
+        <TouchableOpacity
+          style={styles.resumeBanner}
+          activeOpacity={0.85}
+          onPress={() =>
+            router.push({
+              pathname: '/workout',
+              params: {
+                week: inProgressWorkout.weekNumber,
+                program: inProgressWorkout.program ?? undefined,
+                day: inProgressWorkout.dayIndex,
+              },
+            })
+          }
+        >
+          <Ionicons name="play-circle" size={18} color={COLORS.accent} />
+          <Text style={styles.resumeBannerText}>
+            Resume workout · Week {inProgressWorkout.weekNumber} ·{' '}
+            {API_DAYS[displayDayIdx(inProgressWorkout.dayIndex)]
+              .charAt(0)
+              .toUpperCase() +
+              API_DAYS[displayDayIdx(inProgressWorkout.dayIndex)].slice(1)}
+          </Text>
+          <Ionicons name="chevron-forward" size={16} color={COLORS.accent} />
+        </TouchableOpacity>
+      ) : null}
 
       {/* Week day strip (swipe left/right to change weeks) */}
       <View style={styles.weekStrip} {...panResponder.panHandlers}>
@@ -792,7 +857,9 @@ export default function HomeScreen() {
                   }
                   activeOpacity={0.85}
                 >
-                  <Text style={styles.startBtnText}>Start Workout</Text>
+                  <Text style={styles.startBtnText}>
+                    {isResumingSelectedDay ? 'Resume Workout' : 'Start Workout'}
+                  </Text>
                 </TouchableOpacity>
 
                 {/* Day description */}
@@ -982,6 +1049,25 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '700',
     letterSpacing: 1,
+  },
+
+  // Resume-workout banner
+  resumeBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: COLORS.accentDim,
+    marginHorizontal: 20,
+    marginBottom: 12,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+  },
+  resumeBannerText: {
+    flex: 1,
+    color: COLORS.text,
+    fontSize: 13,
+    fontWeight: '600',
   },
 
   // Week strip
