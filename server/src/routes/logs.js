@@ -15,11 +15,11 @@ function getLogWithSets(db, logId) {
 // Optional query param: ?date=YYYY-MM-DD
 router.get('/', (req, res) => {
   const db = getDb();
-  const { date } = req.query;
+  const { date, session_id } = req.query;
 
   let query = `
     SELECT wl.id, wl.exercise_id, wl.logged_at, wl.completed, wl.duration_seconds,
-           wl.difficulty, wl.swapped_exercise_id,
+           wl.difficulty, wl.swapped_exercise_id, wl.session_id,
            COALESCE(se.body_part, e.body_part) AS body_part,
            COALESCE(se.exercise_name, e.exercise_name) AS exercise_name
     FROM workout_logs wl
@@ -29,7 +29,10 @@ router.get('/', (req, res) => {
   `;
   const params = [];
 
-  if (date) {
+  if (session_id) {
+    query += ` AND wl.session_id = ?`;
+    params.push(session_id);
+  } else if (date) {
     query += ` AND date(wl.logged_at) = date(?)`;
     params.push(date);
   }
@@ -60,6 +63,7 @@ router.post('/', (req, res) => {
     duration_seconds,
     difficulty,
     swapped_exercise_id,
+    session_id,
     sets = [],
   } = req.body;
 
@@ -88,7 +92,7 @@ router.post('/', (req, res) => {
   }
 
   const insertLog = db.prepare(
-    'INSERT INTO workout_logs (exercise_id, logged_at, completed, duration_seconds, difficulty, swapped_exercise_id) VALUES (?, ?, ?, ?, ?, ?)'
+    'INSERT INTO workout_logs (exercise_id, logged_at, completed, duration_seconds, difficulty, swapped_exercise_id, session_id) VALUES (?, ?, ?, ?, ?, ?, ?)'
   );
   const insertSet = db.prepare(
     'INSERT INTO sets (workout_log_id, set_number, reps, weight, weight_unit) VALUES (?, ?, ?, ?, ?)'
@@ -101,7 +105,8 @@ router.post('/', (req, res) => {
       completed ? 1 : 0,
       duration_seconds ?? null,
       difficulty ?? null,
-      swapped_exercise_id ?? null
+      swapped_exercise_id ?? null,
+      session_id ?? null
     );
     const logId = result.lastInsertRowid;
     for (const s of sets) {

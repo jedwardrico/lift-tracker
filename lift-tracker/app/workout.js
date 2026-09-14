@@ -720,6 +720,9 @@ export default function WorkoutScreen() {
           .sort((a, b) => a.exerciseIndex - b.exerciseIndex),
         logEntry,
       ];
+      // Shared across every log from this workout so history can tell two
+      // separate workouts logged on the same calendar day apart.
+      const sessionId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
       const savedResults = await Promise.all(
         allLogs.map((log, i) =>
@@ -729,6 +732,7 @@ export default function WorkoutScreen() {
             body: JSON.stringify({
               exercise_id: log.exercise.id,
               swapped_exercise_id: log.swappedExerciseId ?? undefined,
+              session_id: sessionId,
               // Record the full workout duration on the final log
               duration_seconds:
                 i === allLogs.length - 1 ? workoutDuration : undefined,

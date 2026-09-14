@@ -62,7 +62,12 @@ CREATE TABLE IF NOT EXISTS workout_logs (
   -- When the user swaps this slot for another exercise, the log keeps
   -- exercise_id as the programmed slot anchor (preserving day/order for
   -- carry-forward) and records the exercise actually performed here.
-  swapped_exercise_id INTEGER REFERENCES exercises(id)
+  swapped_exercise_id INTEGER REFERENCES exercises(id),
+  -- Ties every log from one workout together, so two separate workouts
+  -- logged on the same calendar day show up as distinct history entries
+  -- instead of being bunched into one. Client-generated per workout; NULL
+  -- on logs from before this column existed.
+  session_id TEXT
 );
 
 CREATE TABLE IF NOT EXISTS sets (

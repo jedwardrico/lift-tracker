@@ -66,16 +66,31 @@ function formatDuration(seconds) {
   return `${m}:${s.toString().padStart(2, '0')}`;
 }
 
-function groupByDate(logs) {
+// Groups logs into workout sessions. Logs carrying the same session_id came
+// from one workout and are grouped together; older logs from before that
+// column existed (session_id is null) fall back to grouping by calendar
+// date, same as before. This is what keeps two separate workouts logged on
+// the same day from being bunched into a single history entry.
+function groupBySessions(logs) {
   const map = {};
   for (const log of logs) {
     const dateStr = log.logged_at.slice(0, 10);
-    if (!map[dateStr]) map[dateStr] = [];
-    map[dateStr].push(log);
+    const key = log.session_id ? `s:${log.session_id}` : `d:${dateStr}`;
+    if (!map[key])
+      map[key] = { date: dateStr, sessionId: log.session_id, logs: [] };
+    map[key].logs.push(log);
   }
-  return Object.entries(map)
-    .sort(([a], [b]) => b.localeCompare(a))
-    .map(([date, entries]) => ({ date, logs: entries }));
+  return Object.values(map).sort((a, b) => {
+    const aLatest = a.logs.reduce(
+      (m, l) => (l.logged_at > m ? l.logged_at : m),
+      ''
+    );
+    const bLatest = b.logs.reduce(
+      (m, l) => (l.logged_at > m ? l.logged_at : m),
+      ''
+    );
+    return bLatest.localeCompare(aLatest);
+  });
 }
 
 export default function HistoryScreen() {
@@ -90,7 +105,7 @@ export default function HistoryScreen() {
     setLoadError(false);
     return fetch(`${BASE_URL}/logs`)
       .then((r) => r.json())
-      .then((data) => setSessions(groupByDate(data)))
+      .then((data) => setSessions(groupBySessions(data)))
       .catch((err) => {
         console.error('Failed to load history:', err);
         setLoadError(true);
@@ -182,7 +197,7 @@ export default function HistoryScreen() {
             </Text>
           </View>
         ) : (
-          sessions.map(({ date, logs }) => {
+          sessions.map(({ date, sessionId, logs }) => {
             const totalReps = logs.reduce(
               (acc, log) =>
                 acc + log.sets.reduce((a, s) => a + (s.reps || 0), 0),
@@ -204,9 +219,16 @@ export default function HistoryScreen() {
 
             return (
               <TouchableOpacity
-                key={date}
+                key={sessionId ?? date}
                 style={styles.sessionCard}
-                onPress={() => router.push(`/session/${date}`)}
+                onPress={() =>
+                  router.push({
+                    pathname: '/session/[date]',
+                    params: sessionId
+                      ? { date, session_id: sessionId }
+                      : { date },
+                  })
+                }
                 activeOpacity={0.75}
               >
                 <View style={styles.cardLeft}>
