@@ -487,7 +487,11 @@ export default function WorkoutScreen() {
       (acc, log) =>
         acc +
         log.sets.reduce(
-          (a, s) => a + (s.completed ? parseFloat(s.weight) || 0 : 0),
+          (a, s) =>
+            a +
+            (s.completed
+              ? (parseInt(s.reps) || 0) * (parseFloat(s.weight) || 0)
+              : 0),
           0
         ),
       0
@@ -498,7 +502,11 @@ export default function WorkoutScreen() {
   const totalWeight =
     prevWeight +
     sets.reduce(
-      (acc, s) => acc + (s.completed ? parseFloat(s.weight) || 0 : 0),
+      (acc, s) =>
+        acc +
+        (s.completed
+          ? (parseInt(s.reps) || 0) * (parseFloat(s.weight) || 0)
+          : 0),
       0
     );
 
@@ -769,7 +777,11 @@ export default function WorkoutScreen() {
         (acc, log) =>
           acc +
           log.sets.reduce(
-            (a, s) => a + (s.completed ? parseFloat(s.weight) || 0 : 0),
+            (a, s) =>
+              a +
+              (s.completed
+                ? (parseInt(s.reps) || 0) * (parseFloat(s.weight) || 0)
+                : 0),
             0
           ),
         0

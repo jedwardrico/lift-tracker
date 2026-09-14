@@ -112,7 +112,9 @@ export default function App() {
     0
   );
   const totalWeight = sets.reduce(
-    (acc, s) => acc + (s.completed ? parseFloat(s.weight) || 0 : 0),
+    (acc, s) =>
+      acc +
+      (s.completed ? (parseInt(s.reps) || 0) * (parseFloat(s.weight) || 0) : 0),
     0
   );
 
