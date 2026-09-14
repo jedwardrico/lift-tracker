@@ -153,7 +153,8 @@ export default function SessionDetailScreen() {
     0
   );
   const totalWeight = logs.reduce(
-    (acc, log) => acc + log.sets.reduce((a, s) => a + (s.weight || 0), 0),
+    (acc, log) =>
+      acc + log.sets.reduce((a, s) => a + (s.reps || 0) * (s.weight || 0), 0),
     0
   );
   const duration = logs.reduce(
