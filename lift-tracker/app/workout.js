@@ -171,20 +171,6 @@ export default function WorkoutScreen() {
   const sessionKey = `${weekNumber}-${dayIndex}-${program ?? ''}`;
 
   useEffect(() => {
-    AsyncStorage.getItem(WORKOUT_STORAGE_KEY)
-      .then((val) => {
-        if (!val) return;
-        const parsed = JSON.parse(val);
-        if (parsed?.sessionKey === sessionKey) {
-          setCompletedLogs(parsed.logs);
-        } else {
-          AsyncStorage.removeItem(WORKOUT_STORAGE_KEY).catch(() => {});
-        }
-      })
-      .catch(() => {});
-  }, []);
-
-  useEffect(() => {
     AsyncStorage.getItem(REST_DURATION_KEY)
       .then((val) => {
         if (val != null) setRestDuration(parseInt(val, 10));
@@ -235,6 +221,15 @@ export default function WorkoutScreen() {
       ? `${BASE_URL}/weeks/${weekNumber || 1}?program=${program}`
       : `${BASE_URL}/weeks/${weekNumber || 1}`;
     Promise.all([
+      // Checked before deciding how to seed state below: a stored session
+      // matching this one means the workout was left mid-way (e.g. exited to
+      // Home) and should resume exactly where it was, not restart from
+      // exercise 0. A stored session for a *different* one is stale — it
+      // only survives here because leaving to Home never clears it; starting
+      // this different session is what ends it (see the removeItem below).
+      AsyncStorage.getItem(WORKOUT_STORAGE_KEY)
+        .then((val) => (val ? JSON.parse(val) : null))
+        .catch(() => null),
       fetch(url).then((r) => r.json()),
       // Fetched once up front (not per-exercise) so navigating between
       // exercises can look up prior sets synchronously, with no risk of a
@@ -243,9 +238,27 @@ export default function WorkoutScreen() {
         .then((r) => r.json())
         .catch(() => []),
     ])
-      .then(([data, logs]) => {
+      .then(([stored, data, logs]) => {
         setWeekData(data);
         setAllLogs(Array.isArray(logs) ? logs : []);
+
+        const resumable = stored?.sessionKey === sessionKey ? stored : null;
+        if (stored && !resumable) {
+          AsyncStorage.removeItem(WORKOUT_STORAGE_KEY).catch(() => {});
+        }
+
+        if (resumable) {
+          startTimeRef.current = resumable.startTime ?? Date.now();
+          savedSetsMap.current = resumable.savedSetsMap ?? {};
+          setCompletedLogs(resumable.logs ?? []);
+          setCompletedExercises(new Set(resumable.completedExercises ?? []));
+          setOverrides(resumable.overrides ?? {});
+          setNote(resumable.note ?? '');
+          setExerciseIndex(resumable.exerciseIndex ?? 0);
+          if (resumable.sets) setSets(resumable.sets);
+          return;
+        }
+
         const activeDay = resolveActiveDay(data, dayIndex);
         const firstExercise = activeDay?.exercises?.[0];
         // Carry forward a swap made in an earlier week: the server sends
@@ -268,7 +281,44 @@ export default function WorkoutScreen() {
       })
       .catch((err) => console.error('Failed to load week:', err))
       .finally(() => setLoading(false));
-  }, [weekNumber, dayIndex, program]);
+  }, [weekNumber, dayIndex, program, sessionKey]);
+
+  // Mirrors the in-progress workout to storage on every change, so leaving to
+  // Home (or the app being killed) never loses progress — a session is only
+  // ever cleared by starting a *different* one (the removeItem above) or by
+  // finishing (see proceedNext's removeItem).
+  useEffect(() => {
+    if (loading) return;
+    AsyncStorage.setItem(
+      WORKOUT_STORAGE_KEY,
+      JSON.stringify({
+        sessionKey,
+        weekNumber,
+        dayIndex,
+        program: program ?? null,
+        exerciseIndex,
+        completedExercises: [...completedExercises],
+        sets,
+        note,
+        overrides,
+        logs: completedLogs,
+        savedSetsMap: savedSetsMap.current,
+        startTime: startTimeRef.current,
+      })
+    ).catch(() => {});
+  }, [
+    loading,
+    sessionKey,
+    weekNumber,
+    dayIndex,
+    program,
+    exerciseIndex,
+    completedExercises,
+    sets,
+    note,
+    overrides,
+    completedLogs,
+  ]);
 
   // Unique exercise catalog for the swap picker.
   useEffect(() => {
@@ -560,10 +610,6 @@ export default function WorkoutScreen() {
           logEntry,
         ];
         setCompletedLogs(updatedLogs);
-        await AsyncStorage.setItem(
-          WORKOUT_STORAGE_KEY,
-          JSON.stringify({ sessionKey, logs: updatedLogs })
-        );
         navigateTo(exerciseIndex + 1);
         return;
       }
