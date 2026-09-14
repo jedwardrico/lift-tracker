@@ -36,6 +36,9 @@ function getDb() {
     if (!cols.find((c) => c.name === 'difficulty')) {
       db.exec('ALTER TABLE workout_logs ADD COLUMN difficulty INTEGER');
     }
+    if (!cols.find((c) => c.name === 'session_id')) {
+      db.exec('ALTER TABLE workout_logs ADD COLUMN session_id TEXT');
+    }
 
     relaxExerciseSlotColumns(db);
     renameExerciseColumns(db);

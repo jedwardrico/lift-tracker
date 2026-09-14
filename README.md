@@ -81,7 +81,7 @@ The server ships with several programs (see `server/data/*.json`), each with its
 | `GET`    | `/exercises/:id`        | Single exercise                                                     |
 | `GET`    | `/exercises/:id/logs`   | All workout logs for an exercise                                    |
 | `POST`   | `/logs`                 | Log a workout session with sets                                     |
-| `GET`    | `/logs`                 | All completed logs (filter with `?date=YYYY-MM-DD`)                 |
+| `GET`    | `/logs`                 | All completed logs (filter with `?date=YYYY-MM-DD` or `?session_id=`) |
 | `GET`    | `/logs/:id`             | Get a logged session with all its sets                              |
 | `PUT`    | `/logs/:id`             | Update a log's timestamp/completion or replace its sets             |
 | `PATCH`  | `/logs/:id/sets/:setId` | Update a single set                                                  |
@@ -123,7 +123,7 @@ POST /logs
 }
 ```
 
-`logged_at` defaults to now (ISO 8601). `weight_unit` defaults to `"lbs"`. Pass `swapped_exercise_id` instead of logging against the programmed `exercise_id` directly to record a swap. `duration_seconds` and `difficulty` (perceived effort, 1-10) describe the whole session and are only set on one log per workout — the app sets both on the final log after the user edits them on the completion screen.
+`logged_at` defaults to now (ISO 8601). `weight_unit` defaults to `"lbs"`. Pass `swapped_exercise_id` instead of logging against the programmed `exercise_id` directly to record a swap. `duration_seconds` and `difficulty` (perceived effort, 1-10) describe the whole session and are only set on one log per workout — the app sets both on the final log after the user edits them on the completion screen. `session_id` is a client-generated string shared by every log from one workout, so history can tell two workouts logged on the same calendar day apart instead of bunching them into one entry; filter `GET /logs` by it with `?session_id=`.
 
 ---
 

@@ -62,7 +62,7 @@ function formatDuration(seconds) {
 }
 
 export default function SessionDetailScreen() {
-  const { date } = useLocalSearchParams();
+  const { date, session_id: sessionId } = useLocalSearchParams();
   const router = useRouter();
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -71,12 +71,15 @@ export default function SessionDetailScreen() {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/logs?date=${date}`)
+    // A session_id pins this to one specific workout; without it (older
+    // logs predating that column) fall back to everything logged that day.
+    const query = sessionId ? `session_id=${sessionId}` : `date=${date}`;
+    fetch(`${BASE_URL}/logs?${query}`)
       .then((r) => r.json())
       .then(setLogs)
       .catch((err) => console.error('Failed to load session:', err))
       .finally(() => setLoading(false));
-  }, [date]);
+  }, [date, sessionId]);
 
   const startEditing = () => {
     setDraftLogs(
