@@ -174,6 +174,7 @@ export default function WorkoutScreen() {
   const [restPickerVisible, setRestPickerVisible] = useState(false);
   const restIntervalRef = useRef(null);
   const restNotificationIdRef = useRef(null);
+  const restEndTimeRef = useRef(null);
   const { width: screenWidth } = useWindowDimensions();
   // Horizontal offset of the exercise content, driven for the slide transition
   // between exercises. Sits at 0 while an exercise is on screen.
@@ -224,6 +225,24 @@ export default function WorkoutScreen() {
     Notifications.cancelScheduledNotificationAsync(id).catch(() => {});
   }, []);
 
+  // Recomputes `restRemaining` from the absolute end time rather than
+  // decrementing a counter, so a background spell where the interval callback
+  // doesn't fire (backgrounded JS is throttled/suspended) is caught up in one
+  // step on the next tick instead of leaving the countdown stuck.
+  const tickRest = useCallback(() => {
+    const endTime = restEndTimeRef.current;
+    if (endTime == null) return;
+    const remaining = Math.ceil((endTime - Date.now()) / 1000);
+    if (remaining <= 0) {
+      clearInterval(restIntervalRef.current);
+      restEndTimeRef.current = null;
+      Vibration.vibrate();
+      setRestRemaining(null);
+    } else {
+      setRestRemaining(remaining);
+    }
+  }, []);
+
   // Counts a rest period down to zero, vibrating once it ends. Restarting
   // (e.g. completing another set mid-rest) replaces whatever was running. A
   // matching local notification is scheduled alongside so rest end is still
@@ -233,7 +252,11 @@ export default function WorkoutScreen() {
     (duration) => {
       clearInterval(restIntervalRef.current);
       cancelRestNotification();
-      if (!duration) return;
+      if (!duration) {
+        restEndTimeRef.current = null;
+        return;
+      }
+      restEndTimeRef.current = Date.now() + duration * 1000;
       setRestRemaining(duration);
       Notifications.scheduleNotificationAsync({
         content: {
@@ -250,23 +273,15 @@ export default function WorkoutScreen() {
           restNotificationIdRef.current = id;
         })
         .catch(() => {});
-      restIntervalRef.current = setInterval(() => {
-        setRestRemaining((prev) => {
-          if (prev == null || prev <= 1) {
-            clearInterval(restIntervalRef.current);
-            if (prev != null) Vibration.vibrate();
-            return null;
-          }
-          return prev - 1;
-        });
-      }, 1000);
+      restIntervalRef.current = setInterval(tickRest, 1000);
     },
-    [cancelRestNotification]
+    [cancelRestNotification, tickRest]
   );
 
   const stopRest = useCallback(() => {
     clearInterval(restIntervalRef.current);
     cancelRestNotification();
+    restEndTimeRef.current = null;
     setRestRemaining(null);
   }, [cancelRestNotification]);
 
@@ -276,6 +291,15 @@ export default function WorkoutScreen() {
       cancelRestNotification();
     };
   }, [cancelRestNotification]);
+
+  // Catches the countdown up immediately on foreground instead of waiting for
+  // the next 1s tick, so the display doesn't look "stuck" for a moment.
+  useEffect(() => {
+    const sub = AppState.addEventListener('change', (state) => {
+      if (state === 'active') tickRest();
+    });
+    return () => sub.remove();
+  }, [tickRest]);
 
   const chooseRestDuration = (duration) => {
     setRestDuration(duration);
