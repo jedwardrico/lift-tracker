@@ -629,37 +629,51 @@ export default function WorkoutScreen() {
 
   // Checking off a set is how the app knows work actually happened on it —
   // silently treating an unchecked set as done (or skipped) would let a
-  // stray tap through Next/Finish erase that signal without the user
-  // noticing. Confirming first costs one tap when it's intentional (a
-  // warm-up set, a set cut short) and catches it when it isn't.
+  // stray tap through Finish erase that signal without the user noticing.
+  // The check runs once, at Finish, across every exercise in the workout
+  // (not just the one on screen) — moving between exercises no longer
+  // interrupts with a per-exercise warning.
   const handleNext = async () => {
     const isLast = exerciseIndex === exercises.length - 1;
     const localSets = [...sets];
 
-    if (exercise) {
-      const incompleteCount = localSets.filter((s) => !s.completed).length;
-      if (incompleteCount > 0) {
-        Alert.alert(
-          incompleteCount === 1
-            ? '1 set not checked off'
-            : `${incompleteCount} sets not checked off`,
-          isLast
-            ? "You're about to finish the workout without marking every set on this exercise complete."
-            : "You're about to move on without marking every set on this exercise complete.",
-          [
-            { text: 'Go back', style: 'cancel' },
-            {
-              text: isLast ? 'Finish anyway' : 'Continue anyway',
-              onPress: () => proceedNext(isLast, localSets),
-            },
-          ]
-        );
-        return;
-      }
-      await proceedNext(isLast, localSets);
-    } else if (!isLast) {
-      navigateTo(exerciseIndex + 1);
+    if (!exercise) {
+      if (!isLast) navigateTo(exerciseIndex + 1);
+      return;
     }
+
+    if (!isLast) {
+      await proceedNext(false, localSets);
+      return;
+    }
+
+    const priorIncomplete = completedLogs
+      .filter(
+        (l) =>
+          l.exerciseIndex !== exerciseIndex && l.sets.some((s) => !s.completed)
+      )
+      .map((l) => l.exercise.exercise_name);
+    const incompleteNames = localSets.some((s) => !s.completed)
+      ? [...priorIncomplete, exerciseName]
+      : priorIncomplete;
+
+    if (incompleteNames.length > 0) {
+      Alert.alert(
+        incompleteNames.length === 1
+          ? '1 exercise not fully checked off'
+          : `${incompleteNames.length} exercises not fully checked off`,
+        `You're about to finish the workout without marking every set complete on ${incompleteNames.join(', ')}.`,
+        [
+          { text: 'Go back', style: 'cancel' },
+          {
+            text: 'Finish anyway',
+            onPress: () => proceedNext(true, localSets),
+          },
+        ]
+      );
+      return;
+    }
+    await proceedNext(true, localSets);
   };
 
   const proceedNext = async (isLast, localSets) => {
