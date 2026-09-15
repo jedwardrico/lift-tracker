@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {

@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { useState, useCallback, useMemo } from 'react';
 import {
   View,

@@ -7,7 +7,7 @@ module.exports = [
   prettierConfig,
   // Node.js config files
   {
-    files: ['*.config.js', 'babel.config.js'],
+    files: ['*.config.js', 'babel.config.js', 'scripts/**/*.js'],
     languageOptions: {
       sourceType: 'commonjs',
       globals: globals.node,
@@ -15,7 +15,7 @@ module.exports = [
   },
   // App source files
   {
-    ignores: ['*.config.js', 'babel.config.js'],
+    ignores: ['*.config.js', 'babel.config.js', 'scripts/**/*.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
