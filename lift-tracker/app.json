@@ -5,13 +5,34 @@
     "version": "1.0.23",
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
+    "icon": "./assets/images/icon.png",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.lift-tracker"
     },
-    "android": {},
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#0a0a0a"
+      }
+    },
+    "web": {
+      "favicon": "./assets/images/favicon.png"
+    },
     "scheme": "lift-tracker",
-    "plugins": ["expo-router", "expo-status-bar", "expo-notifications"],
+    "plugins": [
+      "expo-router",
+      "expo-status-bar",
+      "expo-notifications",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "backgroundColor": "#0a0a0a"
+        }
+      ]
+    ],
     "updates": {
       "url": "https://u.expo.dev/1df8d808-46fb-4689-a049-8e565861c160"
     },
