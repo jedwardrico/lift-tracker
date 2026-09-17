@@ -142,6 +142,9 @@ export default function WorkoutScreen() {
   const [loading, setLoading] = useState(true);
   const [exerciseIndex, setExerciseIndex] = useState(0);
   const [completedExercises, setCompletedExercises] = useState(new Set());
+  // Exercises the user explicitly skipped this session — no log is created
+  // for them, so they never show up in history or "last time" lookups.
+  const [skippedExercises, setSkippedExercises] = useState(new Set());
   const [sets, setSets] = useState([
     { id: 1, reps: '8', weight: '', completed: false },
     { id: 2, reps: '8', weight: '', completed: false },
@@ -336,6 +339,7 @@ export default function WorkoutScreen() {
           savedSetsMap.current = resumable.savedSetsMap ?? {};
           setCompletedLogs(resumable.logs ?? []);
           setCompletedExercises(new Set(resumable.completedExercises ?? []));
+          setSkippedExercises(new Set(resumable.skippedExercises ?? []));
           setOverrides(resumable.overrides ?? {});
           setNote(resumable.note ?? '');
           setExerciseIndex(resumable.exerciseIndex ?? 0);
@@ -386,6 +390,7 @@ export default function WorkoutScreen() {
         program: program ?? null,
         exerciseIndex,
         completedExercises: [...completedExercises],
+        skippedExercises: [...skippedExercises],
         sets,
         note,
         overrides,
@@ -402,6 +407,7 @@ export default function WorkoutScreen() {
     program,
     exerciseIndex,
     completedExercises,
+    skippedExercises,
     sets,
     note,
     overrides,
@@ -676,8 +682,143 @@ export default function WorkoutScreen() {
     await proceedNext(true, localSets);
   };
 
+  // Posts every log for the workout and navigates to the completion screen.
+  // `logsToSubmit` is already final — callers exclude any skipped exercise.
+  const finishWorkout = async (logsToSubmit) => {
+    clearInterval(timerRef.current);
+    clearInterval(restIntervalRef.current);
+    const workoutDuration = timerSeconds;
+    const allLogs = [...logsToSubmit].sort(
+      (a, b) => a.exerciseIndex - b.exerciseIndex
+    );
+    // Shared across every log from this workout so history can tell two
+    // separate workouts logged on the same calendar day apart.
+    const sessionId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+    const savedResults = await Promise.all(
+      allLogs.map((log, i) =>
+        fetch(`${BASE_URL}/logs`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            exercise_id: log.exercise.id,
+            swapped_exercise_id: log.swappedExerciseId ?? undefined,
+            session_id: sessionId,
+            // Record the full workout duration on the final log
+            duration_seconds:
+              i === allLogs.length - 1 ? workoutDuration : undefined,
+            sets: log.sets.map((s) => ({
+              set_number: s.set_number,
+              reps: s.reps,
+              weight: s.weight,
+            })),
+          }),
+        })
+          .then((r) => r.json())
+          .then((data) => data.id ?? null)
+          .catch((err) => {
+            console.error('Failed to log exercise:', err);
+            return null;
+          })
+      )
+    );
+    // The last entry carries the workout's duration_seconds; the complete
+    // screen edits duration/difficulty on it directly by id.
+    const workoutLogId = savedResults[savedResults.length - 1];
+    const savedIds = savedResults.filter(Boolean);
+
+    await Promise.all(
+      savedIds.map((id) =>
+        fetch(`${BASE_URL}/logs/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ completed: true }),
+        }).catch((err) => console.error('Failed to mark log complete:', err))
+      )
+    );
+
+    await AsyncStorage.removeItem(WORKOUT_STORAGE_KEY);
+
+    const workoutTotalReps = allLogs.reduce(
+      (acc, log) =>
+        acc +
+        log.sets.reduce(
+          (a, s) => a + (s.completed ? parseInt(s.reps) || 0 : 0),
+          0
+        ),
+      0
+    );
+    const workoutTotalWeight = allLogs.reduce(
+      (acc, log) =>
+        acc +
+        log.sets.reduce(
+          (a, s) =>
+            a +
+            (s.completed
+              ? (parseInt(s.reps) || 0) * (parseFloat(s.weight) || 0)
+              : 0),
+          0
+        ),
+      0
+    );
+
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    router.replace({
+      pathname: '/complete',
+      params: {
+        elapsed: timerSeconds,
+        logId: workoutLogId ?? '',
+        logs: JSON.stringify(allLogs),
+        totalReps: workoutTotalReps,
+        totalWeight: workoutTotalWeight,
+      },
+    });
+  };
+
+  // Skips the current exercise entirely — no log is created for it, so it
+  // won't show up in history or count toward "last time" lookups, and it's
+  // excluded from the "not fully checked off" warning at Finish.
+  const handleSkip = async () => {
+    if (!exercise) return;
+    const isLast = exerciseIndex === exercises.length - 1;
+    const updatedLogs = completedLogs.filter(
+      (l) => l.exerciseIndex !== exerciseIndex
+    );
+    setSkippedExercises((prev) => new Set(prev).add(exerciseIndex));
+    setCompletedExercises((prev) => {
+      const next = new Set(prev);
+      next.delete(exerciseIndex);
+      return next;
+    });
+    setCompletedLogs(updatedLogs);
+    delete savedSetsMap.current[exerciseIndex];
+
+    if (!isLast) {
+      navigateTo(exerciseIndex + 1);
+    } else {
+      await finishWorkout(updatedLogs);
+    }
+  };
+
+  const openExerciseMenu = () => {
+    if (!exercise) return;
+    Alert.alert(exerciseName || 'Exercise', undefined, [
+      { text: 'Swap Exercise', onPress: openSwap },
+      { text: 'Skip Exercise', style: 'destructive', onPress: handleSkip },
+      { text: 'Cancel', style: 'cancel' },
+    ]);
+  };
+
   const proceedNext = async (isLast, localSets) => {
     if (exercise) {
+      // Reaching here (rather than Skip) means the exercise is genuinely
+      // being worked through, so any earlier skip no longer applies.
+      setSkippedExercises((prev) => {
+        if (!prev.has(exerciseIndex)) return prev;
+        const next = new Set(prev);
+        next.delete(exerciseIndex);
+        return next;
+      });
       const allDone = localSets.every((s) => s.completed);
       setCompletedExercises((prev) => {
         const next = new Set(prev);
@@ -725,97 +866,10 @@ export default function WorkoutScreen() {
       }
 
       // Last exercise — post everything to the server now that the workout is done
-      clearInterval(timerRef.current);
-      clearInterval(restIntervalRef.current);
-      const workoutDuration = timerSeconds;
-      const allLogs = [
-        ...completedLogs
-          .filter((l) => l.exerciseIndex !== exerciseIndex)
-          .sort((a, b) => a.exerciseIndex - b.exerciseIndex),
+      await finishWorkout([
+        ...completedLogs.filter((l) => l.exerciseIndex !== exerciseIndex),
         logEntry,
-      ];
-      // Shared across every log from this workout so history can tell two
-      // separate workouts logged on the same calendar day apart.
-      const sessionId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-
-      const savedResults = await Promise.all(
-        allLogs.map((log, i) =>
-          fetch(`${BASE_URL}/logs`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              exercise_id: log.exercise.id,
-              swapped_exercise_id: log.swappedExerciseId ?? undefined,
-              session_id: sessionId,
-              // Record the full workout duration on the final log
-              duration_seconds:
-                i === allLogs.length - 1 ? workoutDuration : undefined,
-              sets: log.sets.map((s) => ({
-                set_number: s.set_number,
-                reps: s.reps,
-                weight: s.weight,
-              })),
-            }),
-          })
-            .then((r) => r.json())
-            .then((data) => data.id ?? null)
-            .catch((err) => {
-              console.error('Failed to log exercise:', err);
-              return null;
-            })
-        )
-      );
-      // The last entry carries the workout's duration_seconds; the complete
-      // screen edits duration/difficulty on it directly by id.
-      const workoutLogId = savedResults[savedResults.length - 1];
-      const savedIds = savedResults.filter(Boolean);
-
-      await Promise.all(
-        savedIds.map((id) =>
-          fetch(`${BASE_URL}/logs/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ completed: true }),
-          }).catch((err) => console.error('Failed to mark log complete:', err))
-        )
-      );
-
-      await AsyncStorage.removeItem(WORKOUT_STORAGE_KEY);
-
-      const workoutTotalReps = allLogs.reduce(
-        (acc, log) =>
-          acc +
-          log.sets.reduce(
-            (a, s) => a + (s.completed ? parseInt(s.reps) || 0 : 0),
-            0
-          ),
-        0
-      );
-      const workoutTotalWeight = allLogs.reduce(
-        (acc, log) =>
-          acc +
-          log.sets.reduce(
-            (a, s) =>
-              a +
-              (s.completed
-                ? (parseInt(s.reps) || 0) * (parseFloat(s.weight) || 0)
-                : 0),
-            0
-          ),
-        0
-      );
-
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      router.replace({
-        pathname: '/complete',
-        params: {
-          elapsed: timerSeconds,
-          logId: workoutLogId ?? '',
-          logs: JSON.stringify(allLogs),
-          totalReps: workoutTotalReps,
-          totalWeight: workoutTotalWeight,
-        },
-      });
+      ]);
     }
   };
 
@@ -889,6 +943,7 @@ export default function WorkoutScreen() {
               style={[
                 styles.dot,
                 completedExercises.has(i) && styles.dotCompleted,
+                skippedExercises.has(i) && styles.dotSkipped,
                 i === exerciseIndex && styles.dotCurrent,
               ]}
             />
@@ -942,7 +997,7 @@ export default function WorkoutScreen() {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.moreButton}
-                  onPress={() => exercise && openSwap()}
+                  onPress={openExerciseMenu}
                 >
                   <Text style={styles.moreButtonText}>•••</Text>
                 </TouchableOpacity>
@@ -1338,6 +1393,10 @@ const styles = StyleSheet.create({
   },
   dotCompleted: {
     backgroundColor: COLORS.green,
+  },
+  dotSkipped: {
+    borderColor: COLORS.textMuted,
+    backgroundColor: COLORS.textMuted,
   },
   dotCurrent: {
     width: 14,
