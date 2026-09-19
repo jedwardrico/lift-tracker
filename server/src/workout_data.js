@@ -16,10 +16,14 @@ const DAYS = [
 const PROGRAMS = {
   gamma_bomb: {
     label: 'Gamma Bomb',
+    description:
+      'A high-volume bodybuilding split built around back, chest and shoulders, with legs and arms filling out the week.',
     workoutData: require('../data/gamma_bomb.json'),
   },
   creeping_death_ii: {
     label: 'Creeping Death II',
+    description:
+      "John Meadows' hypertrophy program hitting back and chest twice a week alongside dedicated leg and arm days.",
     workoutData: require('../data/creeping_death_ii.json'),
   },
   // Pure Bodybuilding Phase 2 is a Pull/Push/Legs/Arms & Weak Points program.
@@ -29,6 +33,8 @@ const PROGRAMS = {
   // Sat = Rest, Sun = Rest.
   pure_bodybuilding_phase_2: {
     label: 'Pure Bodybuilding Phase 2',
+    description:
+      'A 20-week Pull/Push/Legs/Arms & Weak Points program built for steady, sustainable hypertrophy.',
     workoutData: require('../data/pure_bodybuilding_phase_2.json'),
   },
   // The Bodybuilding Transformation System (Intermediate/Advanced) is a 12-week
@@ -37,6 +43,8 @@ const PROGRAMS = {
   // Thu = Pull, Fri = Legs, Sat = Rest, Sun = Rest.
   bodybuilding_transformation_system: {
     label: 'The Bodybuilding Transformation System',
+    description:
+      'A 12-week Upper/Lower/Push/Pull/Legs program for intermediate-to-advanced lifters.',
     workoutData: require('../data/bodybuilding_transformation_system.json'),
   },
   // The Ultimate Push Pull Legs System (5x/week) is a 13-week, 3-phase PPL +
@@ -46,6 +54,8 @@ const PROGRAMS = {
   // Tue = Pull, Wed = Legs, Thu = Upper, Fri = Lower, Sat = Rest, Sun = Rest.
   ultimate_ppl_system_5x: {
     label: 'The Ultimate Push Pull Legs System (5x)',
+    description:
+      'A 13-week, 3-phase Push/Pull/Legs + Upper/Lower program progressing from base hypertrophy to maximum effort to supercompensation.',
     workoutData: require('../data/ultimate_ppl_system_5x.json'),
   },
 };

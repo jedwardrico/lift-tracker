@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
   Modal,
   FlatList,
+  ScrollView,
 } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -29,6 +30,16 @@ const COLORS = {
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000';
 const APP_VERSION = appConfig.expo.version;
+
+const DAY_LABELS = {
+  monday: 'Monday',
+  tuesday: 'Tuesday',
+  wednesday: 'Wednesday',
+  thursday: 'Thursday',
+  friday: 'Friday',
+  saturday: 'Saturday',
+  sunday: 'Sunday',
+};
 
 const MONTHS = [
   'Jan',
@@ -82,6 +93,9 @@ export default function SettingsScreen() {
   const [working, setWorking] = useState(false);
   const [datePickerVisible, setDatePickerVisible] = useState(false);
   const [serverVersion, setServerVersion] = useState(null);
+  const [previewProgram, setPreviewProgram] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [previewLoading, setPreviewLoading] = useState(false);
 
   const mondays = useMemo(() => mondayOptions(), []);
 
@@ -111,35 +125,44 @@ export default function SettingsScreen() {
     }, [])
   );
 
-  const confirmSwitch = useCallback((program) => {
-    Alert.alert(
-      `Switch to ${program.label}?`,
-      `This week continues as-is. ${program.label} starts on the next Monday, from week 1.`,
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Switch',
-          style: 'destructive',
-          onPress: async () => {
-            setWorking(true);
-            try {
-              const res = await fetch(`${BASE_URL}/program/switch`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ program: program.key }),
-              });
-              setState(await res.json());
-            } catch (err) {
-              console.error('Failed to switch program:', err);
-              Alert.alert('Error', 'Could not switch programs.');
-            } finally {
-              setWorking(false);
-            }
-          },
-        },
-      ]
-    );
+  const openPreview = useCallback((program) => {
+    setPreviewProgram(program);
+    setPreview(null);
+    setPreviewLoading(true);
+    fetch(`${BASE_URL}/program/${program.key}/preview`)
+      .then((r) => r.json())
+      .then(setPreview)
+      .catch((err) => {
+        console.error('Failed to load program preview:', err);
+        Alert.alert('Error', 'Could not load the program preview.');
+        setPreviewProgram(null);
+      })
+      .finally(() => setPreviewLoading(false));
   }, []);
+
+  const closePreview = useCallback(() => {
+    setPreviewProgram(null);
+    setPreview(null);
+  }, []);
+
+  const confirmSwitch = useCallback(async () => {
+    if (!previewProgram) return;
+    setWorking(true);
+    try {
+      const res = await fetch(`${BASE_URL}/program/switch`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ program: previewProgram.key }),
+      });
+      setState(await res.json());
+      closePreview();
+    } catch (err) {
+      console.error('Failed to switch program:', err);
+      Alert.alert('Error', 'Could not switch programs.');
+    } finally {
+      setWorking(false);
+    }
+  }, [previewProgram, closePreview]);
 
   const confirmRestart = useCallback(() => {
     if (!state) return;
@@ -274,7 +297,7 @@ export default function SettingsScreen() {
                   key={program.key}
                   style={[styles.programRow, i > 0 && styles.programRowBorder]}
                   disabled={isActive || working}
-                  onPress={() => confirmSwitch(program)}
+                  onPress={() => openPreview(program)}
                   activeOpacity={0.7}
                 >
                   <Text style={styles.programName}>{program.label}</Text>
@@ -389,6 +412,99 @@ export default function SettingsScreen() {
                     );
                   }}
                 />
+              </View>
+            </View>
+          </Modal>
+
+          <Modal
+            visible={!!previewProgram}
+            transparent
+            animationType="slide"
+            onRequestClose={closePreview}
+          >
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalSheet}>
+                <View style={styles.modalHeader}>
+                  <Text style={styles.modalTitle}>{previewProgram?.label}</Text>
+                  <TouchableOpacity
+                    onPress={closePreview}
+                    disabled={working}
+                    hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                  >
+                    <Ionicons name="close" size={22} color={COLORS.textMuted} />
+                  </TouchableOpacity>
+                </View>
+
+                {previewLoading || !preview ? (
+                  <View style={styles.previewLoading}>
+                    <ActivityIndicator color={COLORS.text} />
+                  </View>
+                ) : (
+                  <>
+                    <Text style={styles.modalSubtitle}>
+                      {preview.description}
+                    </Text>
+                    <Text style={styles.previewWeeksLabel}>
+                      {preview.total_weeks} weeks · week 1 shown below
+                    </Text>
+                    <ScrollView style={styles.modalList}>
+                      {preview.days.map((day) => (
+                        <View
+                          key={day.day_of_week}
+                          style={styles.previewDayRow}
+                        >
+                          <Text style={styles.previewDayName}>
+                            {DAY_LABELS[day.day_of_week]}
+                          </Text>
+                          <View style={styles.previewDayInfo}>
+                            <Text
+                              style={[
+                                styles.previewDayFocus,
+                                day.is_rest_day && styles.mutedText,
+                              ]}
+                            >
+                              {day.is_rest_day ? 'Rest Day' : day.focus_summary}
+                            </Text>
+                            {!day.is_rest_day ? (
+                              <Text style={styles.previewDayCount}>
+                                {day.exercise_count} exercise
+                                {day.exercise_count === 1 ? '' : 's'}
+                              </Text>
+                            ) : null}
+                          </View>
+                        </View>
+                      ))}
+                    </ScrollView>
+                    <Text style={styles.previewNotice}>
+                      This week continues as-is. {previewProgram?.label} starts
+                      on the next Monday, from week 1.
+                    </Text>
+                    <View style={styles.previewActions}>
+                      <TouchableOpacity
+                        style={styles.previewCancelBtn}
+                        onPress={closePreview}
+                        disabled={working}
+                        activeOpacity={0.7}
+                      >
+                        <Text style={styles.previewCancelText}>Cancel</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={styles.previewConfirmBtn}
+                        onPress={confirmSwitch}
+                        disabled={working}
+                        activeOpacity={0.8}
+                      >
+                        {working ? (
+                          <ActivityIndicator color={COLORS.text} />
+                        ) : (
+                          <Text style={styles.previewConfirmText}>
+                            Switch to {previewProgram?.label}
+                          </Text>
+                        )}
+                      </TouchableOpacity>
+                    </View>
+                  </>
+                )}
               </View>
             </View>
           </Modal>
@@ -589,5 +705,81 @@ const styles = StyleSheet.create({
     color: COLORS.text,
     fontSize: 15,
     fontWeight: '600',
+  },
+  previewLoading: {
+    paddingVertical: 40,
+    alignItems: 'center',
+  },
+  previewWeeksLabel: {
+    color: COLORS.textMuted,
+    fontSize: 11,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+    marginBottom: 8,
+  },
+  previewDayRow: {
+    flexDirection: 'row',
+    paddingVertical: 12,
+    borderTopWidth: 1,
+    borderTopColor: COLORS.border,
+    gap: 12,
+  },
+  previewDayName: {
+    color: COLORS.text,
+    fontSize: 13,
+    fontWeight: '700',
+    width: 78,
+  },
+  previewDayInfo: {
+    flex: 1,
+  },
+  previewDayFocus: {
+    color: COLORS.text,
+    fontSize: 13,
+    lineHeight: 18,
+  },
+  previewDayCount: {
+    color: COLORS.textMuted,
+    fontSize: 11,
+    marginTop: 2,
+  },
+  previewNotice: {
+    color: COLORS.textMuted,
+    fontSize: 12,
+    marginTop: 14,
+    marginBottom: 14,
+  },
+  previewActions: {
+    flexDirection: 'row',
+    gap: 10,
+    marginBottom: 20,
+  },
+  previewCancelBtn: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: COLORS.surface,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    borderRadius: 12,
+    paddingVertical: 14,
+  },
+  previewCancelText: {
+    color: COLORS.text,
+    fontSize: 15,
+    fontWeight: '700',
+  },
+  previewConfirmBtn: {
+    flex: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: COLORS.accent,
+    borderRadius: 12,
+    paddingVertical: 14,
+  },
+  previewConfirmText: {
+    color: COLORS.text,
+    fontSize: 15,
+    fontWeight: '700',
   },
 });

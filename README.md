@@ -64,6 +64,7 @@ The server ships with several programs (see `server/data/*.json`), each with its
 | Method | Path              | Description                                                  |
 | ------ | ----------------- | -------------------------------------------------------------- |
 | `GET`  | `/program`        | Current program state (active/pending program, start dates)    |
+| `GET`  | `/program/:key/preview` | A program's description and week 1 day-by-day split, for previewing before a switch |
 | `POST` | `/program/switch`  | Stage a switch to a different program. Body: `{ program }`     |
 | `POST` | `/program/restart` | Stage a restart of the active program back to week 1           |
 | `POST` | `/program/cancel`  | Cancel a staged switch/restart; the active program keeps running |
