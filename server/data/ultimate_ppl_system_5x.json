@@ -1,0 +1,3471 @@
+[
+  {
+    "week": 1,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Chest",
+            "exercise_name": "Bench Press",
+            "exercise_description": "Set up a comfortable arch, quick pause on the chest and explode up on each rep. After 3-4 warm-up sets, do 1 set of 3-5 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Chest",
+            "exercise_name": "Larsen Press",
+            "exercise_description": "Shoulder blades still retracted and depressed. Slight arch in upper back. Zero leg drive. After no warm-up sets, do 2 sets of 10 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 3,
+            "body_part": "Shoulders",
+            "exercise_name": "Standing Dumbbell Arnold Press",
+            "exercise_description": "Start with your elbows in front of you and palms facing in. Rotate the dumbbells so that your palms face forward as you press. After 2 warm-up sets, do 3 sets of 8-10 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Chest",
+            "exercise_name": "A1. Press-Around",
+            "exercise_description": "Brace with your non-working arm, squeeze your pecs by pressing the cable across your body. After 1 warm-up set, do 2 sets of 12-15 reps. Aim for an RPE of 9-10 resting 0 min between sets. 2 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 5,
+            "body_part": "Chest",
+            "exercise_name": "A2. Pec Static Stretch 30s",
+            "exercise_description": "Hold a pec stretch for 30 seconds. The stretch should be held at about a 7/10 intensity. After no warm-up sets, do 2 sets of a 30s hold. Rest 0 min between sets. 2 total work sets",
+            "rpe": "N/A"
+          },
+          {
+            "order": 6,
+            "body_part": "Shoulders",
+            "exercise_name": "Cross-Body Cable Y- Raise (Side Delt)",
+            "exercise_description": "Think about swinging the cable out and up as if \"drawing a sword\" from your side. After 1 warm-up set, do 3 sets of 12-15 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 7,
+            "body_part": "Triceps",
+            "exercise_name": "Squeeze-Only Triceps Pressdown + Stretch- Only Overhead Triceps Extension",
+            "exercise_description": "Do the second half of the ROM for pressdowns (\"the squeeze\") and the first half of the ROM for overhead extensions (\"the stretch\"). After 1 warm-up set, do 3 sets of 8 + 8 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 8,
+            "body_part": "Triceps",
+            "exercise_name": "N1-Style Cross-Body Triceps Extension",
+            "exercise_description": "Extend your triceps with your arm more out to the side than a regular pressdown. Feel the stretch as the cable moves across your torso. After no warm-up sets, do 2 sets of 10-12 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "Lat Pulldown (Feeder Sets)",
+            "exercise_description": "Do 4 feeder sets of 10 reps by gradually building the weight up from set to set. Set 1 is pretty light (RPE 4-5). Set 2 is a little heavier (RPE 6-7). Set 3 is a little heavier again (RPE 7-8). Set 4 is your hard set: try to hit failure at 10 reps on this last set. After no warm-up sets, do 4 sets of 10 reps. Rest ~2-3 min between sets. 4 total work sets",
+            "rpe": "See Notes"
+          },
+          {
+            "order": 2,
+            "body_part": "Back",
+            "exercise_name": "Lat Pulldown (Failure Set)",
+            "exercise_description": "After hitting failure at ~10 reps, do a dropset. Strip the weight back ~30-50% and do another 5 reps with nice and controlled technique. After no warm-up sets, do 1 set of 10+5 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 1 total work set",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Back",
+            "exercise_name": "Omni-Grip Machine Chest-Supported Row",
+            "exercise_description": "Use 3 different grips for the 3 working sets (ideally going from wider to closer). After 2 warm-up sets, do 3 sets of 10-12 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Back",
+            "exercise_name": "A1. Bottom-Half DB Lat Pullover",
+            "exercise_description": "Do DB lat pullovers, but cut out the top half of the ROM (stay entirely in the stretched aspect of the lift). After 1 warm-up set, do 2 sets of 10-12 reps. Aim for an RPE of 9-10 resting 0 min between sets. 2 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 5,
+            "body_part": "Back",
+            "exercise_name": "A2. Lat Static Stretch 30s",
+            "exercise_description": "Hold a lat stretch for 30 seconds. The stretch should be held at about a 7/10 intensity. After no warm-up sets, do 2 sets of a 30s hold. Rest 0 min between sets. 2 total work sets",
+            "rpe": "N/A"
+          },
+          {
+            "order": 6,
+            "body_part": "Shoulders",
+            "exercise_name": "Omni-Direction Face Pull",
+            "exercise_description": "1st set: low-to-high 2nd set: mid-range 3rd set: high-to-low. After 1 warm-up set, do 3 sets of 12-15 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 7,
+            "body_part": "Biceps",
+            "exercise_name": "EZ-Bar Curl",
+            "exercise_description": "Focus on contracting your biceps, minimize torso momentum. After 1 warm-up set, do 3 sets of 6-8 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 8,
+            "body_part": "Biceps",
+            "exercise_name": "Bottom-Half Preacher Curl",
+            "exercise_description": "Do preacher curls, but cut out the top half of the ROM (stay entirely in the stretched aspect of the lift). After no warm-up sets, do 2 sets of 10-12 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "wednesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Squat",
+            "exercise_description": "Sit back and down, keep your upper back tight to the bar. After 3-4 warm-up sets, do 1 set of 2-4 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Pause Squat (Back off)",
+            "exercise_description": "Drop the weight by ~25% from your top set. 2 second pause. Sit back and down, keep your upper back tight to the bar. After no warm-up sets, do 2 sets of 5 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Barbell RDL",
+            "exercise_description": "Maintain a neutral lower back, set your hips back, don't allow your spine to round. After 2 warm-up sets, do 3 sets of 8-10 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Legs",
+            "exercise_name": "Walking Lunge",
+            "exercise_description": "Take medium strides, minimize the amount you push off your rear leg. After 1 warm-up set, do 2 sets of 10 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 5,
+            "body_part": "Legs",
+            "exercise_name": "Seated Leg Curl",
+            "exercise_description": "Focus on squeezing your hamstrings to move the weight. After 1 warm-up set, do 3 sets of 10-12 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 6,
+            "body_part": "Calves",
+            "exercise_name": "Leg Press Toe Press",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 1 warm-up set, do 4 sets of 10-12 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 4 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 7,
+            "body_part": "Abs",
+            "exercise_name": "Decline Plate-Weighted Crunch",
+            "exercise_description": "Hold a plate or DB to your chest and crunch hard. After 1 warm-up set, do 3 sets of 10-12 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          }
+        ]
+      },
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "Pull-Up",
+            "exercise_description": "1.5x shoulder width grip, pull your chest to the bar. After 2 warm-up sets, do 2 sets of 8-10 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Chest",
+            "exercise_name": "Close-Grip Barbell Incline Press",
+            "exercise_description": "Use ~45° incline and a grip width just outside shoulder width. After 2-3 warm-up sets, do 3 sets of 8, 5, 12 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 3,
+            "body_part": "Back",
+            "exercise_name": "Kroc Row",
+            "exercise_description": "Kroc rows are basically just a dumbbell row with mild cheating and a slightly more upright posture. Don't be afraid to go heavy and use straps if your grip is limiting. After 2 warm-up sets, do 3 sets of 10-12 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Shoulders",
+            "exercise_name": "Eccentric-Accentuated Cable Lateral Raise, Constant-Tension Cable Lateral Raise",
+            "exercise_description": "First 5 reps: 5-second lowering phase, last 15 reps constant tension (no pausing at the bottom or top). After 1 warm-up set, do 3 sets of 5, 15 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 5,
+            "body_part": "Biceps",
+            "exercise_name": "N1-Style Cross-Body Bicep Curl",
+            "exercise_description": "Curl across your body with your arm out to the side at ~60°. After 1 warm-up set, do 3 sets of 10-12 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 6,
+            "body_part": "Triceps",
+            "exercise_name": "Diamond Pushup",
+            "exercise_description": "Place your hands close together on the ground so that they form a diamond shape and do as many pushups as possible with a smooth tempo. After no warm-up sets, do 1 AMRAP set (as many reps as possible). Aim for an RPE of 10 resting 0 min between sets. 1 total work set",
+            "rpe": "10"
+          }
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Deadlift",
+            "exercise_description": "Brace your lats, chest tall, pull the slack out of the bar before lifting. After 3-4 warm-up sets, do 1 set of 5 reps. Aim for an RPE of 8-9 resting ~3-5 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Stiff-Leg Deadlift",
+            "exercise_description": "Think about doing a high-hip conventional deadlift with a slight bend in the knees. After no warm-up sets, do 2 sets of 8 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Leg Press",
+            "exercise_description": "Medium width feet placement on the platform, don't allow your lower back to round. After 2-3 warm-up sets, do 4 sets of 10-12 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 4 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Legs",
+            "exercise_name": "Glute Ham Raise",
+            "exercise_description": "Keep your hips straight, do Nordic ham curls if no GHR machine. After 1 warm-up set, do 3 sets of 8-10 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 5,
+            "body_part": "Legs",
+            "exercise_name": "Slow-Eccentric Leg Extension",
+            "exercise_description": "Control the weight with a 3-4 second negative. After 1 warm-up set, do 3 sets of 8-10 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 6,
+            "body_part": "Calves",
+            "exercise_name": "Seated Calf Raise",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 1 warm-up set, do 4 sets of 15-20 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 4 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 7,
+            "body_part": "Abs",
+            "exercise_name": "Roman Chair Leg Raise",
+            "exercise_description": "Don't swing your legs at the bottom, minimize momentum, tuck your knees towards your chest if lifting your legs straight out is too challenging. After 1 warm-up set, do 3 sets of 10-20 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          }
+        ]
+      },
+      "saturday": {
+        "isRestDay": true,
+        "exercises": []
+      },
+      "sunday": {
+        "isRestDay": true,
+        "exercises": []
+      }
+    }
+  },
+  {
+    "week": 2,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Chest",
+            "exercise_name": "Bench Press",
+            "exercise_description": "Set up a comfortable arch, quick pause on the chest and explode up on each rep. After 3-4 warm-up sets, do 1 set of 3-5 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Chest",
+            "exercise_name": "Larsen Press",
+            "exercise_description": "Shoulder blades still retracted and depressed. Slight arch in upper back. Zero leg drive. After no warm-up sets, do 2 sets of 10 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 3,
+            "body_part": "Shoulders",
+            "exercise_name": "Standing Dumbbell Arnold Press",
+            "exercise_description": "Start with your elbows in front of you and palms facing in. Rotate the dumbbells so that your palms face forward as you press. After 2 warm-up sets, do 3 sets of 8-10 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Chest",
+            "exercise_name": "A1. Press-Around",
+            "exercise_description": "Brace with your non-working arm, squeeze your pecs by pressing the cable across your body. After 1 warm-up set, do 2 sets of 12-15 reps. Aim for an RPE of 9-10 resting 0 min between sets. 2 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 5,
+            "body_part": "Chest",
+            "exercise_name": "A2. Pec Static Stretch 30s",
+            "exercise_description": "Hold a pec stretch for 30 seconds. The stretch should be held at about a 7/10 intensity. After no warm-up sets, do 2 sets of a 30s hold. Rest 0 min between sets. 2 total work sets",
+            "rpe": "N/A"
+          },
+          {
+            "order": 6,
+            "body_part": "Shoulders",
+            "exercise_name": "Cross-Body Cable Y- Raise (Side Delt)",
+            "exercise_description": "Think about swinging the cable out and up as if \"drawing a sword\" from your side. After 1 warm-up set, do 3 sets of 12-15 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 7,
+            "body_part": "Triceps",
+            "exercise_name": "Squeeze-Only Triceps Pressdown + Stretch- Only Overhead Triceps Extension",
+            "exercise_description": "Do the second half of the ROM for pressdowns (\"the squeeze\") and the first half of the ROM for overhead extensions (\"the stretch\"). After 1 warm-up set, do 3 sets of 8 + 8 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 8,
+            "body_part": "Triceps",
+            "exercise_name": "N1-Style Cross-Body Triceps Extension",
+            "exercise_description": "Extend your triceps with your arm more out to the side than a regular pressdown. Feel the stretch as the cable moves across your torso. After no warm-up sets, do 2 sets of 10-12 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "Lat Pulldown (Feeder Sets)",
+            "exercise_description": "Do 4 feeder sets of 10 reps by gradually building the weight up from set to set. Set 1 is pretty light (RPE 4-5). Set 2 is a little heavier (RPE 6-7). Set 3 is a little heavier again (RPE 7-8). Set 4 is your hard set: try to hit failure at 10 reps on this last set. After no warm-up sets, do 4 sets of 10 reps. Rest ~2-3 min between sets. 4 total work sets",
+            "rpe": "See Notes"
+          },
+          {
+            "order": 2,
+            "body_part": "Back",
+            "exercise_name": "Lat Pulldown (Failure Set)",
+            "exercise_description": "After hitting failure at ~10 reps, do a dropset. Strip the weight back ~30-50% and do another 5 reps with nice and controlled technique. After no warm-up sets, do 1 set of 10+5 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 1 total work set",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Back",
+            "exercise_name": "Omni-Grip Machine Chest-Supported Row",
+            "exercise_description": "Use 3 different grips for the 3 working sets (ideally going from wider to closer). After 2 warm-up sets, do 3 sets of 10-12 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Back",
+            "exercise_name": "A1. Bottom-Half DB Lat Pullover",
+            "exercise_description": "Do DB lat pullovers, but cut out the top half of the ROM (stay entirely in the stretched aspect of the lift). After 1 warm-up set, do 2 sets of 10-12 reps. Aim for an RPE of 9-10 resting 0 min between sets. 2 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 5,
+            "body_part": "Back",
+            "exercise_name": "A2. Lat Static Stretch 30s",
+            "exercise_description": "Hold a lat stretch for 30 seconds. The stretch should be held at about a 7/10 intensity. After no warm-up sets, do 2 sets of a 30s hold. Rest 0 min between sets. 2 total work sets",
+            "rpe": "N/A"
+          },
+          {
+            "order": 6,
+            "body_part": "Shoulders",
+            "exercise_name": "Omni-Direction Face Pull",
+            "exercise_description": "1st set: low-to-high 2nd set: mid-range 3rd set: high-to-low. After 1 warm-up set, do 3 sets of 12-15 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 7,
+            "body_part": "Biceps",
+            "exercise_name": "EZ-Bar Curl",
+            "exercise_description": "Focus on contracting your biceps, minimize torso momentum. After 1 warm-up set, do 3 sets of 6-8 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 8,
+            "body_part": "Biceps",
+            "exercise_name": "Bottom-Half Preacher Curl",
+            "exercise_description": "Do preacher curls, but cut out the top half of the ROM (stay entirely in the stretched aspect of the lift). After no warm-up sets, do 2 sets of 10-12 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "wednesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Squat",
+            "exercise_description": "Sit back and down, keep your upper back tight to the bar. After 3-4 warm-up sets, do 1 set of 3-5 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Pause Squat (Back off)",
+            "exercise_description": "Drop the weight by ~25% from your top set. 2 second pause. Sit back and down, keep your upper back tight to the bar. After no warm-up sets, do 2 sets of 5 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Barbell RDL",
+            "exercise_description": "Maintain a neutral lower back, set your hips back, don't allow your spine to round. After 2 warm-up sets, do 3 sets of 8-10 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Legs",
+            "exercise_name": "Walking Lunge",
+            "exercise_description": "Take medium strides, minimize the amount you push off your rear leg. After 1 warm-up set, do 2 sets of 10 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 5,
+            "body_part": "Legs",
+            "exercise_name": "Seated Leg Curl",
+            "exercise_description": "Focus on squeezing your hamstrings to move the weight. After 1 warm-up set, do 3 sets of 10-12 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 6,
+            "body_part": "Calves",
+            "exercise_name": "Leg Press Toe Press",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 1 warm-up set, do 4 sets of 10-12 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 4 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 7,
+            "body_part": "Abs",
+            "exercise_name": "Decline Plate-Weighted Crunch",
+            "exercise_description": "Hold a plate or DB to your chest and crunch hard. After 1 warm-up set, do 3 sets of 10-12 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          }
+        ]
+      },
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "Pull-Up",
+            "exercise_description": "1.5x shoulder width grip, pull your chest to the bar. After 2 warm-up sets, do 2 sets of 8-10 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Chest",
+            "exercise_name": "Close-Grip Barbell Incline Press",
+            "exercise_description": "Use ~45° incline and a grip width just outside shoulder width. After 2-3 warm-up sets, do 3 sets of 8, 5, 12 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 3,
+            "body_part": "Back",
+            "exercise_name": "Kroc Row",
+            "exercise_description": "Kroc rows are basically just a dumbbell row with mild cheating and a slightly more upright posture. Don't be afraid to go heavy and use straps if your grip is limiting. After 2 warm-up sets, do 3 sets of 10-12 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Shoulders",
+            "exercise_name": "Eccentric-Accentuated Cable Lateral Raise, Constant-Tension Cable Lateral Raise",
+            "exercise_description": "First 5 reps: 5-second lowering phase, last 15 reps constant tension (no pausing at the bottom or top). After 1 warm-up set, do 3 sets of 5, 15 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 5,
+            "body_part": "Biceps",
+            "exercise_name": "N1-Style Cross-Body Bicep Curl",
+            "exercise_description": "Curl across your body with your arm out to the side at ~60°. After 1 warm-up set, do 3 sets of 10-12 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 6,
+            "body_part": "Triceps",
+            "exercise_name": "Diamond Pushup",
+            "exercise_description": "Place your hands close together on the ground so that they form a diamond shape and do as many pushups as possible with a smooth tempo. After no warm-up sets, do 1 AMRAP set (as many reps as possible). Aim for an RPE of 10 resting 0 min between sets. 1 total work set",
+            "rpe": "10"
+          }
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Deadlift",
+            "exercise_description": "Brace your lats, chest tall, pull the slack out of the bar before lifting. After 3-4 warm-up sets, do 1 set of 4 reps. Aim for an RPE of 8-9 resting ~3-5 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Stiff-Leg Deadlift",
+            "exercise_description": "Think about doing a high-hip conventional deadlift with a slight bend in the knees. After no warm-up sets, do 2 sets of 8 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Leg Press",
+            "exercise_description": "Medium width feet placement on the platform, don't allow your lower back to round. After 2-3 warm-up sets, do 4 sets of 10-12 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 4 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Legs",
+            "exercise_name": "Glute Ham Raise",
+            "exercise_description": "Keep your hips straight, do Nordic ham curls if no GHR machine. After 1 warm-up set, do 3 sets of 8-10 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 5,
+            "body_part": "Legs",
+            "exercise_name": "Slow-Eccentric Leg Extension",
+            "exercise_description": "Control the weight with a 3-4 second negative. After 1 warm-up set, do 3 sets of 8-10 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 6,
+            "body_part": "Calves",
+            "exercise_name": "Seated Calf Raise",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 1 warm-up set, do 4 sets of 15-20 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 4 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 7,
+            "body_part": "Abs",
+            "exercise_name": "Roman Chair Leg Raise",
+            "exercise_description": "Don't swing your legs at the bottom, minimize momentum, tuck your knees towards your chest if lifting your legs straight out is too challenging. After 1 warm-up set, do 3 sets of 10-20 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          }
+        ]
+      },
+      "saturday": {
+        "isRestDay": true,
+        "exercises": []
+      },
+      "sunday": {
+        "isRestDay": true,
+        "exercises": []
+      }
+    }
+  },
+  {
+    "week": 3,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Chest",
+            "exercise_name": "Bench Press",
+            "exercise_description": "Set up a comfortable arch, quick pause on the chest and explode up on each rep. After 3-4 warm-up sets, do 1 set of 2-4 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Chest",
+            "exercise_name": "Larsen Press",
+            "exercise_description": "Shoulder blades still retracted and depressed. Slight arch in upper back. Zero leg drive. After no warm-up sets, do 2 sets of 10 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 3,
+            "body_part": "Shoulders",
+            "exercise_name": "Standing Dumbbell Arnold Press",
+            "exercise_description": "Start with your elbows in front of you and palms facing in. Rotate the dumbbells so that your palms face forward as you press. After 2 warm-up sets, do 3 sets of 8-10 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Chest",
+            "exercise_name": "A1. Press-Around",
+            "exercise_description": "Brace with your non-working arm, squeeze your pecs by pressing the cable across your body. After 1 warm-up set, do 2 sets of 12-15 reps. Aim for an RPE of 9-10 resting 0 min between sets. 2 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 5,
+            "body_part": "Chest",
+            "exercise_name": "A2. Pec Static Stretch 30s",
+            "exercise_description": "Hold a pec stretch for 30 seconds. The stretch should be held at about a 7/10 intensity. After no warm-up sets, do 2 sets of a 30s hold. Rest 0 min between sets. 2 total work sets",
+            "rpe": "N/A"
+          },
+          {
+            "order": 6,
+            "body_part": "Shoulders",
+            "exercise_name": "Cross-Body Cable Y- Raise (Side Delt)",
+            "exercise_description": "Think about swinging the cable out and up as if \"drawing a sword\" from your side. After 1 warm-up set, do 3 sets of 12-15 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 7,
+            "body_part": "Triceps",
+            "exercise_name": "Squeeze-Only Triceps Pressdown + Stretch- Only Overhead Triceps Extension",
+            "exercise_description": "Do the second half of the ROM for pressdowns (\"the squeeze\") and the first half of the ROM for overhead extensions (\"the stretch\"). After 1 warm-up set, do 3 sets of 8 + 8 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 8,
+            "body_part": "Triceps",
+            "exercise_name": "N1-Style Cross-Body Triceps Extension",
+            "exercise_description": "Extend your triceps with your arm more out to the side than a regular pressdown. Feel the stretch as the cable moves across your torso. After no warm-up sets, do 2 sets of 10-12 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "Lat Pulldown (Feeder Sets)",
+            "exercise_description": "Do 4 feeder sets of 10 reps by gradually building the weight up from set to set. Set 1 is pretty light (RPE 4-5). Set 2 is a little heavier (RPE 6-7). Set 3 is a little heavier again (RPE 7-8). Set 4 is your hard set: try to hit failure at 10 reps on this last set. After no warm-up sets, do 4 sets of 10 reps. Rest ~2-3 min between sets. 4 total work sets",
+            "rpe": "See Notes"
+          },
+          {
+            "order": 2,
+            "body_part": "Back",
+            "exercise_name": "Lat Pulldown (Failure Set)",
+            "exercise_description": "After hitting failure at ~10 reps, do a dropset. Strip the weight back ~30-50% and do another 5 reps with nice and controlled technique. After no warm-up sets, do 1 set of 10+5 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 1 total work set",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Back",
+            "exercise_name": "Omni-Grip Machine Chest-Supported Row",
+            "exercise_description": "Use 3 different grips for the 3 working sets (ideally going from wider to closer). After 2 warm-up sets, do 3 sets of 10-12 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Back",
+            "exercise_name": "A1. Bottom-Half DB Lat Pullover",
+            "exercise_description": "Do DB lat pullovers, but cut out the top half of the ROM (stay entirely in the stretched aspect of the lift). After 1 warm-up set, do 2 sets of 10-12 reps. Aim for an RPE of 9-10 resting 0 min between sets. 2 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 5,
+            "body_part": "Back",
+            "exercise_name": "A2. Lat Static Stretch 30s",
+            "exercise_description": "Hold a lat stretch for 30 seconds. The stretch should be held at about a 7/10 intensity. After no warm-up sets, do 2 sets of a 30s hold. Rest 0 min between sets. 2 total work sets",
+            "rpe": "N/A"
+          },
+          {
+            "order": 6,
+            "body_part": "Shoulders",
+            "exercise_name": "Omni-Direction Face Pull",
+            "exercise_description": "1st set: low-to-high 2nd set: mid-range 3rd set: high-to-low. After 1 warm-up set, do 3 sets of 12-15 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 7,
+            "body_part": "Biceps",
+            "exercise_name": "EZ-Bar Curl",
+            "exercise_description": "Focus on contracting your biceps, minimize torso momentum. After 1 warm-up set, do 3 sets of 6-8 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 8,
+            "body_part": "Biceps",
+            "exercise_name": "Bottom-Half Preacher Curl",
+            "exercise_description": "Do preacher curls, but cut out the top half of the ROM (stay entirely in the stretched aspect of the lift). After no warm-up sets, do 2 sets of 10-12 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "wednesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Squat",
+            "exercise_description": "Sit back and down, keep your upper back tight to the bar. After 3-4 warm-up sets, do 1 set of 4-6 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Pause Squat (Back off)",
+            "exercise_description": "Drop the weight by ~25% from your top set. 2 second pause. Sit back and down, keep your upper back tight to the bar. After no warm-up sets, do 2 sets of 5 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Barbell RDL",
+            "exercise_description": "Maintain a neutral lower back, set your hips back, don't allow your spine to round. After 2 warm-up sets, do 3 sets of 8-10 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Legs",
+            "exercise_name": "Walking Lunge",
+            "exercise_description": "Take medium strides, minimize the amount you push off your rear leg. After 1 warm-up set, do 2 sets of 10 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 5,
+            "body_part": "Legs",
+            "exercise_name": "Seated Leg Curl",
+            "exercise_description": "Focus on squeezing your hamstrings to move the weight. After 1 warm-up set, do 3 sets of 10-12 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 6,
+            "body_part": "Calves",
+            "exercise_name": "Leg Press Toe Press",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 1 warm-up set, do 4 sets of 10-12 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 4 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 7,
+            "body_part": "Abs",
+            "exercise_name": "Decline Plate-Weighted Crunch",
+            "exercise_description": "Hold a plate or DB to your chest and crunch hard. After 1 warm-up set, do 3 sets of 10-12 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          }
+        ]
+      },
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "Pull-Up",
+            "exercise_description": "1.5x shoulder width grip, pull your chest to the bar. After 2 warm-up sets, do 2 sets of 8-10 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Chest",
+            "exercise_name": "Close-Grip Barbell Incline Press",
+            "exercise_description": "Use ~45° incline and a grip width just outside shoulder width. After 2-3 warm-up sets, do 3 sets of 8, 5, 12 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 3,
+            "body_part": "Back",
+            "exercise_name": "Kroc Row",
+            "exercise_description": "Kroc rows are basically just a dumbbell row with mild cheating and a slightly more upright posture. Don't be afraid to go heavy and use straps if your grip is limiting. After 2 warm-up sets, do 3 sets of 10-12 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Shoulders",
+            "exercise_name": "Eccentric-Accentuated Cable Lateral Raise, Constant-Tension Cable Lateral Raise",
+            "exercise_description": "First 5 reps: 5-second lowering phase, last 15 reps constant tension (no pausing at the bottom or top). After 1 warm-up set, do 3 sets of 5, 15 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 5,
+            "body_part": "Biceps",
+            "exercise_name": "N1-Style Cross-Body Bicep Curl",
+            "exercise_description": "Curl across your body with your arm out to the side at ~60°. After 1 warm-up set, do 3 sets of 10-12 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 6,
+            "body_part": "Triceps",
+            "exercise_name": "Diamond Pushup",
+            "exercise_description": "Place your hands close together on the ground so that they form a diamond shape and do as many pushups as possible with a smooth tempo. After no warm-up sets, do 1 AMRAP set (as many reps as possible). Aim for an RPE of 10 resting 0 min between sets. 1 total work set",
+            "rpe": "10"
+          }
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Deadlift",
+            "exercise_description": "Brace your lats, chest tall, pull the slack out of the bar before lifting. After 3-4 warm-up sets, do 1 set of 3 reps. Aim for an RPE of 8-9 resting ~3-5 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Stiff-Leg Deadlift",
+            "exercise_description": "Think about doing a high-hip conventional deadlift with a slight bend in the knees. After no warm-up sets, do 2 sets of 8 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Leg Press",
+            "exercise_description": "Medium width feet placement on the platform, don't allow your lower back to round. After 2-3 warm-up sets, do 4 sets of 10-12 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 4 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Legs",
+            "exercise_name": "Glute Ham Raise",
+            "exercise_description": "Keep your hips straight, do Nordic ham curls if no GHR machine. After 1 warm-up set, do 3 sets of 8-10 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 5,
+            "body_part": "Legs",
+            "exercise_name": "Slow-Eccentric Leg Extension",
+            "exercise_description": "Control the weight with a 3-4 second negative. After 1 warm-up set, do 3 sets of 8-10 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 6,
+            "body_part": "Calves",
+            "exercise_name": "Seated Calf Raise",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 1 warm-up set, do 4 sets of 15-20 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 4 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 7,
+            "body_part": "Abs",
+            "exercise_name": "Roman Chair Leg Raise",
+            "exercise_description": "Don't swing your legs at the bottom, minimize momentum, tuck your knees towards your chest if lifting your legs straight out is too challenging. After 1 warm-up set, do 3 sets of 10-20 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          }
+        ]
+      },
+      "saturday": {
+        "isRestDay": true,
+        "exercises": []
+      },
+      "sunday": {
+        "isRestDay": true,
+        "exercises": []
+      }
+    }
+  },
+  {
+    "week": 4,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Chest",
+            "exercise_name": "Bench Press",
+            "exercise_description": "Set up a comfortable arch, quick pause on the chest and explode up on each rep. After 3-4 warm-up sets, do 1 set of 2-4 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Chest",
+            "exercise_name": "Larsen Press",
+            "exercise_description": "Shoulder blades still retracted and depressed. Slight arch in upper back. Zero leg drive. After no warm-up sets, do 2 sets of 10 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 3,
+            "body_part": "Shoulders",
+            "exercise_name": "Standing Dumbbell Arnold Press",
+            "exercise_description": "Start with your elbows in front of you and palms facing in. Rotate the dumbbells so that your palms face forward as you press. After 2 warm-up sets, do 3 sets of 8-10 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Chest",
+            "exercise_name": "A1. Press-Around",
+            "exercise_description": "Brace with your non-working arm, squeeze your pecs by pressing the cable across your body. After 1 warm-up set, do 2 sets of 12-15 reps. Aim for an RPE of 9-10 resting 0 min between sets. 2 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 5,
+            "body_part": "Chest",
+            "exercise_name": "A2. Pec Static Stretch 30s",
+            "exercise_description": "Hold a pec stretch for 30 seconds. The stretch should be held at about a 7/10 intensity. After no warm-up sets, do 2 sets of a 30s hold. Rest 0 min between sets. 2 total work sets",
+            "rpe": "N/A"
+          },
+          {
+            "order": 6,
+            "body_part": "Shoulders",
+            "exercise_name": "Cross-Body Cable Y- Raise (Side Delt)",
+            "exercise_description": "Think about swinging the cable out and up as if \"drawing a sword\" from your side. After 1 warm-up set, do 3 sets of 12-15 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 7,
+            "body_part": "Triceps",
+            "exercise_name": "Squeeze-Only Triceps Pressdown + Stretch- Only Overhead Triceps Extension",
+            "exercise_description": "Do the second half of the ROM for pressdowns (\"the squeeze\") and the first half of the ROM for overhead extensions (\"the stretch\"). After 1 warm-up set, do 3 sets of 8 + 8 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 8,
+            "body_part": "Triceps",
+            "exercise_name": "N1-Style Cross-Body Triceps Extension",
+            "exercise_description": "Extend your triceps with your arm more out to the side than a regular pressdown. Feel the stretch as the cable moves across your torso. After no warm-up sets, do 2 sets of 10-12 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "Lat Pulldown (Feeder Sets)",
+            "exercise_description": "Do 4 feeder sets of 10 reps by gradually building the weight up from set to set. Set 1 is pretty light (RPE 4-5). Set 2 is a little heavier (RPE 6-7). Set 3 is a little heavier again (RPE 7-8). Set 4 is your hard set: try to hit failure at 10 reps on this last set. After no warm-up sets, do 4 sets of 10 reps. Rest ~2-3 min between sets. 4 total work sets",
+            "rpe": "See Notes"
+          },
+          {
+            "order": 2,
+            "body_part": "Back",
+            "exercise_name": "Lat Pulldown (Failure Set)",
+            "exercise_description": "After hitting failure at ~10 reps, do a dropset. Strip the weight back ~30-50% and do another 5 reps with nice and controlled technique. After no warm-up sets, do 1 set of 10+5 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 1 total work set",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Back",
+            "exercise_name": "Omni-Grip Machine Chest-Supported Row",
+            "exercise_description": "Use 3 different grips for the 3 working sets (ideally going from wider to closer). After 2 warm-up sets, do 3 sets of 10-12 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Back",
+            "exercise_name": "A1. Bottom-Half DB Lat Pullover",
+            "exercise_description": "Do DB lat pullovers, but cut out the top half of the ROM (stay entirely in the stretched aspect of the lift). After 1 warm-up set, do 2 sets of 10-12 reps. Aim for an RPE of 9-10 resting 0 min between sets. 2 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 5,
+            "body_part": "Back",
+            "exercise_name": "A2. Lat Static Stretch 30s",
+            "exercise_description": "Hold a lat stretch for 30 seconds. The stretch should be held at about a 7/10 intensity. After no warm-up sets, do 2 sets of a 30s hold. Rest 0 min between sets. 2 total work sets",
+            "rpe": "N/A"
+          },
+          {
+            "order": 6,
+            "body_part": "Shoulders",
+            "exercise_name": "Omni-Direction Face Pull",
+            "exercise_description": "1st set: low-to-high 2nd set: mid-range 3rd set: high-to-low. After 1 warm-up set, do 3 sets of 12-15 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 7,
+            "body_part": "Biceps",
+            "exercise_name": "EZ-Bar Curl",
+            "exercise_description": "Focus on contracting your biceps, minimize torso momentum. After 1 warm-up set, do 3 sets of 6-8 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 8,
+            "body_part": "Biceps",
+            "exercise_name": "Bottom-Half Preacher Curl",
+            "exercise_description": "Do preacher curls, but cut out the top half of the ROM (stay entirely in the stretched aspect of the lift). After no warm-up sets, do 2 sets of 10-12 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "wednesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Squat",
+            "exercise_description": "Sit back and down, keep your upper back tight to the bar. After 3-4 warm-up sets, do 1 set of 3-5 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Pause Squat (Back off)",
+            "exercise_description": "Drop the weight by ~25% from your top set. 2 second pause. Sit back and down, keep your upper back tight to the bar. After no warm-up sets, do 2 sets of 5 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Barbell RDL",
+            "exercise_description": "Maintain a neutral lower back, set your hips back, don't allow your spine to round. After 2 warm-up sets, do 3 sets of 8-10 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Legs",
+            "exercise_name": "Walking Lunge",
+            "exercise_description": "Take medium strides, minimize the amount you push off your rear leg. After 1 warm-up set, do 2 sets of 10 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 5,
+            "body_part": "Legs",
+            "exercise_name": "Seated Leg Curl",
+            "exercise_description": "Focus on squeezing your hamstrings to move the weight. After 1 warm-up set, do 3 sets of 10-12 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 6,
+            "body_part": "Calves",
+            "exercise_name": "Leg Press Toe Press",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 1 warm-up set, do 4 sets of 10-12 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 4 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 7,
+            "body_part": "Abs",
+            "exercise_name": "Decline Plate-Weighted Crunch",
+            "exercise_description": "Hold a plate or DB to your chest and crunch hard. After 1 warm-up set, do 3 sets of 10-12 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          }
+        ]
+      },
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "Pull-Up",
+            "exercise_description": "1.5x shoulder width grip, pull your chest to the bar. After 2 warm-up sets, do 2 sets of 8-10 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Chest",
+            "exercise_name": "Close-Grip Barbell Incline Press",
+            "exercise_description": "Use ~45° incline and a grip width just outside shoulder width. After 2-3 warm-up sets, do 3 sets of 8, 5, 12 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 3,
+            "body_part": "Back",
+            "exercise_name": "Kroc Row",
+            "exercise_description": "Kroc rows are basically just a dumbbell row with mild cheating and a slightly more upright posture. Don't be afraid to go heavy and use straps if your grip is limiting. After 2 warm-up sets, do 3 sets of 10-12 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Shoulders",
+            "exercise_name": "Eccentric-Accentuated Cable Lateral Raise, Constant-Tension Cable Lateral Raise",
+            "exercise_description": "First 5 reps: 5-second lowering phase, last 15 reps constant tension (no pausing at the bottom or top). After 1 warm-up set, do 3 sets of 5, 15 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 5,
+            "body_part": "Biceps",
+            "exercise_name": "N1-Style Cross-Body Bicep Curl",
+            "exercise_description": "Curl across your body with your arm out to the side at ~60°. After 1 warm-up set, do 3 sets of 10-12 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 6,
+            "body_part": "Triceps",
+            "exercise_name": "Diamond Pushup",
+            "exercise_description": "Place your hands close together on the ground so that they form a diamond shape and do as many pushups as possible with a smooth tempo. After no warm-up sets, do 1 AMRAP set (as many reps as possible). Aim for an RPE of 10 resting 0 min between sets. 1 total work set",
+            "rpe": "10"
+          }
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Deadlift",
+            "exercise_description": "Brace your lats, chest tall, pull the slack out of the bar before lifting. After 3-4 warm-up sets, do 1 set of 2 reps. Aim for an RPE of 8-9 resting ~3-5 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Stiff-Leg Deadlift",
+            "exercise_description": "Think about doing a high-hip conventional deadlift with a slight bend in the knees. After no warm-up sets, do 2 sets of 8 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Leg Press",
+            "exercise_description": "Medium width feet placement on the platform, don't allow your lower back to round. After 2-3 warm-up sets, do 4 sets of 10-12 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 4 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Legs",
+            "exercise_name": "Glute Ham Raise",
+            "exercise_description": "Keep your hips straight, do Nordic ham curls if no GHR machine. After 1 warm-up set, do 3 sets of 8-10 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 5,
+            "body_part": "Legs",
+            "exercise_name": "Slow-Eccentric Leg Extension",
+            "exercise_description": "Control the weight with a 3-4 second negative. After 1 warm-up set, do 3 sets of 8-10 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 6,
+            "body_part": "Calves",
+            "exercise_name": "Seated Calf Raise",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 1 warm-up set, do 4 sets of 15-20 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 4 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 7,
+            "body_part": "Abs",
+            "exercise_name": "Roman Chair Leg Raise",
+            "exercise_description": "Don't swing your legs at the bottom, minimize momentum, tuck your knees towards your chest if lifting your legs straight out is too challenging. After 1 warm-up set, do 3 sets of 10-20 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          }
+        ]
+      },
+      "saturday": {
+        "isRestDay": true,
+        "exercises": []
+      },
+      "sunday": {
+        "isRestDay": true,
+        "exercises": []
+      }
+    }
+  },
+  {
+    "week": 5,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Chest",
+            "exercise_name": "Bench Press",
+            "exercise_description": "Set up a comfortable arch, quick pause on the chest and explode up on each rep. After 3-4 warm-up sets, do 1 set of 3-5 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Chest",
+            "exercise_name": "Larsen Press",
+            "exercise_description": "Shoulder blades still retracted and depressed. Slight arch in upper back. Zero leg drive. After no warm-up sets, do 2 sets of 10 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 3,
+            "body_part": "Shoulders",
+            "exercise_name": "Standing Dumbbell Arnold Press",
+            "exercise_description": "Start with your elbows in front of you and palms facing in. Rotate the dumbbells so that your palms face forward as you press. After 2 warm-up sets, do 3 sets of 8-10 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Chest",
+            "exercise_name": "A1. Press-Around",
+            "exercise_description": "Brace with your non-working arm, squeeze your pecs by pressing the cable across your body. After 1 warm-up set, do 2 sets of 12-15 reps. Aim for an RPE of 9-10 resting 0 min between sets. 2 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 5,
+            "body_part": "Chest",
+            "exercise_name": "A2. Pec Static Stretch 30s",
+            "exercise_description": "Hold a pec stretch for 30 seconds. The stretch should be held at about a 7/10 intensity. After no warm-up sets, do 2 sets of a 30s hold. Rest 0 min between sets. 2 total work sets",
+            "rpe": "N/A"
+          },
+          {
+            "order": 6,
+            "body_part": "Shoulders",
+            "exercise_name": "Cross-Body Cable Y- Raise (Side Delt)",
+            "exercise_description": "Think about swinging the cable out and up as if \"drawing a sword\" from your side. After 1 warm-up set, do 3 sets of 12-15 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 7,
+            "body_part": "Triceps",
+            "exercise_name": "Squeeze-Only Triceps Pressdown + Stretch- Only Overhead Triceps Extension",
+            "exercise_description": "Do the second half of the ROM for pressdowns (\"the squeeze\") and the first half of the ROM for overhead extensions (\"the stretch\"). After 1 warm-up set, do 3 sets of 8 + 8 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 8,
+            "body_part": "Triceps",
+            "exercise_name": "N1-Style Cross-Body Triceps Extension",
+            "exercise_description": "Extend your triceps with your arm more out to the side than a regular pressdown. Feel the stretch as the cable moves across your torso. After no warm-up sets, do 2 sets of 10-12 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "Lat Pulldown (Feeder Sets)",
+            "exercise_description": "Do 4 feeder sets of 10 reps by gradually building the weight up from set to set. Set 1 is pretty light (RPE 4-5). Set 2 is a little heavier (RPE 6-7). Set 3 is a little heavier again (RPE 7-8). Set 4 is your hard set: try to hit failure at 10 reps on this last set. After no warm-up sets, do 4 sets of 10 reps. Rest ~2-3 min between sets. 4 total work sets",
+            "rpe": "See Notes"
+          },
+          {
+            "order": 2,
+            "body_part": "Back",
+            "exercise_name": "Lat Pulldown (Failure Set)",
+            "exercise_description": "After hitting failure at ~10 reps, do a dropset. Strip the weight back ~30-50% and do another 5 reps with nice and controlled technique. After no warm-up sets, do 1 set of 10+5 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 1 total work set",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Back",
+            "exercise_name": "Omni-Grip Machine Chest-Supported Row",
+            "exercise_description": "Use 3 different grips for the 3 working sets (ideally going from wider to closer). After 2 warm-up sets, do 3 sets of 10-12 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Back",
+            "exercise_name": "A1. Bottom-Half DB Lat Pullover",
+            "exercise_description": "Do DB lat pullovers, but cut out the top half of the ROM (stay entirely in the stretched aspect of the lift). After 1 warm-up set, do 2 sets of 10-12 reps. Aim for an RPE of 9-10 resting 0 min between sets. 2 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 5,
+            "body_part": "Back",
+            "exercise_name": "A2. Lat Static Stretch 30s",
+            "exercise_description": "Hold a lat stretch for 30 seconds. The stretch should be held at about a 7/10 intensity. After no warm-up sets, do 2 sets of a 30s hold. Rest 0 min between sets. 2 total work sets",
+            "rpe": "N/A"
+          },
+          {
+            "order": 6,
+            "body_part": "Shoulders",
+            "exercise_name": "Omni-Direction Face Pull",
+            "exercise_description": "1st set: low-to-high 2nd set: mid-range 3rd set: high-to-low. After 1 warm-up set, do 3 sets of 12-15 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 7,
+            "body_part": "Biceps",
+            "exercise_name": "EZ-Bar Curl",
+            "exercise_description": "Focus on contracting your biceps, minimize torso momentum. After 1 warm-up set, do 3 sets of 6-8 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 8,
+            "body_part": "Biceps",
+            "exercise_name": "Bottom-Half Preacher Curl",
+            "exercise_description": "Do preacher curls, but cut out the top half of the ROM (stay entirely in the stretched aspect of the lift). After no warm-up sets, do 2 sets of 10-12 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "wednesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Squat",
+            "exercise_description": "Sit back and down, keep your upper back tight to the bar. After 3-4 warm-up sets, do 1 set of 2-4 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Pause Squat (Back off)",
+            "exercise_description": "Drop the weight by ~25% from your top set. 2 second pause. Sit back and down, keep your upper back tight to the bar. After no warm-up sets, do 2 sets of 5 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Barbell RDL",
+            "exercise_description": "Maintain a neutral lower back, set your hips back, don't allow your spine to round. After 2 warm-up sets, do 3 sets of 8-10 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Legs",
+            "exercise_name": "Walking Lunge",
+            "exercise_description": "Take medium strides, minimize the amount you push off your rear leg. After 1 warm-up set, do 2 sets of 10 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 5,
+            "body_part": "Legs",
+            "exercise_name": "Seated Leg Curl",
+            "exercise_description": "Focus on squeezing your hamstrings to move the weight. After 1 warm-up set, do 3 sets of 10-12 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 6,
+            "body_part": "Calves",
+            "exercise_name": "Leg Press Toe Press",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 1 warm-up set, do 4 sets of 10-12 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 4 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 7,
+            "body_part": "Abs",
+            "exercise_name": "Decline Plate-Weighted Crunch",
+            "exercise_description": "Hold a plate or DB to your chest and crunch hard. After 1 warm-up set, do 3 sets of 10-12 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          }
+        ]
+      },
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "Pull-Up",
+            "exercise_description": "1.5x shoulder width grip, pull your chest to the bar. After 2 warm-up sets, do 2 sets of 8-10 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Chest",
+            "exercise_name": "Close-Grip Barbell Incline Press",
+            "exercise_description": "Use ~45° incline and a grip width just outside shoulder width. After 2-3 warm-up sets, do 3 sets of 8, 5, 12 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 3,
+            "body_part": "Back",
+            "exercise_name": "Kroc Row",
+            "exercise_description": "Kroc rows are basically just a dumbbell row with mild cheating and a slightly more upright posture. Don't be afraid to go heavy and use straps if your grip is limiting. After 2 warm-up sets, do 3 sets of 10-12 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Shoulders",
+            "exercise_name": "Eccentric-Accentuated Cable Lateral Raise, Constant-Tension Cable Lateral Raise",
+            "exercise_description": "First 5 reps: 5-second lowering phase, last 15 reps constant tension (no pausing at the bottom or top). After 1 warm-up set, do 3 sets of 5, 15 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 5,
+            "body_part": "Biceps",
+            "exercise_name": "N1-Style Cross-Body Bicep Curl",
+            "exercise_description": "Curl across your body with your arm out to the side at ~60°. After 1 warm-up set, do 3 sets of 10-12 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 6,
+            "body_part": "Triceps",
+            "exercise_name": "Diamond Pushup",
+            "exercise_description": "Place your hands close together on the ground so that they form a diamond shape and do as many pushups as possible with a smooth tempo. After no warm-up sets, do 1 AMRAP set (as many reps as possible). Aim for an RPE of 10 resting 0 min between sets. 1 total work set",
+            "rpe": "10"
+          }
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Deadlift",
+            "exercise_description": "Brace your lats, chest tall, pull the slack out of the bar before lifting. After 3-4 warm-up sets, do 1 set of 1 reps. Aim for an RPE of 8-9 resting ~3-5 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Stiff-Leg Deadlift",
+            "exercise_description": "Think about doing a high-hip conventional deadlift with a slight bend in the knees. After no warm-up sets, do 2 sets of 8 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Leg Press",
+            "exercise_description": "Medium width feet placement on the platform, don't allow your lower back to round. After 2-3 warm-up sets, do 4 sets of 10-12 reps. Aim for an RPE of 8-9 resting ~2-3 min between sets. 4 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 4,
+            "body_part": "Legs",
+            "exercise_name": "Glute Ham Raise",
+            "exercise_description": "Keep your hips straight, do Nordic ham curls if no GHR machine. After 1 warm-up set, do 3 sets of 8-10 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 5,
+            "body_part": "Legs",
+            "exercise_name": "Slow-Eccentric Leg Extension",
+            "exercise_description": "Control the weight with a 3-4 second negative. After 1 warm-up set, do 3 sets of 8-10 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 6,
+            "body_part": "Calves",
+            "exercise_name": "Seated Calf Raise",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 1 warm-up set, do 4 sets of 15-20 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 4 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 7,
+            "body_part": "Abs",
+            "exercise_name": "Roman Chair Leg Raise",
+            "exercise_description": "Don't swing your legs at the bottom, minimize momentum, tuck your knees towards your chest if lifting your legs straight out is too challenging. After 1 warm-up set, do 3 sets of 10-20 reps. Aim for an RPE of 9-10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "9-10"
+          }
+        ]
+      },
+      "saturday": {
+        "isRestDay": true,
+        "exercises": []
+      },
+      "sunday": {
+        "isRestDay": true,
+        "exercises": []
+      }
+    }
+  },
+  {
+    "week": 6,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Chest",
+            "exercise_name": "Bench Press",
+            "exercise_description": "Set up a comfortable arch, quick pause on the chest and explode up on each rep. After 3-4 warm-up sets, do 1 set of 3-5 reps. Aim for an RPE of 7 resting ~3-4 min between sets. 1 total work set",
+            "rpe": "7"
+          },
+          {
+            "order": 2,
+            "body_part": "Chest",
+            "exercise_name": "Larsen Press",
+            "exercise_description": "Shoulder blades still retracted and depressed. Slight arch in upper back. Zero leg drive. After no warm-up sets, do 2 sets of 10 reps. Aim for an RPE of 7 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "7"
+          },
+          {
+            "order": 3,
+            "body_part": "Shoulders",
+            "exercise_name": "Standing Dumbbell Arnold Press",
+            "exercise_description": "Start with your elbows in front of you and palms facing in. Rotate the dumbbells so that your palms face forward as you press. After 2 warm-up sets, do 2 sets of 8-10 reps. Aim for an RPE of 7 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "7"
+          },
+          {
+            "order": 4,
+            "body_part": "Chest",
+            "exercise_name": "A1. Press-Around",
+            "exercise_description": "Brace with your non-working arm, squeeze your pecs by pressing the cable across your body. After 1 warm-up set, do 2 sets of 12-15 reps. Aim for an RPE of 8 resting 0 min between sets. 2 total work sets",
+            "rpe": "8"
+          },
+          {
+            "order": 5,
+            "body_part": "Chest",
+            "exercise_name": "A2. Pec Static Stretch 30s",
+            "exercise_description": "Hold a pec stretch for 30 seconds. The stretch should be held at about a 7/10 intensity. After no warm-up sets, do 2 sets of a 30s hold. Rest 0 min between sets. 2 total work sets",
+            "rpe": "N/A"
+          },
+          {
+            "order": 6,
+            "body_part": "Shoulders",
+            "exercise_name": "Cross-Body Cable Y- Raise (Side Delt)",
+            "exercise_description": "Think about swinging the cable out and up as if \"drawing a sword\" from your side. After 1 warm-up set, do 2 sets of 12-15 reps. Aim for an RPE of 8 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "8"
+          },
+          {
+            "order": 7,
+            "body_part": "Triceps",
+            "exercise_name": "Squeeze-Only Triceps Pressdown + Stretch- Only Overhead Triceps Extension",
+            "exercise_description": "Do the second half of the ROM for pressdowns (\"the squeeze\") and the first half of the ROM for overhead extensions (\"the stretch\"). After 1 warm-up set, do 2 sets of 8 + 8 reps. Aim for an RPE of 8 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "8"
+          },
+          {
+            "order": 8,
+            "body_part": "Triceps",
+            "exercise_name": "N1-Style Cross-Body Triceps Extension",
+            "exercise_description": "Extend your triceps with your arm more out to the side than a regular pressdown. Feel the stretch as the cable moves across your torso. After no warm-up sets, do 2 sets of 10-12 reps. Aim for an RPE of 8 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "8"
+          }
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "Lat Pulldown (Feeder Sets)",
+            "exercise_description": "Do 4 feeder sets of 10 reps by gradually building the weight up from set to set. Set 1 is pretty light (RPE 4-5). Set 2 is a little heavier (RPE 6-7). Set 3 is a little heavier again (RPE 7-8). Set 4 is your hard set: try to hit failure at 10 reps on this last set. After no warm-up sets, do 4 sets of 10 reps. Rest ~2-3 min between sets. 4 total work sets",
+            "rpe": "See Notes"
+          },
+          {
+            "order": 2,
+            "body_part": "Back",
+            "exercise_name": "Lat Pulldown (Failure Set)",
+            "exercise_description": "After hitting failure at ~10 reps, do a dropset. Strip the weight back ~30-50% and do another 5 reps with nice and controlled technique. After no warm-up sets, do 1 set of 10+5 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 1 total work set",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Back",
+            "exercise_name": "Omni-Grip Machine Chest-Supported Row",
+            "exercise_description": "Use 3 different grips for the 3 working sets (ideally going from wider to closer). After 2 warm-up sets, do 3 sets of 10-12 reps. Aim for an RPE of 7 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "7"
+          },
+          {
+            "order": 4,
+            "body_part": "Back",
+            "exercise_name": "A1. Bottom-Half DB Lat Pullover",
+            "exercise_description": "Do DB lat pullovers, but cut out the top half of the ROM (stay entirely in the stretched aspect of the lift). After 1 warm-up set, do 2 sets of 10-12 reps. Aim for an RPE of 8 resting 0 min between sets. 2 total work sets",
+            "rpe": "8"
+          },
+          {
+            "order": 5,
+            "body_part": "Back",
+            "exercise_name": "A2. Lat Static Stretch 30s",
+            "exercise_description": "Hold a lat stretch for 30 seconds. The stretch should be held at about a 7/10 intensity. After no warm-up sets, do 2 sets of a 30s hold. Rest 0 min between sets. 2 total work sets",
+            "rpe": "N/A"
+          },
+          {
+            "order": 6,
+            "body_part": "Shoulders",
+            "exercise_name": "Omni-Direction Face Pull",
+            "exercise_description": "1st set: low-to-high 2nd set: mid-range 3rd set: high-to-low. After 1 warm-up set, do 3 sets of 12-15 reps. Aim for an RPE of 8 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "8"
+          },
+          {
+            "order": 7,
+            "body_part": "Biceps",
+            "exercise_name": "EZ-Bar Curl",
+            "exercise_description": "Focus on contracting your biceps, minimize torso momentum. After 1 warm-up set, do 2 sets of 6-8 reps. Aim for an RPE of 8 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "8"
+          },
+          {
+            "order": 8,
+            "body_part": "Biceps",
+            "exercise_name": "Bottom-Half Preacher Curl",
+            "exercise_description": "Do preacher curls, but cut out the top half of the ROM (stay entirely in the stretched aspect of the lift). After no warm-up sets, do 2 sets of 10-12 reps. Aim for an RPE of 8 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "8"
+          }
+        ]
+      },
+      "wednesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Squat",
+            "exercise_description": "Sit back and down, keep your upper back tight to the bar. After 3-4 warm-up sets, do 1 set of 1-3 reps. Aim for an RPE of 7 resting ~3-4 min between sets. 1 total work set",
+            "rpe": "7"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Pause Squat (Back off)",
+            "exercise_description": "Drop the weight by ~25% from your top set. 2 second pause. Sit back and down, keep your upper back tight to the bar. After no warm-up sets, do 2 sets of 5 reps. Aim for an RPE of 7 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "7"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Barbell RDL",
+            "exercise_description": "Maintain a neutral lower back, set your hips back, don't allow your spine to round. After 2 warm-up sets, do 2 sets of 8-10 reps. Aim for an RPE of 7 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "7"
+          },
+          {
+            "order": 4,
+            "body_part": "Legs",
+            "exercise_name": "Walking Lunge",
+            "exercise_description": "Take medium strides, minimize the amount you push off your rear leg. After 1 warm-up set, do 2 sets of 10 reps. Aim for an RPE of 7 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "7"
+          },
+          {
+            "order": 5,
+            "body_part": "Legs",
+            "exercise_name": "Seated Leg Curl",
+            "exercise_description": "Focus on squeezing your hamstrings to move the weight. After 1 warm-up set, do 2 sets of 10-12 reps. Aim for an RPE of 8 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "8"
+          },
+          {
+            "order": 6,
+            "body_part": "Calves",
+            "exercise_name": "Leg Press Toe Press",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 1 warm-up set, do 2 sets of 10-12 reps. Aim for an RPE of 8 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "8"
+          },
+          {
+            "order": 7,
+            "body_part": "Abs",
+            "exercise_name": "Decline Plate-Weighted Crunch",
+            "exercise_description": "Hold a plate or DB to your chest and crunch hard. After 1 warm-up set, do 2 sets of 10-12 reps. Aim for an RPE of 8 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "8"
+          }
+        ]
+      },
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "Pull-Up",
+            "exercise_description": "1.5x shoulder width grip, pull your chest to the bar. After 2 warm-up sets, do 2 sets of 8-10 reps. Aim for an RPE of 7 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "7"
+          },
+          {
+            "order": 2,
+            "body_part": "Chest",
+            "exercise_name": "Close-Grip Barbell Incline Press",
+            "exercise_description": "Use ~45° incline and a grip width just outside shoulder width. After 2-3 warm-up sets, do 2 sets of 8, 5 reps. Aim for an RPE of 7 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "7"
+          },
+          {
+            "order": 3,
+            "body_part": "Back",
+            "exercise_name": "Kroc Row",
+            "exercise_description": "Kroc rows are basically just a dumbbell row with mild cheating and a slightly more upright posture. Don't be afraid to go heavy and use straps if your grip is limiting. After 2 warm-up sets, do 2 sets of 10-12 reps. Aim for an RPE of 7 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "7"
+          },
+          {
+            "order": 4,
+            "body_part": "Shoulders",
+            "exercise_name": "Eccentric-Accentuated Cable Lateral Raise, Constant-Tension Cable Lateral Raise",
+            "exercise_description": "First 5 reps: 5-second lowering phase, last 15 reps constant tension (no pausing at the bottom or top). After 1 warm-up set, do 2 sets of 5, 15 reps. Aim for an RPE of 8 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "8"
+          },
+          {
+            "order": 5,
+            "body_part": "Biceps",
+            "exercise_name": "N1-Style Cross-Body Bicep Curl",
+            "exercise_description": "Curl across your body with your arm out to the side at ~60°. After 1 warm-up set, do 2 sets of 10-12 reps. Aim for an RPE of 8 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "8"
+          },
+          {
+            "order": 6,
+            "body_part": "Triceps",
+            "exercise_name": "Diamond Pushup",
+            "exercise_description": "Place your hands close together on the ground so that they form a diamond shape and do as many pushups as possible with a smooth tempo. After no warm-up sets, do 1 AMRAP set (as many reps as possible). Aim for an RPE of 10 resting 0 min between sets. 1 total work set",
+            "rpe": "10"
+          }
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Deadlift",
+            "exercise_description": "Brace your lats, chest tall, pull the slack out of the bar before lifting. After 3-4 warm-up sets, do 1 set of 4 reps. Aim for an RPE of 7 resting ~3-5 min between sets. 1 total work set",
+            "rpe": "7"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Stiff-Leg Deadlift",
+            "exercise_description": "Think about doing a high-hip conventional deadlift with a slight bend in the knees. After no warm-up sets, do 2 sets of 8 reps. Aim for an RPE of 7 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "7"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Leg Press",
+            "exercise_description": "Medium width feet placement on the platform, don't allow your lower back to round. After 2-3 warm-up sets, do 2 sets of 10-12 reps. Aim for an RPE of 7 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "7"
+          },
+          {
+            "order": 4,
+            "body_part": "Legs",
+            "exercise_name": "Glute Ham Raise",
+            "exercise_description": "Keep your hips straight, do Nordic ham curls if no GHR machine. After 1 warm-up set, do 2 sets of 8-10 reps. Aim for an RPE of 8 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "8"
+          },
+          {
+            "order": 5,
+            "body_part": "Legs",
+            "exercise_name": "Slow-Eccentric Leg Extension",
+            "exercise_description": "Control the weight with a 3-4 second negative. After 1 warm-up set, do 2 sets of 8-10 reps. Aim for an RPE of 8 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "8"
+          },
+          {
+            "order": 6,
+            "body_part": "Calves",
+            "exercise_name": "Seated Calf Raise",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 1 warm-up set, do 2 sets of 15-20 reps. Aim for an RPE of 8 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "8"
+          },
+          {
+            "order": 7,
+            "body_part": "Abs",
+            "exercise_name": "Roman Chair Leg Raise",
+            "exercise_description": "Don't swing your legs at the bottom, minimize momentum, tuck your knees towards your chest if lifting your legs straight out is too challenging. After 1 warm-up set, do 2 sets of 10-20 reps. Aim for an RPE of 8 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "8"
+          }
+        ]
+      },
+      "saturday": {
+        "isRestDay": true,
+        "exercises": []
+      },
+      "sunday": {
+        "isRestDay": true,
+        "exercises": []
+      }
+    }
+  },
+  {
+    "week": 7,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Chest",
+            "exercise_name": "Bench Press",
+            "exercise_description": "Set up a comfortable arch, quick pause on the chest and explode up on each rep. After 3-4 warm-up sets, do 1 set of 3-5 reps. Aim for an RPE of 8-9 resting ~3-5 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Chest",
+            "exercise_name": "High-Incline Smith Machine Press",
+            "exercise_description": "Set the bench at a 45-60° incline, touch the bar to your upper chest with control. After 2 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Shoulders",
+            "exercise_name": "Egyptian Cable Lateral Raise",
+            "exercise_description": "Lean away from the cable. Focus on squeezing your delts. After 2 warm-up sets, do 3 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Triceps",
+            "exercise_name": "Overhead Cable Triceps Extension",
+            "exercise_description": "Do both arms at once, resist the negative. After 2 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Triceps",
+            "exercise_name": "Cable Triceps Kickback",
+            "exercise_description": "Lean slightly forward, lock your elbow behind your torso (shoulder hyperextension). After 1 warm-up set, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "Neutral-Grip Lat Pulldown",
+            "exercise_description": "Pull your elbows down against your sides. After 3 warm-up sets, do 3 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 2,
+            "body_part": "Back",
+            "exercise_name": "Pendlay Row",
+            "exercise_description": "Initiate the movement by squeezing your shoulder blades together, pull to your lower chest, avoid using momentum. After 3 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Shoulders",
+            "exercise_name": "Reverse Pec Deck",
+            "exercise_description": "Swing the weight \"out\", not \"back\". After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Biceps",
+            "exercise_name": "EZ-Bar Curl",
+            "exercise_description": "Arc the bar \"out\" not \"up\", focus on squeezing your biceps. After 2 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Biceps",
+            "exercise_name": "Hammer Cheat Curl",
+            "exercise_description": "You can use slight momentum on the concentric, but control the eccentric with your elbows stationary. After 1 warm-up set, do 1 set of 4-6 reps. Aim for an RPE of 10 resting 0 min between sets. 1 total work set",
+            "rpe": "10"
+          }
+        ]
+      },
+      "wednesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Squat or Machine Squat",
+            "exercise_description": "Sit back and down, keep your upper back tight to the bar. After 3-4 warm-up sets, do 1 set of 3-5 reps. Aim for an RPE of 8-9 resting ~3-5 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Barbell RDL",
+            "exercise_description": "Maintain a neutral lower back, set your hips back, don't allow your spine to round. After 3 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Leg Extension",
+            "exercise_description": "Focus on squeezing your quads to make the weight move. After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Calves",
+            "exercise_name": "Seated Calf Raise",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 2 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Abs",
+            "exercise_name": "Cable Crunch",
+            "exercise_description": "Round your back as you crunch. After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "Wide-Grip Pull-Up",
+            "exercise_description": "Use ~1.5x shoulder width grip. Add weight or use assistance as needed to hit RPE. Keep form as consistent as possible. After 3 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 2,
+            "body_part": "Shoulders",
+            "exercise_name": "Seated DB Shoulder Press",
+            "exercise_description": "Bring the dumbbells all the way down, keep your torso upright. After 3 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Back",
+            "exercise_name": "Close-Grip Seated Cable Row",
+            "exercise_description": "Focus on squeezing your shoulder blades together, drive your elbows down and back. After 3 warm-up sets, do 1 set of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 1 total work set",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Chest",
+            "exercise_name": "Weighted Dip",
+            "exercise_description": "Tuck your elbows at 45°, lean your torso forward 15°, shoulder width or slightly wider grip. After 3 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Shoulders",
+            "exercise_name": "Machine Lateral Raise",
+            "exercise_description": "Focus on squeezing your lateral delt to move the weight. After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 6,
+            "body_part": "Biceps",
+            "exercise_name": "Alternating DB Curl",
+            "exercise_description": "Alternate arms with each curl: do 1 rep with your right arm, one rep with your left arm. Repeat until you reach 4-6 reps with each arm. After 2 warm-up sets, do 1 set of 4-6 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 1 total work set",
+            "rpe": "10"
+          },
+          {
+            "order": 7,
+            "body_part": "Triceps",
+            "exercise_name": "Triceps Pressdown",
+            "exercise_description": "Focus on squeezing your triceps to move the weight. After 2 warm-up sets, do 1 set of 4-6 reps. Aim for an RPE of 10 resting 0 min between sets. 1 total work set",
+            "rpe": "10"
+          }
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Hack Squat",
+            "exercise_description": "Allow your knees to come forward (past your toes), focus the tension on your quads. After 3-4 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 8-9 resting ~3-5 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Dumbbell Walking Lunge",
+            "exercise_description": "Do 4-6 reps with each leg (8-12 total strides). Straps may be helpful if your grip becomes limiting. After 3 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Seated Leg Curl",
+            "exercise_description": "Focus on squeezing your hamstrings to move the weight. After 2 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Calves",
+            "exercise_name": "Standing Calf Raise",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Abs",
+            "exercise_name": "Decline Plate Weighted Crunch",
+            "exercise_description": "Hold a plate or DB to your chest and crunch hard! After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "saturday": {
+        "isRestDay": true,
+        "exercises": []
+      },
+      "sunday": {
+        "isRestDay": true,
+        "exercises": []
+      }
+    }
+  },
+  {
+    "week": 8,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Chest",
+            "exercise_name": "Bench Press",
+            "exercise_description": "Set up a comfortable arch, quick pause on the chest and explode up on each rep. After 3-4 warm-up sets, do 1 set of 3-5 reps. Aim for an RPE of 8-9 resting ~3-5 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Chest",
+            "exercise_name": "High-Incline Smith Machine Press",
+            "exercise_description": "Set the bench at a 45-60° incline, touch the bar to your upper chest with control. After 2 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Shoulders",
+            "exercise_name": "Egyptian Cable Lateral Raise",
+            "exercise_description": "Lean away from the cable. Focus on squeezing your delts. After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Triceps",
+            "exercise_name": "Overhead Cable Triceps Extension",
+            "exercise_description": "Do both arms at once, resist the negative. After 2 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Triceps",
+            "exercise_name": "Cable Triceps Kickback",
+            "exercise_description": "Lean slightly forward, lock your elbow behind your torso (shoulder hyperextension). After 1 warm-up set, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "Neutral-Grip Lat Pulldown",
+            "exercise_description": "Pull your elbows down against your sides. After 3 warm-up sets, do 3 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 2,
+            "body_part": "Back",
+            "exercise_name": "Pendlay Row",
+            "exercise_description": "Initiate the movement by squeezing your shoulder blades together, pull to your lower chest, avoid using momentum. After 3 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Shoulders",
+            "exercise_name": "Reverse Pec Deck",
+            "exercise_description": "Swing the weight \"out\", not \"back\". After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Biceps",
+            "exercise_name": "EZ-Bar Curl",
+            "exercise_description": "Arc the bar \"out\" not \"up\", focus on squeezing your biceps. After 2 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Biceps",
+            "exercise_name": "Hammer Cheat Curl",
+            "exercise_description": "You can use slight momentum on the concentric, but control the eccentric with your elbows stationary. After 1 warm-up set, do 1 set of 4-6 reps. Aim for an RPE of 10 resting 0 min between sets. 1 total work set",
+            "rpe": "10"
+          }
+        ]
+      },
+      "wednesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Squat or Machine Squat",
+            "exercise_description": "Sit back and down, keep your upper back tight to the bar. After 3-4 warm-up sets, do 1 set of 3-5 reps. Aim for an RPE of 8-9 resting ~3-5 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Barbell RDL",
+            "exercise_description": "Maintain a neutral lower back, set your hips back, don't allow your spine to round. After 3 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Leg Extension",
+            "exercise_description": "Focus on squeezing your quads to make the weight move. After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Calves",
+            "exercise_name": "Seated Calf Raise",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 2 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Abs",
+            "exercise_name": "Cable Crunch",
+            "exercise_description": "Round your back as you crunch. After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "Wide-Grip Pull-Up",
+            "exercise_description": "Use ~1.5x shoulder width grip. Add weight or use assistance as needed to hit RPE. Keep form as consistent as possible. After 3 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 2,
+            "body_part": "Shoulders",
+            "exercise_name": "Seated DB Shoulder Press",
+            "exercise_description": "Bring the dumbbells all the way down, keep your torso upright. After 3 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Back",
+            "exercise_name": "Close-Grip Seated Cable Row",
+            "exercise_description": "Focus on squeezing your shoulder blades together, drive your elbows down and back. After 3 warm-up sets, do 1 set of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 1 total work set",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Chest",
+            "exercise_name": "Weighted Dip",
+            "exercise_description": "Tuck your elbows at 45°, lean your torso forward 15°, shoulder width or slightly wider grip. After 3 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Shoulders",
+            "exercise_name": "Machine Lateral Raise",
+            "exercise_description": "Focus on squeezing your lateral delt to move the weight. After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 6,
+            "body_part": "Biceps",
+            "exercise_name": "Alternating DB Curl",
+            "exercise_description": "Alternate arms with each curl: do 1 rep with your right arm, one rep with your left arm. Repeat until you reach 4-6 reps with each arm. After 2 warm-up sets, do 1 set of 4-6 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 1 total work set",
+            "rpe": "10"
+          },
+          {
+            "order": 7,
+            "body_part": "Triceps",
+            "exercise_name": "Triceps Pressdown",
+            "exercise_description": "Focus on squeezing your triceps to move the weight. After 2 warm-up sets, do 1 set of 4-6 reps. Aim for an RPE of 10 resting 0 min between sets. 1 total work set",
+            "rpe": "10"
+          }
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Deadlift",
+            "exercise_description": "Can pull sumo or conventional, go with whatever variation you are stronger with. After 3-4 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 8-9 resting ~3-5 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Dumbbell Walking Lunge",
+            "exercise_description": "Do 4-6 reps with each leg (8-12 total strides). Straps may be helpful if your grip becomes limiting. After 3 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Seated Leg Curl",
+            "exercise_description": "Focus on squeezing your hamstrings to move the weight. After 2 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Calves",
+            "exercise_name": "Standing Calf Raise",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Abs",
+            "exercise_name": "Decline Plate Weighted Crunch",
+            "exercise_description": "Hold a plate or DB to your chest and crunch hard! After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "saturday": {
+        "isRestDay": true,
+        "exercises": []
+      },
+      "sunday": {
+        "isRestDay": true,
+        "exercises": []
+      }
+    }
+  },
+  {
+    "week": 9,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Chest",
+            "exercise_name": "Bench Press",
+            "exercise_description": "Set up a comfortable arch, quick pause on the chest and explode up on each rep. After 3-4 warm-up sets, do 1 set of 3-5 reps. Aim for an RPE of 8-9 resting ~3-5 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Chest",
+            "exercise_name": "High-Incline Smith Machine Press",
+            "exercise_description": "Set the bench at a 45-60° incline, touch the bar to your upper chest with control. After 2 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Shoulders",
+            "exercise_name": "Egyptian Cable Lateral Raise",
+            "exercise_description": "Lean away from the cable. Focus on squeezing your delts. After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Triceps",
+            "exercise_name": "Overhead Cable Triceps Extension",
+            "exercise_description": "Do both arms at once, resist the negative. After 2 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Triceps",
+            "exercise_name": "Cable Triceps Kickback",
+            "exercise_description": "Lean slightly forward, lock your elbow behind your torso (shoulder hyperextension). After 1 warm-up set, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "Neutral-Grip Lat Pulldown",
+            "exercise_description": "Pull your elbows down against your sides. After 3 warm-up sets, do 3 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 2,
+            "body_part": "Back",
+            "exercise_name": "Pendlay Row",
+            "exercise_description": "Initiate the movement by squeezing your shoulder blades together, pull to your lower chest, avoid using momentum. After 3 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Shoulders",
+            "exercise_name": "Reverse Pec Deck",
+            "exercise_description": "Swing the weight \"out\", not \"back\". After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Biceps",
+            "exercise_name": "EZ-Bar Curl",
+            "exercise_description": "Arc the bar \"out\" not \"up\", focus on squeezing your biceps. After 2 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Biceps",
+            "exercise_name": "Hammer Cheat Curl",
+            "exercise_description": "You can use slight momentum on the concentric, but control the eccentric with your elbows stationary. After 1 warm-up set, do 1 set of 4-6 reps. Aim for an RPE of 10 resting 0 min between sets. 1 total work set",
+            "rpe": "10"
+          }
+        ]
+      },
+      "wednesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Squat or Machine Squat",
+            "exercise_description": "Sit back and down, keep your upper back tight to the bar. After 3-4 warm-up sets, do 1 set of 3-5 reps. Aim for an RPE of 8-9 resting ~3-5 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Barbell RDL",
+            "exercise_description": "Maintain a neutral lower back, set your hips back, don't allow your spine to round. After 3 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Leg Extension",
+            "exercise_description": "Focus on squeezing your quads to make the weight move. After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Calves",
+            "exercise_name": "Seated Calf Raise",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 2 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Abs",
+            "exercise_name": "Cable Crunch",
+            "exercise_description": "Round your back as you crunch. After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "Wide-Grip Pull-Up",
+            "exercise_description": "Use ~1.5x shoulder width grip. Add weight or use assistance as needed to hit RPE. Keep form as consistent as possible. After 3 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 2,
+            "body_part": "Shoulders",
+            "exercise_name": "Seated DB Shoulder Press",
+            "exercise_description": "Bring the dumbbells all the way down, keep your torso upright. After 3 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Back",
+            "exercise_name": "Close-Grip Seated Cable Row",
+            "exercise_description": "Focus on squeezing your shoulder blades together, drive your elbows down and back. After 3 warm-up sets, do 1 set of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 1 total work set",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Chest",
+            "exercise_name": "Weighted Dip",
+            "exercise_description": "Tuck your elbows at 45°, lean your torso forward 15°, shoulder width or slightly wider grip. After 3 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Shoulders",
+            "exercise_name": "Machine Lateral Raise",
+            "exercise_description": "Focus on squeezing your lateral delt to move the weight. After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 6,
+            "body_part": "Biceps",
+            "exercise_name": "Alternating DB Curl",
+            "exercise_description": "Alternate arms with each curl: do 1 rep with your right arm, one rep with your left arm. Repeat until you reach 4-6 reps with each arm. After 2 warm-up sets, do 1 set of 4-6 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 1 total work set",
+            "rpe": "10"
+          },
+          {
+            "order": 7,
+            "body_part": "Triceps",
+            "exercise_name": "Triceps Pressdown",
+            "exercise_description": "Focus on squeezing your triceps to move the weight. After 2 warm-up sets, do 1 set of 4-6 reps. Aim for an RPE of 10 resting 0 min between sets. 1 total work set",
+            "rpe": "10"
+          }
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Hack Squat",
+            "exercise_description": "Allow your knees to come forward (past your toes), focus the tension on your quads. After 3-4 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 9-10 resting ~3-5 min between sets. 2 total work sets",
+            "rpe": "9-10"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Dumbbell Walking Lunge",
+            "exercise_description": "Do 4-6 reps with each leg (8-12 total strides). Straps may be helpful if your grip becomes limiting. After 3 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Seated Leg Curl",
+            "exercise_description": "Focus on squeezing your hamstrings to move the weight. After 2 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Calves",
+            "exercise_name": "Standing Calf Raise",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Abs",
+            "exercise_name": "Decline Plate Weighted Crunch",
+            "exercise_description": "Hold a plate or DB to your chest and crunch hard! After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "saturday": {
+        "isRestDay": true,
+        "exercises": []
+      },
+      "sunday": {
+        "isRestDay": true,
+        "exercises": []
+      }
+    }
+  },
+  {
+    "week": 10,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Chest",
+            "exercise_name": "Bench Press",
+            "exercise_description": "Set up a comfortable arch, quick pause on the chest and explode up on each rep. After 3-4 warm-up sets, do 1 set of 3-5 reps. Aim for an RPE of 8-9 resting ~3-5 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Chest",
+            "exercise_name": "High-Incline Smith Machine Press",
+            "exercise_description": "Set the bench at a 45-60° incline, touch the bar to your upper chest with control. After 2 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Shoulders",
+            "exercise_name": "Egyptian Cable Lateral Raise",
+            "exercise_description": "Lean away from the cable. Focus on squeezing your delts. After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Triceps",
+            "exercise_name": "Overhead Cable Triceps Extension",
+            "exercise_description": "Do both arms at once, resist the negative. After 2 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Triceps",
+            "exercise_name": "Cable Triceps Kickback",
+            "exercise_description": "Lean slightly forward, lock your elbow behind your torso (shoulder hyperextension). After 1 warm-up set, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "Neutral-Grip Lat Pulldown",
+            "exercise_description": "Pull your elbows down against your sides. After 3 warm-up sets, do 3 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 2,
+            "body_part": "Back",
+            "exercise_name": "Pendlay Row",
+            "exercise_description": "Initiate the movement by squeezing your shoulder blades together, pull to your lower chest, avoid using momentum. After 3 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Shoulders",
+            "exercise_name": "Reverse Pec Deck",
+            "exercise_description": "Swing the weight \"out\", not \"back\". After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Biceps",
+            "exercise_name": "EZ-Bar Curl",
+            "exercise_description": "Arc the bar \"out\" not \"up\", focus on squeezing your biceps. After 2 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Biceps",
+            "exercise_name": "Hammer Cheat Curl",
+            "exercise_description": "You can use slight momentum on the concentric, but control the eccentric with your elbows stationary. After 1 warm-up set, do 1 set of 4-6 reps. Aim for an RPE of 10 resting 0 min between sets. 1 total work set",
+            "rpe": "10"
+          }
+        ]
+      },
+      "wednesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Squat or Machine Squat",
+            "exercise_description": "Sit back and down, keep your upper back tight to the bar. After 3-4 warm-up sets, do 1 set of 3-5 reps. Aim for an RPE of 8-9 resting ~3-5 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Barbell RDL",
+            "exercise_description": "Maintain a neutral lower back, set your hips back, don't allow your spine to round. After 3 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Leg Extension",
+            "exercise_description": "Focus on squeezing your quads to make the weight move. After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Calves",
+            "exercise_name": "Seated Calf Raise",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 2 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Abs",
+            "exercise_name": "Cable Crunch",
+            "exercise_description": "Round your back as you crunch. After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "Wide-Grip Pull-Up",
+            "exercise_description": "Use ~1.5x shoulder width grip. Add weight or use assistance as needed to hit RPE. Keep form as consistent as possible. After 3 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 2,
+            "body_part": "Shoulders",
+            "exercise_name": "Seated DB Shoulder Press",
+            "exercise_description": "Bring the dumbbells all the way down, keep your torso upright. After 3 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Back",
+            "exercise_name": "Close-Grip Seated Cable Row",
+            "exercise_description": "Focus on squeezing your shoulder blades together, drive your elbows down and back. After 3 warm-up sets, do 1 set of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 1 total work set",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Chest",
+            "exercise_name": "Weighted Dip",
+            "exercise_description": "Tuck your elbows at 45°, lean your torso forward 15°, shoulder width or slightly wider grip. After 3 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Shoulders",
+            "exercise_name": "Machine Lateral Raise",
+            "exercise_description": "Focus on squeezing your lateral delt to move the weight. After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 6,
+            "body_part": "Biceps",
+            "exercise_name": "Alternating DB Curl",
+            "exercise_description": "Alternate arms with each curl: do 1 rep with your right arm, one rep with your left arm. Repeat until you reach 4-6 reps with each arm. After 2 warm-up sets, do 1 set of 4-6 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 1 total work set",
+            "rpe": "10"
+          },
+          {
+            "order": 7,
+            "body_part": "Triceps",
+            "exercise_name": "Triceps Pressdown",
+            "exercise_description": "Focus on squeezing your triceps to move the weight. After 2 warm-up sets, do 1 set of 4-6 reps. Aim for an RPE of 10 resting 0 min between sets. 1 total work set",
+            "rpe": "10"
+          }
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Deadlift",
+            "exercise_description": "Can pull sumo or conventional, go with whatever variation you are stronger with. After 3-4 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 8-9 resting ~3-5 min between sets. 2 total work sets",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Dumbbell Walking Lunge",
+            "exercise_description": "Do 4-6 reps with each leg (8-12 total strides). Straps may be helpful if your grip becomes limiting. After 3 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Seated Leg Curl",
+            "exercise_description": "Focus on squeezing your hamstrings to move the weight. After 2 warm-up sets, do 2 sets of 4-6 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Calves",
+            "exercise_name": "Standing Calf Raise",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Abs",
+            "exercise_name": "Decline Plate Weighted Crunch",
+            "exercise_description": "Hold a plate or DB to your chest and crunch hard! After 2 warm-up sets, do 2 sets of 6-8 reps. Aim for an RPE of 10 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "saturday": {
+        "isRestDay": true,
+        "exercises": []
+      },
+      "sunday": {
+        "isRestDay": true,
+        "exercises": []
+      }
+    }
+  },
+  {
+    "week": 11,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Chest",
+            "exercise_name": "Low Incline DB Press",
+            "exercise_description": "15° bench angle, tuck your elbows on the negative, flare as you press. After 2 warm-up sets, do 3 sets of 20 reps. Aim for an RPE of 9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "9"
+          },
+          {
+            "order": 2,
+            "body_part": "Shoulders",
+            "exercise_name": "Machine Shoulder Press",
+            "exercise_description": "Don't stop in between reps, keep smooth and controlled tension on the delts. After 2 warm-up sets, do 3 sets of 15 reps. Aim for an RPE of 9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "9"
+          },
+          {
+            "order": 3,
+            "body_part": "Chest",
+            "exercise_name": "Cable Crossover Ladder",
+            "exercise_description": "Do one set with low cable position, one set with medium-height cable position, and one height with a high cable position. After 1 warm-up set, do 3 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Shoulders",
+            "exercise_name": "A1: Lean-In Constant Tension DB Lateral Raise",
+            "exercise_description": "Lean into a bench and do lateral raises. Keep tension - don't rest your arm against your side at the bottom. After 1 warm-up set, do 3 sets of 15 reps. Aim for an RPE of 10 resting 0 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Shoulders",
+            "exercise_name": "A2: Side Delt Static STRETCH (30s)",
+            "exercise_description": "Hold a side delt stretch for 30 seconds. The stretch should be held at about a 7/10 intensity. After no warm-up sets, do 3 sets of a 30s hold. Rest 0 min between sets. 3 total work sets",
+            "rpe": "N/A"
+          },
+          {
+            "order": 6,
+            "body_part": "Triceps",
+            "exercise_name": "Overhead Triceps Extension",
+            "exercise_description": "Do both arms at once, resist the negative. After 1 warm-up set, do 3 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 7,
+            "body_part": "Triceps",
+            "exercise_name": "Med-Ball Close Grip Pushup",
+            "exercise_description": "Place your hands on a medicine ball and do smooth, controlled pushups. After no warm-up sets, do 1 AMRAP set (as many reps as possible). Aim for an RPE of 10 resting 0 min between sets. 1 total work set",
+            "rpe": "10"
+          }
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "1-Arm Half Kneeling Lat Pulldown",
+            "exercise_description": "Keep chest tall, keep elbow tucked in close to your torso, focus on squeezing your lat to move the weight. After 1 warm-up set, do 2 sets of 20 reps. Aim for an RPE of 9 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "9"
+          },
+          {
+            "order": 2,
+            "body_part": "Back",
+            "exercise_name": "Omni-Grip Lat Pulldown",
+            "exercise_description": "One set wide grip (overhand), 1 set middle grip (overhand), 1 set close grip (underhand). After 1 warm-up set, do 3 sets of 20 reps. Aim for an RPE of 9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "9"
+          },
+          {
+            "order": 3,
+            "body_part": "Back",
+            "exercise_name": "Machine Low Row",
+            "exercise_description": "Focus on squeezing your shoulder blades together on each rep. After 2 warm-up sets, do 4 sets of 20 reps. Aim for an RPE of 9 resting ~2-3 min between sets. 4 total work sets",
+            "rpe": "9"
+          },
+          {
+            "order": 4,
+            "body_part": "Back",
+            "exercise_name": "Cable Shrug-In",
+            "exercise_description": "Set up two cable handles low and shrug up and in. Squeeze your upper traps to move the weight. After 1 warm-up set, do 3 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Shoulders",
+            "exercise_name": "Reverse Pec Deck",
+            "exercise_description": "Swing the weight \"out\", not \"back\". After 1 warm-up set, do 3 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 6,
+            "body_part": "Biceps",
+            "exercise_name": "EZ-Bar Curl (Heavy)",
+            "exercise_description": "Arc the bar \"out\" not \"up\", focus on squeezing your biceps. After 2 warm-up sets, do 1 set of 4-6 reps. Aim for an RPE of 9 resting ~1-2 min between sets. 1 total work set",
+            "rpe": "9"
+          },
+          {
+            "order": 7,
+            "body_part": "Biceps",
+            "exercise_name": "A1: EZ-Bar Modified Bicep 21's",
+            "exercise_description": "7 reps seated, 7 reps standing full ROM, 7 reps bottom-half curls. After no warm-up sets, do 2 sets of 21 reps. Aim for an RPE of 10 resting 0 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 8,
+            "body_part": "Biceps",
+            "exercise_name": "A2: Bicep Static STRETCH (30s)",
+            "exercise_description": "Hold a bicep stretch for 30 seconds. The stretch should be held at about a 7/10 intensity. After no warm-up sets, do 2 sets of a 30s hold. Rest 0 min between sets. 2 total work sets",
+            "rpe": "N/A"
+          }
+        ]
+      },
+      "wednesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Front Squat",
+            "exercise_description": "These will be challenging, let's push! Don't go so heavy that you miss reps. Be humble with your weight and focus on keeping your torso upright. After 2-3 warm-up sets, do 3 sets of 15 reps. Aim for an RPE of 7-8 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "7-8"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Dumbbell RDL",
+            "exercise_description": "Emphasize the stretch in your hamstrings, prevent your lower back from rounding. After 1 warm-up set, do 3 sets of 20 reps. Aim for an RPE of 9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "9"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Walking Lunge",
+            "exercise_description": "Take medium strides, minimize the amount you push off your rear leg. After 1 warm-up set, do 3 sets of 10 reps. Aim for an RPE of 9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "9"
+          },
+          {
+            "order": 4,
+            "body_part": "Legs",
+            "exercise_name": "SLOW Seated Leg Curl (3 up, 3 down)",
+            "exercise_description": "Lift with a slow tempo. The positive should take 3 seconds and the negative should take 3 seconds. After 1 warm-up set, do 3 sets of 8 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Calves",
+            "exercise_name": "Leg Press Toe Press",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 1 warm-up set, do 3 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 6,
+            "body_part": "Abs",
+            "exercise_name": "LLPT Plank",
+            "exercise_description": "Contract your glutes and position your elbows under your eyes to make the plank more difficult. After no warm-up sets, do 3 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Chest",
+            "exercise_name": "Bench Press (Top Set)",
+            "exercise_description": "Set up a comfortable arch, quick pause on the chest and explode up on each rep. After 3-4 warm-up sets, do 1 set of 2-4 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Chest",
+            "exercise_name": "Bench Press (Back Off AMRAP)",
+            "exercise_description": "Use ~60% of the weight you used on your top set and do it for as many reps as possible. You should be in the range of 10-20+ reps on this set! Use a spotter and safety bars! After no warm-up sets, do 1 AMRAP set (as many reps as possible). Aim for an RPE of 10 resting ~3-4 min between sets. 1 total work set",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Back",
+            "exercise_name": "Pull-Up",
+            "exercise_description": "6 cluster sets: 3 reps, rest 15s, repeat 6x. Keep form smooth and controlled. After 2 warm-up sets, do 6 sets of 3 reps. Aim for an RPE of 7-8 resting ~15 sec between sets. 6 total work sets",
+            "rpe": "7-8"
+          },
+          {
+            "order": 4,
+            "body_part": "Shoulders",
+            "exercise_name": "Standing Dumbbell Arnold Press",
+            "exercise_description": "Start with your elbows in front of you and palms facing in. Rotate the dumbbells so that your palms face forward as you press. After 2 warm-up sets, do 3 sets of 15 reps. Aim for an RPE of 9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "9"
+          },
+          {
+            "order": 5,
+            "body_part": "Back",
+            "exercise_name": "Wide-Grip Cable Row",
+            "exercise_description": "10 cluster sets: 3 reps, rest 15s, repeat 10x. Keep form tight. After 2 warm-up sets, do 10 sets of 3 reps. Aim for an RPE of 7-8 resting ~15 sec between sets. 10 total work sets",
+            "rpe": "7-8"
+          },
+          {
+            "order": 6,
+            "body_part": "Triceps",
+            "exercise_name": "Triceps Pressdown",
+            "exercise_description": "Focus on squeezing your triceps to move the weight. After 1 warm-up set, do 3 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 7,
+            "body_part": "Biceps",
+            "exercise_name": "Bayesian Cable Curl",
+            "exercise_description": "Keep your elbow behind your torso throughout the range of motion, focus on squeezing your bicep. Sets are per arm. After 1 warm-up set, do 3 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Deadlift",
+            "exercise_description": "Brace your lats, chest tall, pull the slack out of the bar before lifting. After 3-4 warm-up sets, do 2 sets of 8 reps. Aim for an RPE of 9 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "9"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Leg Press",
+            "exercise_description": "Medium width feet placement on the platform, don't allow your lower back to round. After 2-3 warm-up sets, do 2 sets of 20 reps. Aim for an RPE of 9 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "9"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Leg Extension",
+            "exercise_description": "Focus on squeezing your quads to make the weight move. After 1 warm-up set, do 5 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 5 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Legs",
+            "exercise_name": "Lying Leg Curl",
+            "exercise_description": "Focus on squeezing your hamstrings to make the weight move. After 1 warm-up set, do 3 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Calves",
+            "exercise_name": "Seated Calf Raise",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 1 warm-up set, do 3 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 6,
+            "body_part": "Abs",
+            "exercise_name": "Corpse Crunch",
+            "exercise_description": "Clear your upper back off the floor when you crunch, hold for 1-2 seconds and then go back down. Don't yank with your neck. After no warm-up sets, do 3 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "saturday": {
+        "isRestDay": true,
+        "exercises": []
+      },
+      "sunday": {
+        "isRestDay": true,
+        "exercises": []
+      }
+    }
+  },
+  {
+    "week": 12,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Chest",
+            "exercise_name": "Low Incline DB Press",
+            "exercise_description": "15° bench angle, tuck your elbows on the negative, flare as you press. After 2 warm-up sets, do 3 sets of 20 reps. Aim for an RPE of 9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "9"
+          },
+          {
+            "order": 2,
+            "body_part": "Shoulders",
+            "exercise_name": "Machine Shoulder Press",
+            "exercise_description": "Don't stop in between reps, keep smooth and controlled tension on the delts. After 2 warm-up sets, do 3 sets of 15 reps. Aim for an RPE of 9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "9"
+          },
+          {
+            "order": 3,
+            "body_part": "Chest",
+            "exercise_name": "Cable Crossover Ladder",
+            "exercise_description": "Do one set with low cable position, one set with medium-height cable position, and one height with a high cable position. After 1 warm-up set, do 3 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Shoulders",
+            "exercise_name": "A1: Lean-In Constant Tension DB Lateral Raise",
+            "exercise_description": "Lean into a bench and do lateral raises. Keep tension - don't rest your arm against your side at the bottom. After 1 warm-up set, do 3 sets of 15 reps. Aim for an RPE of 10 resting 0 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Shoulders",
+            "exercise_name": "A2: Side Delt Static STRETCH (30s)",
+            "exercise_description": "Hold a side delt stretch for 30 seconds. The stretch should be held at about a 7/10 intensity. After no warm-up sets, do 3 sets of a 30s hold. Rest 0 min between sets. 3 total work sets",
+            "rpe": "N/A"
+          },
+          {
+            "order": 6,
+            "body_part": "Triceps",
+            "exercise_name": "Overhead Triceps Extension",
+            "exercise_description": "Do both arms at once, resist the negative. After 1 warm-up set, do 3 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 7,
+            "body_part": "Triceps",
+            "exercise_name": "Med-Ball Close Grip Pushup",
+            "exercise_description": "Place your hands on a medicine ball and do smooth, controlled pushups. After no warm-up sets, do 1 AMRAP set (as many reps as possible). Aim for an RPE of 10 resting 0 min between sets. 1 total work set",
+            "rpe": "10"
+          }
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "1-Arm Half Kneeling Lat Pulldown",
+            "exercise_description": "Keep chest tall, keep elbow tucked in close to your torso, focus on squeezing your lat to move the weight. After 1 warm-up set, do 2 sets of 20 reps. Aim for an RPE of 9 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "9"
+          },
+          {
+            "order": 2,
+            "body_part": "Back",
+            "exercise_name": "Omni-Grip Lat Pulldown",
+            "exercise_description": "One set wide grip (overhand), 1 set middle grip (overhand), 1 set close grip (underhand). After 1 warm-up set, do 3 sets of 20 reps. Aim for an RPE of 9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "9"
+          },
+          {
+            "order": 3,
+            "body_part": "Back",
+            "exercise_name": "Machine Low Row",
+            "exercise_description": "Focus on squeezing your shoulder blades together on each rep. After 2 warm-up sets, do 4 sets of 20 reps. Aim for an RPE of 9 resting ~2-3 min between sets. 4 total work sets",
+            "rpe": "9"
+          },
+          {
+            "order": 4,
+            "body_part": "Back",
+            "exercise_name": "Cable Shrug-In",
+            "exercise_description": "Set up two cable handles low and shrug up and in. Squeeze your upper traps to move the weight. After 1 warm-up set, do 3 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Shoulders",
+            "exercise_name": "Reverse Pec Deck",
+            "exercise_description": "Swing the weight \"out\", not \"back\". After 1 warm-up set, do 3 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 6,
+            "body_part": "Biceps",
+            "exercise_name": "EZ-Bar Curl (Heavy)",
+            "exercise_description": "Arc the bar \"out\" not \"up\", focus on squeezing your biceps. After 2 warm-up sets, do 1 set of 4-6 reps. Aim for an RPE of 9 resting ~1-2 min between sets. 1 total work set",
+            "rpe": "9"
+          },
+          {
+            "order": 7,
+            "body_part": "Biceps",
+            "exercise_name": "A1: EZ-Bar Modified Bicep 21's",
+            "exercise_description": "7 reps seated, 7 reps standing full ROM, 7 reps bottom-half curls. After no warm-up sets, do 2 sets of 21 reps. Aim for an RPE of 10 resting 0 min between sets. 2 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 8,
+            "body_part": "Biceps",
+            "exercise_name": "A2: Bicep Static STRETCH (30s)",
+            "exercise_description": "Hold a bicep stretch for 30 seconds. The stretch should be held at about a 7/10 intensity. After no warm-up sets, do 2 sets of a 30s hold. Rest 0 min between sets. 2 total work sets",
+            "rpe": "N/A"
+          }
+        ]
+      },
+      "wednesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Front Squat",
+            "exercise_description": "These will be challenging, let's push! Don't go so heavy that you miss reps. Be humble with your weight and focus on keeping your torso upright. After 2-3 warm-up sets, do 3 sets of 15 reps. Aim for an RPE of 7-8 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "7-8"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Dumbbell RDL",
+            "exercise_description": "Emphasize the stretch in your hamstrings, prevent your lower back from rounding. After 1 warm-up set, do 3 sets of 20 reps. Aim for an RPE of 9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "9"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Walking Lunge",
+            "exercise_description": "Take medium strides, minimize the amount you push off your rear leg. After 1 warm-up set, do 3 sets of 10 reps. Aim for an RPE of 9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "9"
+          },
+          {
+            "order": 4,
+            "body_part": "Legs",
+            "exercise_name": "SLOW Seated Leg Curl (3 up, 3 down)",
+            "exercise_description": "Lift with a slow tempo. The positive should take 3 seconds and the negative should take 3 seconds. After 1 warm-up set, do 3 sets of 8 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Calves",
+            "exercise_name": "Leg Press Toe Press",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 1 warm-up set, do 3 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 6,
+            "body_part": "Abs",
+            "exercise_name": "LLPT Plank",
+            "exercise_description": "Contract your glutes and position your elbows under your eyes to make the plank more difficult. After no warm-up sets, do 3 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Chest",
+            "exercise_name": "Bench Press (Top Set)",
+            "exercise_description": "Set up a comfortable arch, quick pause on the chest and explode up on each rep. After 3-4 warm-up sets, do 1 set of 2-4 reps. Aim for an RPE of 8-9 resting ~3-4 min between sets. 1 total work set",
+            "rpe": "8-9"
+          },
+          {
+            "order": 2,
+            "body_part": "Chest",
+            "exercise_name": "Bench Press (Back Off AMRAP)",
+            "exercise_description": "Use ~60% of the weight you used on your top set and do it for as many reps as possible. You should be in the range of 10-20+ reps on this set! Use a spotter and safety bars! After no warm-up sets, do 1 AMRAP set (as many reps as possible). Aim for an RPE of 10 resting ~3-4 min between sets. 1 total work set",
+            "rpe": "10"
+          },
+          {
+            "order": 3,
+            "body_part": "Back",
+            "exercise_name": "Pull-Up",
+            "exercise_description": "6 cluster sets: 3 reps, rest 15s, repeat 6x. Keep form smooth and controlled. After 2 warm-up sets, do 6 sets of 3 reps. Aim for an RPE of 7-8 resting ~15 sec between sets. 6 total work sets",
+            "rpe": "7-8"
+          },
+          {
+            "order": 4,
+            "body_part": "Shoulders",
+            "exercise_name": "Standing Dumbbell Arnold Press",
+            "exercise_description": "Start with your elbows in front of you and palms facing in. Rotate the dumbbells so that your palms face forward as you press. After 2 warm-up sets, do 3 sets of 15 reps. Aim for an RPE of 9 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "9"
+          },
+          {
+            "order": 5,
+            "body_part": "Back",
+            "exercise_name": "Wide-Grip Cable Row",
+            "exercise_description": "10 cluster sets: 3 reps, rest 15s, repeat 10x. Keep form tight. After 2 warm-up sets, do 10 sets of 3 reps. Aim for an RPE of 7-8 resting ~15 sec between sets. 10 total work sets",
+            "rpe": "7-8"
+          },
+          {
+            "order": 6,
+            "body_part": "Triceps",
+            "exercise_name": "Triceps Pressdown",
+            "exercise_description": "Focus on squeezing your triceps to move the weight. After 1 warm-up set, do 3 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 7,
+            "body_part": "Biceps",
+            "exercise_name": "Bayesian Cable Curl",
+            "exercise_description": "Keep your elbow behind your torso throughout the range of motion, focus on squeezing your bicep. Sets are per arm. After 1 warm-up set, do 3 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Deadlift",
+            "exercise_description": "Brace your lats, chest tall, pull the slack out of the bar before lifting. After 3-4 warm-up sets, do 2 sets of 8 reps. Aim for an RPE of 9 resting ~3-4 min between sets. 2 total work sets",
+            "rpe": "9"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Leg Press",
+            "exercise_description": "Medium width feet placement on the platform, don't allow your lower back to round. After 2-3 warm-up sets, do 2 sets of 20 reps. Aim for an RPE of 9 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "9"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Leg Extension",
+            "exercise_description": "Focus on squeezing your quads to make the weight move. After 1 warm-up set, do 5 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 5 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 4,
+            "body_part": "Legs",
+            "exercise_name": "Lying Leg Curl",
+            "exercise_description": "Focus on squeezing your hamstrings to make the weight move. After 1 warm-up set, do 3 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 5,
+            "body_part": "Calves",
+            "exercise_name": "Seated Calf Raise",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 1 warm-up set, do 3 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          },
+          {
+            "order": 6,
+            "body_part": "Abs",
+            "exercise_name": "Corpse Crunch",
+            "exercise_description": "Clear your upper back off the floor when you crunch, hold for 1-2 seconds and then go back down. Don't yank with your neck. After no warm-up sets, do 3 sets of 20 reps. Aim for an RPE of 10 resting ~1-2 min between sets. 3 total work sets",
+            "rpe": "10"
+          }
+        ]
+      },
+      "saturday": {
+        "isRestDay": true,
+        "exercises": []
+      },
+      "sunday": {
+        "isRestDay": true,
+        "exercises": []
+      }
+    }
+  },
+  {
+    "week": 13,
+    "days": {
+      "monday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Chest",
+            "exercise_name": "Low Incline DB Press",
+            "exercise_description": "15° bench angle, tuck your elbows on the negative, flare as you press. After 2 warm-up sets, do 2 sets of 12 reps. Aim for an RPE of 6 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "6"
+          },
+          {
+            "order": 2,
+            "body_part": "Shoulders",
+            "exercise_name": "Machine Shoulder Press",
+            "exercise_description": "Don't stop in between reps, keep smooth and controlled tension on the delts. After 2 warm-up sets, do 2 sets of 12 reps. Aim for an RPE of 6 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "6"
+          },
+          {
+            "order": 3,
+            "body_part": "Chest",
+            "exercise_name": "Cable Crossover Ladder",
+            "exercise_description": "Do one set with low cable position, one set with medium-height cable position, and one height with a high cable position. After 1 warm-up set, do 2 sets of 15 reps. Aim for an RPE of 7 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "7"
+          },
+          {
+            "order": 4,
+            "body_part": "Shoulders",
+            "exercise_name": "A1: Lean-In Constant Tension DB Lateral Raise",
+            "exercise_description": "Lean into a bench and do lateral raises. Keep tension - don't rest your arm against your side at the bottom. After 1 warm-up set, do 2 sets of 12 reps. Aim for an RPE of 7 resting 0 min between sets. 2 total work sets",
+            "rpe": "7"
+          },
+          {
+            "order": 5,
+            "body_part": "Shoulders",
+            "exercise_name": "A2: Side Delt Static STRETCH (30s)",
+            "exercise_description": "Hold a side delt stretch for 30 seconds. The stretch should be held at about a 7/10 intensity. After no warm-up sets, do 2 sets of a 30s hold. Rest 0 min between sets. 2 total work sets",
+            "rpe": "N/A"
+          },
+          {
+            "order": 6,
+            "body_part": "Triceps",
+            "exercise_name": "Overhead Triceps Extension",
+            "exercise_description": "Do both arms at once, resist the negative. After 1 warm-up set, do 2 sets of 15 reps. Aim for an RPE of 7 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "7"
+          },
+          {
+            "order": 7,
+            "body_part": "Triceps",
+            "exercise_name": "Med-Ball Close Grip Pushup",
+            "exercise_description": "Place your hands on a medicine ball and do smooth, controlled pushups. After no warm-up sets, do 1 AMRAP set (as many reps as possible). Aim for an RPE of 7 resting 0 min between sets. 1 total work set",
+            "rpe": "7"
+          }
+        ]
+      },
+      "tuesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Back",
+            "exercise_name": "1-Arm Half Kneeling Lat Pulldown",
+            "exercise_description": "Keep chest tall, keep elbow tucked in close to your torso, focus on squeezing your lat to move the weight. After 1 warm-up set, do 2 sets of 12 reps. Aim for an RPE of 6 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "6"
+          },
+          {
+            "order": 2,
+            "body_part": "Back",
+            "exercise_name": "Omni-Grip Lat Pulldown",
+            "exercise_description": "One set wide grip (overhand), 1 set middle grip (overhand), 1 set close grip (underhand). After 1 warm-up set, do 3 sets of 12 reps. Aim for an RPE of 6 resting ~2-3 min between sets. 3 total work sets",
+            "rpe": "6"
+          },
+          {
+            "order": 3,
+            "body_part": "Back",
+            "exercise_name": "Machine Low Row",
+            "exercise_description": "Focus on squeezing your shoulder blades together on each rep. After 2 warm-up sets, do 2 sets of 12 reps. Aim for an RPE of 6 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "6"
+          },
+          {
+            "order": 4,
+            "body_part": "Back",
+            "exercise_name": "Cable Shrug-In",
+            "exercise_description": "Set up two cable handles low and shrug up and in. Squeeze your upper traps to move the weight. After 1 warm-up set, do 2 sets of 12 reps. Aim for an RPE of 7 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "7"
+          },
+          {
+            "order": 5,
+            "body_part": "Shoulders",
+            "exercise_name": "Reverse Pec Deck",
+            "exercise_description": "Swing the weight \"out\", not \"back\". After 1 warm-up set, do 2 sets of 12 reps. Aim for an RPE of 7 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "7"
+          },
+          {
+            "order": 6,
+            "body_part": "Biceps",
+            "exercise_name": "EZ-Bar Curl (Heavy)",
+            "exercise_description": "Arc the bar \"out\" not \"up\", focus on squeezing your biceps. After 2 warm-up sets, do 1 set of 4-6 reps. Aim for an RPE of 7 resting ~1-2 min between sets. 1 total work set",
+            "rpe": "7"
+          },
+          {
+            "order": 7,
+            "body_part": "Biceps",
+            "exercise_name": "A1: EZ-Bar Modified Bicep 21's",
+            "exercise_description": "7 reps seated, 7 reps standing full ROM, 7 reps bottom-half curls. After no warm-up sets, do 1 set of 21 reps. Aim for an RPE of 7 resting 0 min between sets. 1 total work set",
+            "rpe": "7"
+          },
+          {
+            "order": 8,
+            "body_part": "Biceps",
+            "exercise_name": "A2: Bicep Static STRETCH (30s)",
+            "exercise_description": "Hold a bicep stretch for 30 seconds. The stretch should be held at about a 7/10 intensity. After no warm-up sets, do 1 set of a 30s hold. Rest 0 min between sets. 1 total work set",
+            "rpe": "N/A"
+          }
+        ]
+      },
+      "wednesday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Front Squat",
+            "exercise_description": "Stay light, keep your torso upright. After 2-3 warm-up sets, do 2 sets of 10 reps. Aim for an RPE of 6 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "6"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Dumbbell RDL",
+            "exercise_description": "Emphasize the stretch in your hamstrings, prevent your lower back from rounding. After 1 warm-up set, do 2 sets of 12 reps. Aim for an RPE of 6 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "6"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Walking Lunge",
+            "exercise_description": "Take medium strides, minimize the amount you push off your rear leg. After 1 warm-up set, do 2 sets of 8 reps. Aim for an RPE of 6 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "6"
+          },
+          {
+            "order": 4,
+            "body_part": "Legs",
+            "exercise_name": "SLOW Seated Leg Curl (3 up, 3 down)",
+            "exercise_description": "Lift with a slow tempo. The positive should take 3 seconds and the negative should take 3 seconds. After 1 warm-up set, do 2 sets of 8 reps. Aim for an RPE of 7 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "7"
+          },
+          {
+            "order": 5,
+            "body_part": "Calves",
+            "exercise_name": "Leg Press Toe Press",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 1 warm-up set, do 2 sets of 12 reps. Aim for an RPE of 7 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "7"
+          },
+          {
+            "order": 6,
+            "body_part": "Abs",
+            "exercise_name": "LLPT Plank",
+            "exercise_description": "Contract your glutes and position your elbows under your eyes to make the plank more difficult. After no warm-up sets, do 1 set of 30s reps. Aim for an RPE of 7 resting ~1-2 min between sets. 1 total work set",
+            "rpe": "7"
+          }
+        ]
+      },
+      "thursday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Chest",
+            "exercise_name": "Bench Press",
+            "exercise_description": "Set up a comfortable arch, quick pause on the chest and explode up on each rep. After 3-4 warm-up sets, do 1 set of 2-4 reps. Aim for an RPE of 6 resting ~3-4 min between sets. 1 total work set",
+            "rpe": "6"
+          },
+          {
+            "order": 2,
+            "body_part": "Back",
+            "exercise_name": "Pull-Up",
+            "exercise_description": "6 cluster sets: 3 reps, rest 15s, repeat 6x. Keep form smooth and controlled. After 2 warm-up sets, do 4 sets of 3 reps. Aim for an RPE of 6 resting ~15 sec between sets. 4 total work sets",
+            "rpe": "6"
+          },
+          {
+            "order": 3,
+            "body_part": "Shoulders",
+            "exercise_name": "Standing Dumbbell Arnold Press",
+            "exercise_description": "Start with your elbows in front of you and palms facing in. Rotate the dumbbells so that your palms face forward as you press. After 2 warm-up sets, do 2 sets of 12 reps. Aim for an RPE of 6 resting ~2-3 min between sets. 2 total work sets",
+            "rpe": "6"
+          },
+          {
+            "order": 4,
+            "body_part": "Back",
+            "exercise_name": "Wide-Grip Cable Row",
+            "exercise_description": "10 cluster sets: 3 reps, rest 15s, repeat 10x. Keep form tight. After 2 warm-up sets, do 6 sets of 3 reps. Aim for an RPE of 6 resting ~15 sec between sets. 6 total work sets",
+            "rpe": "6"
+          },
+          {
+            "order": 5,
+            "body_part": "Triceps",
+            "exercise_name": "Triceps Pressdown",
+            "exercise_description": "Focus on squeezing your triceps to move the weight. After 1 warm-up set, do 2 sets of 15 reps. Aim for an RPE of 7 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "7"
+          },
+          {
+            "order": 6,
+            "body_part": "Biceps",
+            "exercise_name": "Bayesian Cable Curl",
+            "exercise_description": "Keep your elbow behind your torso throughout the range of motion, focus on squeezing your bicep. Sets are per arm. After 1 warm-up set, do 2 sets of 15 reps. Aim for an RPE of 7 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "7"
+          }
+        ]
+      },
+      "friday": {
+        "isRestDay": false,
+        "exercises": [
+          {
+            "order": 1,
+            "body_part": "Legs",
+            "exercise_name": "Deadlift",
+            "exercise_description": "Brace your lats, chest tall, pull the slack out of the bar before lifting. After 3-4 warm-up sets, do 1 set of 8 reps. Aim for an RPE of 6 resting ~3-4 min between sets. 1 total work set",
+            "rpe": "6"
+          },
+          {
+            "order": 2,
+            "body_part": "Legs",
+            "exercise_name": "Leg Press",
+            "exercise_description": "Medium width feet placement on the platform, don't allow your lower back to round. After 2-3 warm-up sets, do 1 set of 12 reps. Aim for an RPE of 6 resting ~2-3 min between sets. 1 total work set",
+            "rpe": "6"
+          },
+          {
+            "order": 3,
+            "body_part": "Legs",
+            "exercise_name": "Leg Extension",
+            "exercise_description": "Focus on squeezing your quads to make the weight move. After 1 warm-up set, do 2 sets of 15 reps. Aim for an RPE of 7 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "7"
+          },
+          {
+            "order": 4,
+            "body_part": "Legs",
+            "exercise_name": "Lying Leg Curl",
+            "exercise_description": "Focus on squeezing your hamstrings to make the weight move. After 1 warm-up set, do 2 sets of 15 reps. Aim for an RPE of 7 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "7"
+          },
+          {
+            "order": 5,
+            "body_part": "Calves",
+            "exercise_name": "Seated Calf Raise",
+            "exercise_description": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce. After 1 warm-up set, do 2 sets of 15 reps. Aim for an RPE of 7 resting ~1-2 min between sets. 2 total work sets",
+            "rpe": "7"
+          },
+          {
+            "order": 6,
+            "body_part": "Abs",
+            "exercise_name": "Corpse Crunch",
+            "exercise_description": "Clear your upper back off the floor when you crunch, hold for 1-2 seconds and then go back down. Don't yank with your neck. After no warm-up sets, do 1 set of 15 reps. Aim for an RPE of 7 resting ~1-2 min between sets. 1 total work set",
+            "rpe": "7"
+          }
+        ]
+      },
+      "saturday": {
+        "isRestDay": true,
+        "exercises": []
+      },
+      "sunday": {
+        "isRestDay": true,
+        "exercises": []
+      }
+    }
+  }
+]
