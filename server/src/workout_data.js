@@ -31,6 +31,14 @@ const PROGRAMS = {
     label: 'Pure Bodybuilding Phase 2',
     workoutData: require('../data/pure_bodybuilding_phase_2.json'),
   },
+  // The Bodybuilding Transformation System (Intermediate/Advanced) is a 12-week
+  // Upper/Lower/Push/Pull/Legs program. The PDF's own rest-day placement is
+  // ignored; each week is laid out as: Mon = Upper, Tue = Lower, Wed = Push,
+  // Thu = Pull, Fri = Legs, Sat = Rest, Sun = Rest.
+  bodybuilding_transformation_system: {
+    label: 'The Bodybuilding Transformation System',
+    workoutData: require('../data/bodybuilding_transformation_system.json'),
+  },
 };
 
 module.exports = { PROGRAMS, DAYS };
