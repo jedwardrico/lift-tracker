@@ -39,6 +39,15 @@ const PROGRAMS = {
     label: 'The Bodybuilding Transformation System',
     workoutData: require('../data/bodybuilding_transformation_system.json'),
   },
+  // The Ultimate Push Pull Legs System (5x/week) is a 13-week, 3-phase PPL +
+  // Upper/Lower program (Phase 1 Base Hypertrophy: weeks 1-6, Phase 2 Maximum
+  // Effort: weeks 7-10, Phase 3 Supercompensation: weeks 11-13). The PDF's own
+  // rest-day placement is ignored; each week is laid out as: Mon = Push,
+  // Tue = Pull, Wed = Legs, Thu = Upper, Fri = Lower, Sat = Rest, Sun = Rest.
+  ultimate_ppl_system_5x: {
+    label: 'The Ultimate Push Pull Legs System (5x)',
+    workoutData: require('../data/ultimate_ppl_system_5x.json'),
+  },
 };
 
 module.exports = { PROGRAMS, DAYS };
