@@ -1,6 +1,6 @@
 {
   "name": "gamma-bomb-api",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Gamma Bomb workout program API",
   "main": "src/index.js",
   "scripts": {
