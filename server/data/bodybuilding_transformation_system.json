@@ -4,6 +4,7 @@
     "days": {
       "monday": {
         "isRestDay": false,
+        "focus_summary": "Upper body day: incline barbell press and a cable crossover ladder for the chest, pull-ups and Pendlay deficit rows for the back, lateral raises for the delts, finished with an overhead triceps extension and a Bayesian curl.",
         "exercises": [
           {
             "order": 1,
@@ -58,6 +59,7 @@
       },
       "tuesday": {
         "isRestDay": false,
+        "focus_summary": "Hamstring-focus leg day: lying leg curls and Barbell RDLs for the hamstrings, Smith machine squats and leg extensions for the quads, finished with standing calf raises and cable crunches.",
         "exercises": [
           {
             "order": 1,
@@ -105,6 +107,7 @@
       },
       "wednesday": {
         "isRestDay": false,
+        "focus_summary": "Push day: barbell bench press and bottom-half DB flyes for the chest, machine shoulder press and lateral raises for the delts, finished with overhead extensions, kickbacks for the triceps and Roman chair leg raises.",
         "exercises": [
           {
             "order": 1,
@@ -159,6 +162,7 @@
       },
       "thursday": {
         "isRestDay": false,
+        "focus_summary": "Pull day: neutral-grip lat pulldowns into chest-supported and seated cable rows for the back, rear delt flyes and shrugs, finished with an EZ-bar curl and a preacher curl for the biceps.",
         "exercises": [
           {
             "order": 1,
@@ -213,6 +217,7 @@
       },
       "friday": {
         "isRestDay": false,
+        "focus_summary": "Quad & hip leg day: leg press and Bulgarian split squats into leg extensions for the quads, seated leg curls for the hamstrings, hip adduction and abduction, finished with standing calf raises.",
         "exercises": [
           {
             "order": 1,
@@ -280,6 +285,7 @@
     "days": {
       "monday": {
         "isRestDay": false,
+        "focus_summary": "Upper body day: incline barbell press and a cable crossover ladder for the chest, pull-ups and Pendlay deficit rows for the back, lateral raises for the delts, finished with an overhead triceps extension and a Bayesian curl.",
         "exercises": [
           {
             "order": 1,
@@ -334,6 +340,7 @@
       },
       "tuesday": {
         "isRestDay": false,
+        "focus_summary": "Hamstring-focus leg day: lying leg curls and Barbell RDLs for the hamstrings, Smith machine squats and leg extensions for the quads, finished with standing calf raises and cable crunches.",
         "exercises": [
           {
             "order": 1,
@@ -381,6 +388,7 @@
       },
       "wednesday": {
         "isRestDay": false,
+        "focus_summary": "Push day: barbell bench press and bottom-half DB flyes for the chest, machine shoulder press and lateral raises for the delts, finished with overhead extensions, kickbacks for the triceps and Roman chair leg raises.",
         "exercises": [
           {
             "order": 1,
@@ -435,6 +443,7 @@
       },
       "thursday": {
         "isRestDay": false,
+        "focus_summary": "Pull day: neutral-grip lat pulldowns into chest-supported and seated cable rows for the back, rear delt flyes and shrugs, finished with an EZ-bar curl and a preacher curl for the biceps.",
         "exercises": [
           {
             "order": 1,
@@ -489,6 +498,7 @@
       },
       "friday": {
         "isRestDay": false,
+        "focus_summary": "Quad & hip leg day: leg press and Bulgarian split squats into leg extensions for the quads, seated leg curls for the hamstrings, hip adduction and abduction, finished with standing calf raises.",
         "exercises": [
           {
             "order": 1,
@@ -556,6 +566,7 @@
     "days": {
       "monday": {
         "isRestDay": false,
+        "focus_summary": "Upper body day: incline barbell press and a cable crossover ladder for the chest, pull-ups and Pendlay deficit rows for the back, lateral raises for the delts, finished with an overhead triceps extension and a Bayesian curl.",
         "exercises": [
           {
             "order": 1,
@@ -610,6 +621,7 @@
       },
       "tuesday": {
         "isRestDay": false,
+        "focus_summary": "Hamstring-focus leg day: lying leg curls and Barbell RDLs for the hamstrings, Smith machine squats and leg extensions for the quads, finished with standing calf raises and cable crunches.",
         "exercises": [
           {
             "order": 1,
@@ -657,6 +669,7 @@
       },
       "wednesday": {
         "isRestDay": false,
+        "focus_summary": "Push day: barbell bench press and bottom-half DB flyes for the chest, machine shoulder press and lateral raises for the delts, finished with overhead extensions, kickbacks for the triceps and Roman chair leg raises.",
         "exercises": [
           {
             "order": 1,
@@ -711,6 +724,7 @@
       },
       "thursday": {
         "isRestDay": false,
+        "focus_summary": "Pull day: neutral-grip lat pulldowns into chest-supported and seated cable rows for the back, rear delt flyes and shrugs, finished with an EZ-bar curl and a preacher curl for the biceps.",
         "exercises": [
           {
             "order": 1,
@@ -765,6 +779,7 @@
       },
       "friday": {
         "isRestDay": false,
+        "focus_summary": "Quad & hip leg day: leg press and Bulgarian split squats into leg extensions for the quads, seated leg curls for the hamstrings, hip adduction and abduction, finished with standing calf raises.",
         "exercises": [
           {
             "order": 1,
@@ -832,6 +847,7 @@
     "days": {
       "monday": {
         "isRestDay": false,
+        "focus_summary": "Upper body day: incline barbell press and a cable crossover ladder for the chest, pull-ups and Pendlay deficit rows for the back, lateral raises for the delts, finished with an overhead triceps extension and a Bayesian curl.",
         "exercises": [
           {
             "order": 1,
@@ -886,6 +902,7 @@
       },
       "tuesday": {
         "isRestDay": false,
+        "focus_summary": "Hamstring-focus leg day: lying leg curls and Barbell RDLs for the hamstrings, Smith machine squats and leg extensions for the quads, finished with standing calf raises and cable crunches.",
         "exercises": [
           {
             "order": 1,
@@ -933,6 +950,7 @@
       },
       "wednesday": {
         "isRestDay": false,
+        "focus_summary": "Push day: barbell bench press and bottom-half DB flyes for the chest, machine shoulder press and lateral raises for the delts, finished with overhead extensions, kickbacks for the triceps and Roman chair leg raises.",
         "exercises": [
           {
             "order": 1,
@@ -987,6 +1005,7 @@
       },
       "thursday": {
         "isRestDay": false,
+        "focus_summary": "Pull day: neutral-grip lat pulldowns into chest-supported and seated cable rows for the back, rear delt flyes and shrugs, finished with an EZ-bar curl and a preacher curl for the biceps.",
         "exercises": [
           {
             "order": 1,
@@ -1041,6 +1060,7 @@
       },
       "friday": {
         "isRestDay": false,
+        "focus_summary": "Quad & hip leg day: leg press and Bulgarian split squats into leg extensions for the quads, seated leg curls for the hamstrings, hip adduction and abduction, finished with standing calf raises.",
         "exercises": [
           {
             "order": 1,
@@ -1108,6 +1128,7 @@
     "days": {
       "monday": {
         "isRestDay": false,
+        "focus_summary": "Upper body day: incline barbell press and a cable crossover ladder for the chest, pull-ups and Pendlay deficit rows for the back, lateral raises for the delts, finished with an overhead triceps extension and a Bayesian curl.",
         "exercises": [
           {
             "order": 1,
@@ -1162,6 +1183,7 @@
       },
       "tuesday": {
         "isRestDay": false,
+        "focus_summary": "Hamstring-focus leg day: lying leg curls and Barbell RDLs for the hamstrings, Smith machine squats and leg extensions for the quads, finished with standing calf raises and cable crunches.",
         "exercises": [
           {
             "order": 1,
@@ -1209,6 +1231,7 @@
       },
       "wednesday": {
         "isRestDay": false,
+        "focus_summary": "Push day: barbell bench press and bottom-half DB flyes for the chest, machine shoulder press and lateral raises for the delts, finished with overhead extensions, kickbacks for the triceps and Roman chair leg raises.",
         "exercises": [
           {
             "order": 1,
@@ -1263,6 +1286,7 @@
       },
       "thursday": {
         "isRestDay": false,
+        "focus_summary": "Pull day: neutral-grip lat pulldowns into chest-supported and seated cable rows for the back, rear delt flyes and shrugs, finished with an EZ-bar curl and a preacher curl for the biceps.",
         "exercises": [
           {
             "order": 1,
@@ -1317,6 +1341,7 @@
       },
       "friday": {
         "isRestDay": false,
+        "focus_summary": "Quad & hip leg day: leg press and Bulgarian split squats into leg extensions for the quads, seated leg curls for the hamstrings, hip adduction and abduction, finished with standing calf raises.",
         "exercises": [
           {
             "order": 1,
@@ -1384,6 +1409,7 @@
     "days": {
       "monday": {
         "isRestDay": false,
+        "focus_summary": "Upper body day: incline DB press and pec deck for the chest, dual-handle lat pulldowns and Smith machine rows for the back, lateral raises for the delts, finished with an overhead triceps extension and a Bayesian curl.",
         "exercises": [
           {
             "order": 1,
@@ -1438,6 +1464,7 @@
       },
       "tuesday": {
         "isRestDay": false,
+        "focus_summary": "Hamstring-focus leg day: lying leg curls and 45° hyperextensions for the hamstrings, elevated front-foot Smith machine lunges and leg extensions for the quads, finished with leg press calf raises and machine crunches.",
         "exercises": [
           {
             "order": 1,
@@ -1485,6 +1512,7 @@
       },
       "wednesday": {
         "isRestDay": false,
+        "focus_summary": "Push day: machine chest press and bottom-half cable flyes for the chest, seated DB shoulder press and lateral raises for the delts, finished with skull crushers, pressdowns for the triceps and ab wheel rollouts.",
         "exercises": [
           {
             "order": 1,
@@ -1539,6 +1567,7 @@
       },
       "thursday": {
         "isRestDay": false,
+        "focus_summary": "Pull day: lean-back lat pulldowns into T-bar and elbows-out cable rows for the back, rear delt flyes and paused shrug-ins, finished with a hammer curl and a concentration curl for the biceps.",
         "exercises": [
           {
             "order": 1,
@@ -1593,6 +1622,7 @@
       },
       "friday": {
         "isRestDay": false,
+        "focus_summary": "Quad & hip leg day: hack squats and walking lunges into leg extensions for the quads, seated leg curls for the hamstrings, hip adduction and abduction, finished with standing calf raises.",
         "exercises": [
           {
             "order": 1,
@@ -1660,6 +1690,7 @@
     "days": {
       "monday": {
         "isRestDay": false,
+        "focus_summary": "Upper body day: incline DB press and pec deck for the chest, dual-handle lat pulldowns and Smith machine rows for the back, lateral raises for the delts, finished with an overhead triceps extension and a Bayesian curl.",
         "exercises": [
           {
             "order": 1,
@@ -1714,6 +1745,7 @@
       },
       "tuesday": {
         "isRestDay": false,
+        "focus_summary": "Hamstring-focus leg day: lying leg curls and 45° hyperextensions for the hamstrings, elevated front-foot Smith machine lunges and leg extensions for the quads, finished with leg press calf raises and machine crunches.",
         "exercises": [
           {
             "order": 1,
@@ -1761,6 +1793,7 @@
       },
       "wednesday": {
         "isRestDay": false,
+        "focus_summary": "Push day: machine chest press and bottom-half cable flyes for the chest, seated DB shoulder press and lateral raises for the delts, finished with skull crushers, pressdowns for the triceps and ab wheel rollouts.",
         "exercises": [
           {
             "order": 1,
@@ -1815,6 +1848,7 @@
       },
       "thursday": {
         "isRestDay": false,
+        "focus_summary": "Pull day: lean-back lat pulldowns into T-bar and elbows-out cable rows for the back, rear delt flyes and paused shrug-ins, finished with a hammer curl and a concentration curl for the biceps.",
         "exercises": [
           {
             "order": 1,
@@ -1869,6 +1903,7 @@
       },
       "friday": {
         "isRestDay": false,
+        "focus_summary": "Quad & hip leg day: hack squats and walking lunges into leg extensions for the quads, seated leg curls for the hamstrings, hip adduction and abduction, finished with standing calf raises.",
         "exercises": [
           {
             "order": 1,
@@ -1936,6 +1971,7 @@
     "days": {
       "monday": {
         "isRestDay": false,
+        "focus_summary": "Upper body day: incline DB press and pec deck for the chest, dual-handle lat pulldowns and Smith machine rows for the back, lateral raises for the delts, finished with an overhead triceps extension and a Bayesian curl.",
         "exercises": [
           {
             "order": 1,
@@ -1990,6 +2026,7 @@
       },
       "tuesday": {
         "isRestDay": false,
+        "focus_summary": "Hamstring-focus leg day: lying leg curls and 45° hyperextensions for the hamstrings, elevated front-foot Smith machine lunges and leg extensions for the quads, finished with leg press calf raises and machine crunches.",
         "exercises": [
           {
             "order": 1,
@@ -2037,6 +2074,7 @@
       },
       "wednesday": {
         "isRestDay": false,
+        "focus_summary": "Push day: machine chest press and bottom-half cable flyes for the chest, seated DB shoulder press and lateral raises for the delts, finished with skull crushers, pressdowns for the triceps and ab wheel rollouts.",
         "exercises": [
           {
             "order": 1,
@@ -2091,6 +2129,7 @@
       },
       "thursday": {
         "isRestDay": false,
+        "focus_summary": "Pull day: lean-back lat pulldowns into T-bar and elbows-out cable rows for the back, rear delt flyes and paused shrug-ins, finished with a hammer curl and a concentration curl for the biceps.",
         "exercises": [
           {
             "order": 1,
@@ -2145,6 +2184,7 @@
       },
       "friday": {
         "isRestDay": false,
+        "focus_summary": "Quad & hip leg day: hack squats and walking lunges into leg extensions for the quads, seated leg curls for the hamstrings, hip adduction and abduction, finished with standing calf raises.",
         "exercises": [
           {
             "order": 1,
@@ -2212,6 +2252,7 @@
     "days": {
       "monday": {
         "isRestDay": false,
+        "focus_summary": "Upper body day: incline DB press and pec deck for the chest, dual-handle lat pulldowns and Smith machine rows for the back, lateral raises for the delts, finished with an overhead triceps extension and a Bayesian curl.",
         "exercises": [
           {
             "order": 1,
@@ -2266,6 +2307,7 @@
       },
       "tuesday": {
         "isRestDay": false,
+        "focus_summary": "Hamstring-focus leg day: lying leg curls and 45° hyperextensions for the hamstrings, elevated front-foot Smith machine lunges and leg extensions for the quads, finished with leg press calf raises and machine crunches.",
         "exercises": [
           {
             "order": 1,
@@ -2313,6 +2355,7 @@
       },
       "wednesday": {
         "isRestDay": false,
+        "focus_summary": "Push day: machine chest press and bottom-half cable flyes for the chest, seated DB shoulder press and lateral raises for the delts, finished with skull crushers, pressdowns for the triceps and ab wheel rollouts.",
         "exercises": [
           {
             "order": 1,
@@ -2367,6 +2410,7 @@
       },
       "thursday": {
         "isRestDay": false,
+        "focus_summary": "Pull day: lean-back lat pulldowns into T-bar and elbows-out cable rows for the back, rear delt flyes and paused shrug-ins, finished with a hammer curl and a concentration curl for the biceps.",
         "exercises": [
           {
             "order": 1,
@@ -2421,6 +2465,7 @@
       },
       "friday": {
         "isRestDay": false,
+        "focus_summary": "Quad & hip leg day: hack squats and walking lunges into leg extensions for the quads, seated leg curls for the hamstrings, hip adduction and abduction, finished with standing calf raises.",
         "exercises": [
           {
             "order": 1,
@@ -2488,6 +2533,7 @@
     "days": {
       "monday": {
         "isRestDay": false,
+        "focus_summary": "Upper body day: incline DB press and pec deck for the chest, dual-handle lat pulldowns and Smith machine rows for the back, lateral raises for the delts, finished with an overhead triceps extension and a Bayesian curl.",
         "exercises": [
           {
             "order": 1,
@@ -2542,6 +2588,7 @@
       },
       "tuesday": {
         "isRestDay": false,
+        "focus_summary": "Hamstring-focus leg day: lying leg curls and 45° hyperextensions for the hamstrings, elevated front-foot Smith machine lunges and leg extensions for the quads, finished with leg press calf raises and machine crunches.",
         "exercises": [
           {
             "order": 1,
@@ -2589,6 +2636,7 @@
       },
       "wednesday": {
         "isRestDay": false,
+        "focus_summary": "Push day: machine chest press and bottom-half cable flyes for the chest, seated DB shoulder press and lateral raises for the delts, finished with skull crushers, pressdowns for the triceps and ab wheel rollouts.",
         "exercises": [
           {
             "order": 1,
@@ -2643,6 +2691,7 @@
       },
       "thursday": {
         "isRestDay": false,
+        "focus_summary": "Pull day: lean-back lat pulldowns into T-bar and elbows-out cable rows for the back, rear delt flyes and paused shrug-ins, finished with a hammer curl and a concentration curl for the biceps.",
         "exercises": [
           {
             "order": 1,
@@ -2697,6 +2746,7 @@
       },
       "friday": {
         "isRestDay": false,
+        "focus_summary": "Quad & hip leg day: hack squats and walking lunges into leg extensions for the quads, seated leg curls for the hamstrings, hip adduction and abduction, finished with standing calf raises.",
         "exercises": [
           {
             "order": 1,
@@ -2764,6 +2814,7 @@
     "days": {
       "monday": {
         "isRestDay": false,
+        "focus_summary": "Upper body day: incline DB press and pec deck for the chest, dual-handle lat pulldowns and Smith machine rows for the back, lateral raises for the delts, finished with an overhead triceps extension and a Bayesian curl.",
         "exercises": [
           {
             "order": 1,
@@ -2818,6 +2869,7 @@
       },
       "tuesday": {
         "isRestDay": false,
+        "focus_summary": "Hamstring-focus leg day: lying leg curls and 45° hyperextensions for the hamstrings, elevated front-foot Smith machine lunges and leg extensions for the quads, finished with leg press calf raises and machine crunches.",
         "exercises": [
           {
             "order": 1,
@@ -2865,6 +2917,7 @@
       },
       "wednesday": {
         "isRestDay": false,
+        "focus_summary": "Push day: machine chest press and bottom-half cable flyes for the chest, seated DB shoulder press and lateral raises for the delts, finished with skull crushers, pressdowns for the triceps and ab wheel rollouts.",
         "exercises": [
           {
             "order": 1,
@@ -2919,6 +2972,7 @@
       },
       "thursday": {
         "isRestDay": false,
+        "focus_summary": "Pull day: lean-back lat pulldowns into T-bar and elbows-out cable rows for the back, rear delt flyes and paused shrug-ins, finished with a hammer curl and a concentration curl for the biceps.",
         "exercises": [
           {
             "order": 1,
@@ -2973,6 +3027,7 @@
       },
       "friday": {
         "isRestDay": false,
+        "focus_summary": "Quad & hip leg day: hack squats and walking lunges into leg extensions for the quads, seated leg curls for the hamstrings, hip adduction and abduction, finished with standing calf raises.",
         "exercises": [
           {
             "order": 1,
@@ -3040,6 +3095,7 @@
     "days": {
       "monday": {
         "isRestDay": false,
+        "focus_summary": "Upper body day: incline DB press and pec deck for the chest, dual-handle lat pulldowns and Smith machine rows for the back, lateral raises for the delts, finished with an overhead triceps extension and a Bayesian curl.",
         "exercises": [
           {
             "order": 1,
@@ -3094,6 +3150,7 @@
       },
       "tuesday": {
         "isRestDay": false,
+        "focus_summary": "Hamstring-focus leg day: lying leg curls and 45° hyperextensions for the hamstrings, elevated front-foot Smith machine lunges and leg extensions for the quads, finished with leg press calf raises and machine crunches.",
         "exercises": [
           {
             "order": 1,
@@ -3141,6 +3198,7 @@
       },
       "wednesday": {
         "isRestDay": false,
+        "focus_summary": "Push day: machine chest press and bottom-half cable flyes for the chest, seated DB shoulder press and lateral raises for the delts, finished with skull crushers, pressdowns for the triceps and ab wheel rollouts.",
         "exercises": [
           {
             "order": 1,
@@ -3195,6 +3253,7 @@
       },
       "thursday": {
         "isRestDay": false,
+        "focus_summary": "Pull day: lean-back lat pulldowns into T-bar and elbows-out cable rows for the back, rear delt flyes and paused shrug-ins, finished with a hammer curl and a concentration curl for the biceps.",
         "exercises": [
           {
             "order": 1,
@@ -3249,6 +3308,7 @@
       },
       "friday": {
         "isRestDay": false,
+        "focus_summary": "Quad & hip leg day: hack squats and walking lunges into leg extensions for the quads, seated leg curls for the hamstrings, hip adduction and abduction, finished with standing calf raises.",
         "exercises": [
           {
             "order": 1,
