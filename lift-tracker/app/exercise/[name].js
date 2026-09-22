@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
+  Linking,
+  Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -76,6 +78,7 @@ export default function ExerciseProgressScreen() {
   const router = useRouter();
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [videoUrl, setVideoUrl] = useState(null);
 
   useEffect(() => {
     fetch(`${BASE_URL}/logs`)
@@ -84,6 +87,33 @@ export default function ExerciseProgressScreen() {
       .catch((err) => console.error('Failed to load exercise history:', err))
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    if (!name) return;
+    fetch(`${BASE_URL}/exercises?exercise_name=${encodeURIComponent(name)}`)
+      .then((r) => r.json())
+      .then((data) => {
+        const target = name.trim().toLowerCase();
+        const matches = (Array.isArray(data) ? data : []).filter(
+          (e) => (e.exercise_name || '').trim().toLowerCase() === target
+        );
+        // Same exercise name can exist across programs; prefer whichever
+        // match actually has a video, rather than just the first row.
+        const withVideo = matches.find((e) => e.video_url);
+        setVideoUrl(withVideo?.video_url ?? null);
+      })
+      .catch((err) => console.error('Failed to load exercise details:', err));
+  }, [name]);
+
+  const openVideo = async () => {
+    if (!videoUrl) return;
+    const canOpen = await Linking.canOpenURL(videoUrl);
+    if (canOpen) {
+      Linking.openURL(videoUrl);
+    } else {
+      Alert.alert('Unable to open link', videoUrl);
+    }
+  };
 
   // Oldest-first, matched by name (see workout.js's findPrevLog for why —
   // the same lift's exercise_id changes from week to week).
@@ -115,6 +145,14 @@ export default function ExerciseProgressScreen() {
         </View>
         <View style={{ width: 36 }} />
       </View>
+
+      {videoUrl ? (
+        <TouchableOpacity style={styles.watchRow} onPress={openVideo}>
+          <Ionicons name="play-circle" size={18} color={COLORS.accent} />
+          <Text style={styles.watchRowText}>Watch exercise demo</Text>
+          <Ionicons name="open-outline" size={16} color={COLORS.textMuted} />
+        </TouchableOpacity>
+      ) : null}
 
       <ScrollView
         style={styles.scroll}
@@ -235,6 +273,25 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     letterSpacing: 0.5,
     marginTop: 2,
+  },
+  watchRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginHorizontal: 16,
+    marginTop: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    backgroundColor: COLORS.surface,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+  watchRowText: {
+    flex: 1,
+    color: COLORS.text,
+    fontSize: 14,
+    fontWeight: '600',
   },
   scroll: {
     flex: 1,

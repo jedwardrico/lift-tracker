@@ -42,6 +42,7 @@ function getDb() {
 
     relaxExerciseSlotColumns(db);
     renameExerciseColumns(db);
+    addVideoUrlColumnToExercises(db);
     addProgramColumnToWeeks(db);
     addCycleStartedAtColumn(db);
     addFocusSummaryColumnToWorkoutDays(db);
@@ -183,6 +184,16 @@ function addFocusSummaryColumnToWorkoutDays(db) {
   if (cols.find((c) => c.name === 'focus_summary')) return;
 
   db.exec('ALTER TABLE workout_days ADD COLUMN focus_summary TEXT');
+}
+
+// Older databases predate video_url. seedAllPrograms backfills the actual
+// values for programs whose JSON defines them right after this runs, so the
+// column just needs to exist. No-op once the column exists.
+function addVideoUrlColumnToExercises(db) {
+  const cols = db.prepare('PRAGMA table_info(exercises)').all();
+  if (cols.find((c) => c.name === 'video_url')) return;
+
+  db.exec('ALTER TABLE exercises ADD COLUMN video_url TEXT');
 }
 
 // Renames title→body_part, subtitle→exercise_name, body→exercise_description

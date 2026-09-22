@@ -98,6 +98,7 @@ Each exercise includes:
 - `rpe` — rate of perceived exertion (e.g. `"10"` or `"8-10"`)
 - `sets` — prescribed number of working sets
 - `rep_range` — prescribed reps (e.g. `"8"` or `"8-10"`)
+- `video_url` — link to a demo video for the exercise, when the program provides one (otherwise `null`)
 
 A program exercise can be swapped out for a session; `GET /weeks/:n` and `GET /weeks/:n/days/:day` annotate each exercise with `carried_exercise` when an earlier week logged a swap at that same day/slot, so the substitution carries forward until swapped again.
 
