@@ -101,11 +101,11 @@ function seedProgram(db, programKey) {
     'SELECT id FROM exercises WHERE workout_day_id = ? AND order_num = ?'
   );
   const insertExercise = db.prepare(
-    'INSERT INTO exercises (workout_day_id, order_num, body_part, exercise_name, exercise_description, rpe, sets, rep_range) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+    'INSERT INTO exercises (workout_day_id, order_num, body_part, exercise_name, exercise_description, rpe, sets, rep_range, video_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
   );
   const updateExercise = db.prepare(
     `UPDATE exercises
-     SET body_part = ?, exercise_name = ?, exercise_description = ?, rpe = ?, sets = ?, rep_range = ?
+     SET body_part = ?, exercise_name = ?, exercise_description = ?, rpe = ?, sets = ?, rep_range = ?, video_url = ?
      WHERE id = ?`
   );
 
@@ -154,6 +154,7 @@ function seedProgram(db, programKey) {
               exercise.rpe ?? null,
               sets,
               rep_range,
+              exercise.video_url ?? null,
               existingExercise.id
             );
           } else {
@@ -165,7 +166,8 @@ function seedProgram(db, programKey) {
               exercise.exercise_description,
               exercise.rpe ?? null,
               sets,
-              rep_range
+              rep_range,
+              exercise.video_url ?? null
             );
           }
         }
