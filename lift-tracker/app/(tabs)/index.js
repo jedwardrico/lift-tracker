@@ -223,6 +223,11 @@ export default function HomeScreen() {
   const [completedDates, setCompletedDates] = useState(new Set());
   const [refreshing, setRefreshing] = useState(false);
   const [weekPickerVisible, setWeekPickerVisible] = useState(false);
+  // The exercise (plus its body part and the raw programmed row, in case a
+  // swap carried forward) shown in the tap-to-preview modal below — null
+  // when the modal is closed. Previewing never starts a workout; only the
+  // chart icon on each row navigates to that exercise's history.
+  const [previewExercise, setPreviewExercise] = useState(null);
   // A workout left mid-way (e.g. exited to this screen) rather than finished
   // or replaced by starting a different one — see workout.js, which owns
   // this storage entry. Null when no workout is in progress.
@@ -897,9 +902,10 @@ export default function HomeScreen() {
                             style={styles.exerciseRow}
                             activeOpacity={0.7}
                             onPress={() =>
-                              router.push(
-                                `/exercise/${encodeURIComponent(ex.exercise_name)}?bodyPart=${encodeURIComponent(section.bodyPart)}`
-                              )
+                              setPreviewExercise({
+                                ...ex,
+                                bodyPart: section.bodyPart,
+                              })
                             }
                           >
                             <View style={styles.exerciseIcon}>
@@ -915,11 +921,26 @@ export default function HomeScreen() {
                                 <Text style={styles.setsReps}>{setsReps}</Text>
                               )}
                             </View>
-                            <Ionicons
-                              name="stats-chart"
-                              size={16}
-                              color={COLORS.textMuted}
-                            />
+                            <TouchableOpacity
+                              style={styles.chartIconBtn}
+                              hitSlop={{
+                                top: 10,
+                                bottom: 10,
+                                left: 10,
+                                right: 10,
+                              }}
+                              onPress={() =>
+                                router.push(
+                                  `/exercise/${encodeURIComponent(ex.exercise_name)}?bodyPart=${encodeURIComponent(section.bodyPart)}`
+                                )
+                              }
+                            >
+                              <Ionicons
+                                name="stats-chart"
+                                size={16}
+                                color={COLORS.textMuted}
+                              />
+                            </TouchableOpacity>
                           </TouchableOpacity>
                         );
                       })}
@@ -1000,6 +1021,104 @@ export default function HomeScreen() {
             </ScrollView>
           </View>
         </View>
+      </Modal>
+
+      {/* Tap-to-preview an exercise's programmed details without starting the
+          workout — the chart icon on each row bypasses this and goes
+          straight to that exercise's history instead. */}
+      <Modal
+        visible={!!previewExercise}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setPreviewExercise(null)}
+      >
+        {previewExercise
+          ? (() => {
+              // carried_exercise (a full exercise row) is what a prior
+              // week's logged swap replaced this slot with — it, not the
+              // programmed row, is what's actually being done.
+              const effective =
+                previewExercise.carried_exercise ?? previewExercise;
+              const setsReps =
+                effective.sets && effective.rep_range
+                  ? `${effective.sets} × ${effective.rep_range}`
+                  : null;
+              return (
+                <View style={styles.weekModalOverlay}>
+                  <View style={styles.weekModalSheet}>
+                    <View style={styles.weekModalHeader}>
+                      <View style={{ flex: 1 }}>
+                        <Text style={styles.previewBodyPart}>
+                          {previewExercise.bodyPart?.toUpperCase()}
+                        </Text>
+                        <Text style={styles.weekModalTitle}>
+                          {effective.exercise_name}
+                        </Text>
+                      </View>
+                      <TouchableOpacity
+                        onPress={() => setPreviewExercise(null)}
+                        hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                      >
+                        <Ionicons
+                          name="close"
+                          size={22}
+                          color={COLORS.textMuted}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    <ScrollView
+                      style={styles.weekModalList}
+                      showsVerticalScrollIndicator={false}
+                    >
+                      {previewExercise.carried_exercise ? (
+                        <Text style={styles.previewSwappedNote}>
+                          Swapped in for {previewExercise.exercise_name}
+                        </Text>
+                      ) : null}
+                      {(effective.rep_range || effective.rpe) && (
+                        <View style={styles.previewParamsRow}>
+                          {effective.rep_range ? (
+                            <Text style={styles.previewParam}>
+                              {setsReps ?? `Reps ${effective.rep_range}`}
+                            </Text>
+                          ) : null}
+                          {effective.rpe != null ? (
+                            <Text style={styles.previewParam}>
+                              RPE {effective.rpe}
+                            </Text>
+                          ) : null}
+                        </View>
+                      )}
+                      {effective.exercise_description ? (
+                        <Text style={styles.previewDescription}>
+                          {effective.exercise_description}
+                        </Text>
+                      ) : null}
+                      <TouchableOpacity
+                        style={styles.previewChartBtn}
+                        activeOpacity={0.7}
+                        onPress={() => {
+                          setPreviewExercise(null);
+                          router.push(
+                            `/exercise/${encodeURIComponent(previewExercise.exercise_name)}?bodyPart=${encodeURIComponent(previewExercise.bodyPart)}`
+                          );
+                        }}
+                      >
+                        <Ionicons
+                          name="stats-chart"
+                          size={16}
+                          color={COLORS.accent}
+                        />
+                        <Text style={styles.previewChartBtnText}>
+                          View history
+                        </Text>
+                      </TouchableOpacity>
+                    </ScrollView>
+                  </View>
+                </View>
+              );
+            })()
+          : null}
       </Modal>
     </SafeAreaView>
   );
@@ -1252,6 +1371,56 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginTop: 2,
     fontWeight: '500',
+  },
+  chartIconBtn: {
+    padding: 4,
+  },
+
+  // Exercise preview modal
+  previewBodyPart: {
+    color: COLORS.textMuted,
+    fontSize: 11,
+    fontWeight: '700',
+    letterSpacing: 1,
+    marginBottom: 2,
+  },
+  previewSwappedNote: {
+    color: COLORS.accent,
+    fontSize: 12,
+    fontWeight: '600',
+    marginBottom: 12,
+  },
+  previewParamsRow: {
+    flexDirection: 'row',
+    gap: 16,
+    marginBottom: 12,
+  },
+  previewParam: {
+    color: COLORS.text,
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  previewDescription: {
+    color: COLORS.textMuted,
+    fontSize: 14,
+    lineHeight: 21,
+    marginBottom: 20,
+  },
+  previewChartBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    borderRadius: 10,
+    paddingVertical: 12,
+    marginBottom: 16,
+  },
+  previewChartBtnText: {
+    color: COLORS.accent,
+    fontSize: 14,
+    fontWeight: '700',
   },
 
   // States
