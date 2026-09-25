@@ -13,6 +13,7 @@ import {
   StatusBar,
   PanResponder,
   Modal,
+  KeyboardAvoidingView,
   Animated,
   AppState,
   Alert,
@@ -1197,7 +1198,10 @@ export default function WorkoutScreen() {
         animationType="slide"
         onRequestClose={() => setSwapModalVisible(false)}
       >
-        <View style={styles.modalOverlay}>
+        <KeyboardAvoidingView
+          style={styles.modalOverlay}
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        >
           <View style={styles.modalCard}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Swap Exercise</Text>
@@ -1321,7 +1325,7 @@ export default function WorkoutScreen() {
                 })}
             </ScrollView>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
 
       {/* Rest timer duration picker */}
