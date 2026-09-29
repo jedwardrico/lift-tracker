@@ -159,6 +159,7 @@ export default function WorkoutScreen() {
   // slot in later weeks. The programmed week is never modified.
   const [overrides, setOverrides] = useState({});
   const [swapModalVisible, setSwapModalVisible] = useState(false);
+  const [menuVisible, setMenuVisible] = useState(false);
   const [customInput, setCustomInput] = useState('');
   const [swapSearch, setSwapSearch] = useState('');
   const [catalog, setCatalog] = useState([]);
@@ -812,16 +813,13 @@ export default function WorkoutScreen() {
 
   const openExerciseMenu = () => {
     if (!exercise) return;
-    const videoUrl = displayExercise?.video_url;
-    Alert.alert(exerciseName || 'Exercise', undefined, [
-      ...(videoUrl
-        ? [{ text: 'Watch Exercise Video', onPress: () => openVideo(videoUrl) }]
-        : []),
-      { text: 'Swap Exercise', onPress: openSwap },
-      { text: 'Skip Exercise', style: 'destructive', onPress: handleSkip },
-      { text: 'Cancel', style: 'cancel' },
-    ]);
+    setMenuVisible(true);
   };
+  const menuAction = (fn) => () => {
+    setMenuVisible(false);
+    fn();
+  };
+  const menuVideoUrl = displayExercise?.video_url;
 
   const proceedNext = async (isLast, localSets) => {
     if (exercise) {
@@ -1203,6 +1201,54 @@ export default function WorkoutScreen() {
           <Ionicons name="arrow-forward" size={20} color={COLORS.blue} />
         </TouchableOpacity>
       </View>
+
+      {/* Exercise menu */}
+      <Modal
+        visible={menuVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setMenuVisible(false)}
+      >
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setMenuVisible(false)}
+        >
+          <View style={styles.modalCard}>
+            <Text style={styles.modalTitle}>{exerciseName || 'Exercise'}</Text>
+            <TouchableOpacity
+              style={[
+                styles.menuItem,
+                !menuVideoUrl && styles.menuItemDisabled,
+              ]}
+              disabled={!menuVideoUrl}
+              onPress={menuAction(() => openVideo(menuVideoUrl))}
+            >
+              <Text style={styles.menuItemText}>Watch Exercise Video</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.menuItem}
+              onPress={menuAction(openSwap)}
+            >
+              <Text style={styles.menuItemText}>Swap Exercise</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.menuItem}
+              onPress={menuAction(handleSkip)}
+            >
+              <Text style={[styles.menuItemText, { color: '#ef4444' }]}>
+                Skip Exercise
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.menuItem}
+              onPress={() => setMenuVisible(false)}
+            >
+              <Text style={styles.menuItemText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </Modal>
 
       {/* Swap exercise modal */}
       <Modal
@@ -1655,6 +1701,19 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 32,
     maxHeight: '80%',
+  },
+  menuItem: {
+    paddingVertical: 14,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.border,
+  },
+  menuItemDisabled: {
+    opacity: 0.35,
+  },
+  menuItemText: {
+    color: COLORS.text,
+    fontSize: 16,
+    fontWeight: '600',
   },
   modalHeader: {
     flexDirection: 'row',
