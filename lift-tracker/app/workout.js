@@ -887,7 +887,17 @@ export default function WorkoutScreen() {
   };
 
   const handleBack = () => {
-    if (exerciseIndex > 0) navigateTo(exerciseIndex - 1);
+    if (exerciseIndex === 0) return;
+    if (exercise && !skippedExercises.has(exerciseIndex)) {
+      const allDone = sets.every((s) => s.completed);
+      setCompletedExercises((prev) => {
+        const next = new Set(prev);
+        if (allDone) next.add(exerciseIndex);
+        else next.delete(exerciseIndex);
+        return next;
+      });
+    }
+    navigateTo(exerciseIndex - 1);
   };
 
   // Leave the workout from any exercise via the header chevron.
@@ -905,7 +915,7 @@ export default function WorkoutScreen() {
     },
     onSwipeRight: () => {
       if (exerciseIndex === 0) router.back();
-      else navigateTo(exerciseIndex - 1);
+      else handleBack();
     },
   };
 
