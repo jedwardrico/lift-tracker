@@ -17,6 +17,7 @@ import {
   Animated,
   AppState,
   Alert,
+  Linking,
   Platform,
   Vibration,
   useWindowDimensions,
@@ -801,9 +802,21 @@ export default function WorkoutScreen() {
     }
   };
 
+  const openVideo = async (url) => {
+    try {
+      await Linking.openURL(url);
+    } catch {
+      Alert.alert('Unable to open link', url);
+    }
+  };
+
   const openExerciseMenu = () => {
     if (!exercise) return;
+    const videoUrl = displayExercise?.video_url;
     Alert.alert(exerciseName || 'Exercise', undefined, [
+      ...(videoUrl
+        ? [{ text: 'Watch Exercise Video', onPress: () => openVideo(videoUrl) }]
+        : []),
       { text: 'Swap Exercise', onPress: openSwap },
       { text: 'Skip Exercise', style: 'destructive', onPress: handleSkip },
       { text: 'Cancel', style: 'cancel' },
