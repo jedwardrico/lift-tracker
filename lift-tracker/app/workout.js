@@ -171,6 +171,7 @@ export default function WorkoutScreen() {
   const [timerSeconds, setTimerSeconds] = useState(0);
   const timerRef = useRef(null);
   const startTimeRef = useRef(Date.now());
+  const scrollRef = useRef(null);
   const savedSetsMap = useRef({});
   // Rest countdown, auto-started when a set is marked complete. `restDuration`
   // is the remembered preference (0 = off); `restRemaining` is null while no
@@ -980,227 +981,245 @@ export default function WorkoutScreen() {
 
       <View style={styles.divider} />
 
-      <View
-        style={[styles.scroll, styles.scrollClip]}
-        {...panResponder.panHandlers}
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
-        <Animated.View style={{ flex: 1, transform: [{ translateX: slideX }] }}>
-          <ScrollView
-            style={styles.scroll}
-            showsVerticalScrollIndicator={false}
+        <View
+          style={[styles.scroll, styles.scrollClip]}
+          {...panResponder.panHandlers}
+        >
+          <Animated.View
+            style={{ flex: 1, transform: [{ translateX: slideX }] }}
           >
-            {/* Category + Exercise */}
-            <View style={styles.exerciseHeader}>
-              <Text style={styles.categoryText}>{exerciseCategory}</Text>
-              <View style={styles.exerciseTitleRow}>
-                <TouchableOpacity
-                  style={styles.exerciseTitleLeft}
-                  onPress={() => exercise && openSwap()}
-                  disabled={!exercise}
-                >
-                  <Text style={styles.exerciseName}>{exerciseName || '—'}</Text>
-                  {exercise ? (
-                    <Ionicons
-                      name="swap-horizontal"
-                      size={18}
-                      color={COLORS.textMuted}
-                    />
-                  ) : null}
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.moreButton}
-                  onPress={openExerciseMenu}
-                >
-                  <Text style={styles.moreButtonText}>•••</Text>
-                </TouchableOpacity>
-              </View>
-              {displayExercise?.exercise_description ? (
-                <Text style={styles.exerciseBody}>
-                  {displayExercise.exercise_description}
-                </Text>
-              ) : null}
-            </View>
-
-            {/* Exercise parameters */}
-            {displayExercise?.rep_range || displayExercise?.rpe ? (
-              <View style={styles.paramsBlock}>
-                {displayExercise.rep_range ? (
-                  <Text style={styles.paramText}>
-                    Reps {displayExercise.rep_range}
-                  </Text>
-                ) : null}
-                {displayExercise.rpe != null ? (
-                  <Text style={styles.paramText}>
-                    RPE {displayExercise.rpe}
-                  </Text>
-                ) : null}
-              </View>
-            ) : null}
-
-            {/* Last time reference */}
-            {prevLog ? (
-              <View style={styles.prevRow}>
-                <Ionicons
-                  name="time-outline"
-                  size={13}
-                  color={COLORS.textDim}
-                />
-                <Text style={styles.prevText}>
-                  Last time ({formatShortDate(prevLog.logged_at)}):{' '}
-                  {formatPrevSummary(prevSets)}
-                </Text>
-              </View>
-            ) : null}
-
-            {/* Sets table */}
-            <View style={styles.setsTable}>
-              <View style={styles.setsHeaderRow}>
-                <Text style={[styles.setColHeader, { width: 36 }]}>Sets</Text>
-                <Text
-                  style={[
-                    styles.setColHeader,
-                    { flex: 1, textAlign: 'center' },
-                  ]}
-                >
-                  Reps
-                </Text>
-                <Text
-                  style={[
-                    styles.setColHeader,
-                    { flex: 1, textAlign: 'center' },
-                  ]}
-                >
-                  Lb
-                </Text>
-                <View style={{ width: 72 }} />
-              </View>
-
-              {sets.map((set, idx) => (
-                <View key={set.id} style={styles.setRow}>
-                  <Text style={styles.setNumber}>{idx + 1}</Text>
-                  <TextInput
-                    style={styles.setInput}
-                    value={set.reps}
-                    onChangeText={(v) => updateReps(set.id, v)}
-                    keyboardType="numeric"
-                    keyboardAppearance="dark"
-                    selectTextOnFocus
-                  />
-                  <TextInput
-                    style={styles.setInput}
-                    value={set.weight}
-                    onChangeText={(v) => updateWeight(set.id, v)}
-                    keyboardType="numeric"
-                    keyboardAppearance="dark"
-                    placeholder=""
-                    placeholderTextColor={COLORS.textDim}
-                    selectTextOnFocus
-                  />
+            <ScrollView
+              ref={scrollRef}
+              style={styles.scroll}
+              showsVerticalScrollIndicator={false}
+              keyboardShouldPersistTaps="handled"
+            >
+              {/* Category + Exercise */}
+              <View style={styles.exerciseHeader}>
+                <Text style={styles.categoryText}>{exerciseCategory}</Text>
+                <View style={styles.exerciseTitleRow}>
                   <TouchableOpacity
-                    style={[
-                      styles.completeDot,
-                      set.completed && styles.completeDotFilled,
-                    ]}
-                    onPress={() => toggleComplete(set.id)}
+                    style={styles.exerciseTitleLeft}
+                    onPress={() => exercise && openSwap()}
+                    disabled={!exercise}
                   >
-                    {set.completed && (
-                      <Ionicons name="checkmark" size={16} color={COLORS.bg} />
-                    )}
+                    <Text style={styles.exerciseName}>
+                      {exerciseName || '—'}
+                    </Text>
+                    {exercise ? (
+                      <Ionicons
+                        name="swap-horizontal"
+                        size={18}
+                        color={COLORS.textMuted}
+                      />
+                    ) : null}
                   </TouchableOpacity>
                   <TouchableOpacity
-                    style={styles.deleteSetBtn}
-                    onPress={() => removeSet(set.id)}
-                    disabled={sets.length <= 1}
-                    hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                    style={styles.moreButton}
+                    onPress={openExerciseMenu}
                   >
-                    <Ionicons
-                      name="close"
-                      size={20}
-                      color={
-                        sets.length <= 1 ? COLORS.textDim : COLORS.textMuted
-                      }
-                    />
+                    <Text style={styles.moreButtonText}>•••</Text>
                   </TouchableOpacity>
                 </View>
-              ))}
+                {displayExercise?.exercise_description ? (
+                  <Text style={styles.exerciseBody}>
+                    {displayExercise.exercise_description}
+                  </Text>
+                ) : null}
+              </View>
 
-              {/* Add set control — remove any set via the ✕ on its row */}
-              <TouchableOpacity style={styles.addSetBtn} onPress={addSet}>
-                <Ionicons name="add" size={20} color={COLORS.blue} />
-                <Text style={styles.addSetLabel}>Add Set</Text>
-              </TouchableOpacity>
-            </View>
+              {/* Exercise parameters */}
+              {displayExercise?.rep_range || displayExercise?.rpe ? (
+                <View style={styles.paramsBlock}>
+                  {displayExercise.rep_range ? (
+                    <Text style={styles.paramText}>
+                      Reps {displayExercise.rep_range}
+                    </Text>
+                  ) : null}
+                  {displayExercise.rpe != null ? (
+                    <Text style={styles.paramText}>
+                      RPE {displayExercise.rpe}
+                    </Text>
+                  ) : null}
+                </View>
+              ) : null}
 
-            {/* Note input */}
-            <View style={styles.noteContainer}>
-              <TextInput
-                style={styles.noteInput}
-                placeholder="Add exercise note"
-                placeholderTextColor={COLORS.textDim}
-                value={note}
-                onChangeText={setNote}
-                multiline
-                keyboardAppearance="dark"
-              />
-            </View>
+              {/* Last time reference */}
+              {prevLog ? (
+                <View style={styles.prevRow}>
+                  <Ionicons
+                    name="time-outline"
+                    size={13}
+                    color={COLORS.textDim}
+                  />
+                  <Text style={styles.prevText}>
+                    Last time ({formatShortDate(prevLog.logged_at)}):{' '}
+                    {formatPrevSummary(prevSets)}
+                  </Text>
+                </View>
+              ) : null}
 
-            <View style={{ height: 100 }} />
-          </ScrollView>
-        </Animated.View>
-      </View>
+              {/* Sets table */}
+              <View style={styles.setsTable}>
+                <View style={styles.setsHeaderRow}>
+                  <Text style={[styles.setColHeader, { width: 36 }]}>Sets</Text>
+                  <Text
+                    style={[
+                      styles.setColHeader,
+                      { flex: 1, textAlign: 'center' },
+                    ]}
+                  >
+                    Reps
+                  </Text>
+                  <Text
+                    style={[
+                      styles.setColHeader,
+                      { flex: 1, textAlign: 'center' },
+                    ]}
+                  >
+                    Lb
+                  </Text>
+                  <View style={{ width: 72 }} />
+                </View>
 
-      {/* Bottom nav */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity
-          style={styles.navBtn}
-          onPress={handleBack}
-          disabled={exerciseIndex === 0}
-        >
-          <Ionicons
-            name="arrow-back"
-            size={20}
-            color={exerciseIndex === 0 ? COLORS.textDim : COLORS.blue}
-          />
-          <Text
-            style={[
-              styles.navBtnText,
-              exerciseIndex === 0 && { color: COLORS.textDim },
-            ]}
+                {sets.map((set, idx) => (
+                  <View key={set.id} style={styles.setRow}>
+                    <Text style={styles.setNumber}>{idx + 1}</Text>
+                    <TextInput
+                      style={styles.setInput}
+                      value={set.reps}
+                      onChangeText={(v) => updateReps(set.id, v)}
+                      keyboardType="numeric"
+                      keyboardAppearance="dark"
+                      selectTextOnFocus
+                    />
+                    <TextInput
+                      style={styles.setInput}
+                      value={set.weight}
+                      onChangeText={(v) => updateWeight(set.id, v)}
+                      keyboardType="numeric"
+                      keyboardAppearance="dark"
+                      placeholder=""
+                      placeholderTextColor={COLORS.textDim}
+                      selectTextOnFocus
+                    />
+                    <TouchableOpacity
+                      style={[
+                        styles.completeDot,
+                        set.completed && styles.completeDotFilled,
+                      ]}
+                      onPress={() => toggleComplete(set.id)}
+                    >
+                      {set.completed && (
+                        <Ionicons
+                          name="checkmark"
+                          size={16}
+                          color={COLORS.bg}
+                        />
+                      )}
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.deleteSetBtn}
+                      onPress={() => removeSet(set.id)}
+                      disabled={sets.length <= 1}
+                      hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                    >
+                      <Ionicons
+                        name="close"
+                        size={20}
+                        color={
+                          sets.length <= 1 ? COLORS.textDim : COLORS.textMuted
+                        }
+                      />
+                    </TouchableOpacity>
+                  </View>
+                ))}
+
+                {/* Add set control — remove any set via the ✕ on its row */}
+                <TouchableOpacity style={styles.addSetBtn} onPress={addSet}>
+                  <Ionicons name="add" size={20} color={COLORS.blue} />
+                  <Text style={styles.addSetLabel}>Add Set</Text>
+                </TouchableOpacity>
+              </View>
+
+              {/* Note input */}
+              <View style={styles.noteContainer}>
+                <TextInput
+                  style={styles.noteInput}
+                  placeholder="Add exercise note"
+                  placeholderTextColor={COLORS.textDim}
+                  value={note}
+                  onChangeText={setNote}
+                  multiline
+                  keyboardAppearance="dark"
+                  onFocus={() =>
+                    setTimeout(() => scrollRef.current?.scrollToEnd(), 250)
+                  }
+                />
+              </View>
+
+              <View style={{ height: 100 }} />
+            </ScrollView>
+          </Animated.View>
+        </View>
+
+        {/* Bottom nav */}
+        <View style={styles.bottomNav}>
+          <TouchableOpacity
+            style={styles.navBtn}
+            onPress={handleBack}
+            disabled={exerciseIndex === 0}
           >
-            Back
-          </Text>
-        </TouchableOpacity>
+            <Ionicons
+              name="arrow-back"
+              size={20}
+              color={exerciseIndex === 0 ? COLORS.textDim : COLORS.blue}
+            />
+            <Text
+              style={[
+                styles.navBtnText,
+                exerciseIndex === 0 && { color: COLORS.textDim },
+              ]}
+            >
+              Back
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.navCenter}
-          onPress={() =>
-            restRemaining != null ? stopRest() : setRestPickerVisible(true)
-          }
-        >
-          <Ionicons
-            name={restRemaining != null ? 'timer' : 'timer-outline'}
-            size={20}
-            color={restRemaining != null ? COLORS.yellow : COLORS.blue}
-          />
-          <Text
-            style={[
-              styles.navCenterText,
-              restRemaining != null && { color: COLORS.yellow },
-            ]}
+          <TouchableOpacity
+            style={styles.navCenter}
+            onPress={() =>
+              restRemaining != null ? stopRest() : setRestPickerVisible(true)
+            }
           >
-            {restRemaining != null
-              ? `${formatTimer(restRemaining)} · tap to skip`
-              : 'Rest Timer'}
-          </Text>
-        </TouchableOpacity>
+            <Ionicons
+              name={restRemaining != null ? 'timer' : 'timer-outline'}
+              size={20}
+              color={restRemaining != null ? COLORS.yellow : COLORS.blue}
+            />
+            <Text
+              style={[
+                styles.navCenterText,
+                restRemaining != null && { color: COLORS.yellow },
+              ]}
+            >
+              {restRemaining != null
+                ? `${formatTimer(restRemaining)} · tap to skip`
+                : 'Rest Timer'}
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navBtn} onPress={handleNext}>
-          <Text style={styles.navBtnText}>
-            {exerciseIndex < exercises.length - 1 ? 'Next' : 'Finish'}
-          </Text>
-          <Ionicons name="arrow-forward" size={20} color={COLORS.blue} />
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity style={styles.navBtn} onPress={handleNext}>
+            <Text style={styles.navBtnText}>
+              {exerciseIndex < exercises.length - 1 ? 'Next' : 'Finish'}
+            </Text>
+            <Ionicons name="arrow-forward" size={20} color={COLORS.blue} />
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
 
       {/* Exercise menu */}
       <Modal
