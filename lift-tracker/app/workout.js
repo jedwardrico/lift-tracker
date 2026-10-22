@@ -566,7 +566,6 @@ export default function WorkoutScreen() {
 
   const navigateTo = (targetIndex) => {
     if (isAnimating.current || targetIndex === exerciseIndex) return;
-    stopRest();
     const direction = targetIndex > exerciseIndex ? 1 : -1;
     isAnimating.current = true;
     Animated.timing(slideX, {
