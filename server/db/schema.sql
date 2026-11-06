@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS weeks (
   id INTEGER PRIMARY KEY,
-  program TEXT NOT NULL DEFAULT 'creeping_death_ii',
+  program TEXT NOT NULL DEFAULT 'pure_bodybuilding_phase_2',
   week_number INTEGER NOT NULL,
   UNIQUE(program, week_number)
 );

@@ -14,18 +14,6 @@ const DAYS = [
 // Registry of every program the app knows how to seed/run. Adding a new
 // program means adding a JSON file under ../data and an entry here.
 const PROGRAMS = {
-  gamma_bomb: {
-    label: 'Gamma Bomb',
-    description:
-      'A high-volume bodybuilding split built around back, chest and shoulders, with legs and arms filling out the week.',
-    workoutData: require('../data/gamma_bomb.json'),
-  },
-  creeping_death_ii: {
-    label: 'Creeping Death II',
-    description:
-      "John Meadows' hypertrophy program hitting back and chest twice a week alongside dedicated leg and arm days.",
-    workoutData: require('../data/creeping_death_ii.json'),
-  },
   // Pure Bodybuilding Phase 2 is a Pull/Push/Legs/Arms & Weak Points program.
   // Each PDF week contains two sub-weeks of exercises (A and B), which this
   // JSON splits into 20 separate program weeks, each laid out as:
@@ -36,6 +24,16 @@ const PROGRAMS = {
     description:
       'A 20-week Pull/Push/Legs/Arms & Weak Points program built for steady, sustainable hypertrophy.',
     workoutData: require('../data/pure_bodybuilding_phase_2.json'),
+  },
+  // Pure Bodybuilding Phase 2 (Upper/Lower) is the Upper/Lower variant of the
+  // program above: 10 weeks, laid out as Mon = Upper #1, Tue = Lower #1,
+  // Wed = Upper #2, Thu = Lower #2, Fri = Arms & Weak Points, Sat = Rest,
+  // Sun = Rest.
+  pure_bodybuilding_phase_2_upper_lower: {
+    label: 'Pure Bodybuilding Phase 2 (Upper/Lower)',
+    description:
+      'A 10-week Upper/Lower program with a dedicated Arms & Weak Points day, the upper/lower variant of Pure Bodybuilding Phase 2.',
+    workoutData: require('../data/pure_bodybuilding_phase_2_upper_lower.json'),
   },
   // The Bodybuilding Transformation System (Intermediate/Advanced) is a 12-week
   // Upper/Lower/Push/Pull/Legs program. The PDF's own rest-day placement is

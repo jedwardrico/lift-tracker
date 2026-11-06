@@ -2,11 +2,14 @@ const Database = require('better-sqlite3');
 const path = require('path');
 const fs = require('fs');
 const { seedAllPrograms } = require('./seed_program');
+const { PROGRAMS } = require('./workout_data');
 const { effectiveMonday } = require('./program_state');
 
 const DB_PATH = path.join(__dirname, '..', 'db', 'gamma_bomb.sqlite');
 const SCHEMA_PATH =
   process.env.SCHEMA_PATH || path.join(__dirname, '..', 'db', 'schema.sql');
+
+const DEFAULT_PROGRAM = 'pure_bodybuilding_phase_2';
 
 let db;
 
@@ -48,6 +51,7 @@ function getDb() {
     addFocusSummaryColumnToWorkoutDays(db);
     seedDefaultProgramSettings(db);
     fixLegacySundayStartDate(db);
+    resetRemovedPrograms(db);
     seedAllPrograms(db);
   }
   return db;
@@ -88,7 +92,7 @@ function addProgramColumnToWeeks(db) {
 }
 
 // Seeds the singleton program_settings row on first boot, defaulting to
-// creeping_death_ii starting this coming Monday (today, if today already is
+// DEFAULT_PROGRAM starting this coming Monday (today, if today already is
 // one). No-op once the row exists.
 function seedDefaultProgramSettings(db) {
   const existing = db
@@ -99,7 +103,7 @@ function seedDefaultProgramSettings(db) {
   const startDate = effectiveMonday();
   db.prepare(
     `INSERT INTO program_settings (id, active_program, program_start_date, cycle_started_at, pending_program, pending_start_date)
-     VALUES (1, 'creeping_death_ii', ?, ?, NULL, NULL)`
+     VALUES (1, '${DEFAULT_PROGRAM}', ?, ?, NULL, NULL)`
   ).run(startDate, `${startDate} 00:00:00`);
 }
 
@@ -109,6 +113,24 @@ function seedDefaultProgramSettings(db) {
 // constant. The client now assumes program_start_date is always a Monday,
 // so shift that one known-bad value forward a day to the real Monday.
 // No-op once corrected (or on a database that never had it).
+// Programs removed from the registry (gamma_bomb, creeping_death_ii) keep
+// their weeks/logs in the database so history survives, but can no longer be
+// active or staged. Move any such reference to the default program.
+function resetRemovedPrograms(db) {
+  const row = db.prepare('SELECT * FROM program_settings WHERE id = 1').get();
+  if (!row) return;
+  if (!PROGRAMS[row.active_program]) {
+    db.prepare(
+      `UPDATE program_settings SET active_program = ?, program_start_date = ?, cycle_started_at = datetime('now') WHERE id = 1`
+    ).run(DEFAULT_PROGRAM, effectiveMonday());
+  }
+  if (row.pending_program && !PROGRAMS[row.pending_program]) {
+    db.prepare(
+      'UPDATE program_settings SET pending_program = NULL, pending_start_date = NULL WHERE id = 1'
+    ).run();
+  }
+}
+
 function fixLegacySundayStartDate(db) {
   db.prepare(
     `UPDATE program_settings
