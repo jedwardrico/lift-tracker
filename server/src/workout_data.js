@@ -14,18 +14,6 @@ const DAYS = [
 // Registry of every program the app knows how to seed/run. Adding a new
 // program means adding a JSON file under ../data and an entry here.
 const PROGRAMS = {
-  gamma_bomb: {
-    label: 'Gamma Bomb',
-    description:
-      'A high-volume bodybuilding split built around back, chest and shoulders, with legs and arms filling out the week.',
-    workoutData: require('../data/gamma_bomb.json'),
-  },
-  creeping_death_ii: {
-    label: 'Creeping Death II',
-    description:
-      "John Meadows' hypertrophy program hitting back and chest twice a week alongside dedicated leg and arm days.",
-    workoutData: require('../data/creeping_death_ii.json'),
-  },
   // Pure Bodybuilding Phase 2 is a Pull/Push/Legs/Arms & Weak Points program.
   // Each PDF week contains two sub-weeks of exercises (A and B), which this
   // JSON splits into 20 separate program weeks, each laid out as:
