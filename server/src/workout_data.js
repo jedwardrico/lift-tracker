@@ -56,6 +56,20 @@ const PROGRAMS = {
       'A 13-week, 3-phase Push/Pull/Legs + Upper/Lower program progressing from base hypertrophy to maximum effort to supercompensation.',
     workoutData: require('../data/ultimate_ppl_system_5x.json'),
   },
+  // The Min-Max Program (5x) is a 12-week Upper/Lower + Arms/Delts program
+  // built around short, low-set-count sessions. The PDF's own rest-day
+  // placement is ignored; each week is laid out as: Mon = Upper 1,
+  // Tue = Lower 1, Wed = Upper 2, Thu = Lower 2, Fri = Arms/Delts,
+  // Sat = Rest, Sun = Rest. Week 1 is a lighter intro week, Week 7 is a
+  // deload (back to intro-week numbers), and weeks 8-12 layer last-set
+  // intensity techniques (drop sets, lengthened partials, myo-reps) onto
+  // the same base sets/reps used in weeks 2-6.
+  min_max_program_5x: {
+    label: 'The Min-Max Program (5x)',
+    description:
+      'A 12-week, low-volume Upper/Lower + Arms/Delts program for lifters who want results from short, minimal-set sessions.',
+    workoutData: require('../data/min_max_program_5x.json'),
+  },
 };
 
 module.exports = { PROGRAMS, DAYS };
