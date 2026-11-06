@@ -1,6 +1,6 @@
 # Lift Tracker
 
-A workout tracker that runs hypertrophy programs and logs your sets as you go. Multiple programs are supported and can be switched between without losing history — Pure Bodybuilding Phase 2, The Bodybuilding Transformation System, and The Ultimate PPL System (5x) ship out of the box.
+A workout tracker that runs hypertrophy programs and logs your sets as you go. Multiple programs are supported and can be switched between without losing history — Pure Bodybuilding Phase 2 (plus an Upper/Lower variant), The Bodybuilding Transformation System, and The Ultimate PPL System (5x) ship out of the box.
 
 ## Project Structure
 

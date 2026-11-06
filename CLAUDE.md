@@ -13,7 +13,7 @@ lift-tracker/   # React Native (Expo) frontend
 server/         # Express.js + SQLite backend
 ```
 
-A workout tracker that runs hypertrophy programs (Pure Bodybuilding Phase 2, Bodybuilding Transformation System, Ultimate PPL 5x) and logs sets as the user goes. Multiple programs coexist — switching or restarting a program never deletes history, and a switch/restart is staged for the following Monday so the in-progress week isn't disrupted.
+A workout tracker that runs hypertrophy programs (Pure Bodybuilding Phase 2 and its Upper/Lower variant, Bodybuilding Transformation System, Ultimate PPL 5x) and logs sets as the user goes. Multiple programs coexist — switching or restarting a program never deletes history, and a switch/restart is staged for the following Monday so the in-progress week isn't disrupted.
 
 ## Commands
 

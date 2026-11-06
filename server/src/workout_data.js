@@ -25,6 +25,16 @@ const PROGRAMS = {
       'A 20-week Pull/Push/Legs/Arms & Weak Points program built for steady, sustainable hypertrophy.',
     workoutData: require('../data/pure_bodybuilding_phase_2.json'),
   },
+  // Pure Bodybuilding Phase 2 (Upper/Lower) is the Upper/Lower variant of the
+  // program above: 10 weeks, laid out as Mon = Upper #1, Tue = Lower #1,
+  // Wed = Upper #2, Thu = Lower #2, Fri = Arms & Weak Points, Sat = Rest,
+  // Sun = Rest.
+  pure_bodybuilding_phase_2_upper_lower: {
+    label: 'Pure Bodybuilding Phase 2 (Upper/Lower)',
+    description:
+      'A 10-week Upper/Lower program with a dedicated Arms & Weak Points day, the upper/lower variant of Pure Bodybuilding Phase 2.',
+    workoutData: require('../data/pure_bodybuilding_phase_2_upper_lower.json'),
+  },
   // The Bodybuilding Transformation System (Intermediate/Advanced) is a 12-week
   // Upper/Lower/Push/Pull/Legs program. The PDF's own rest-day placement is
   // ignored; each week is laid out as: Mon = Upper, Tue = Lower, Wed = Push,
