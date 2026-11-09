@@ -57,6 +57,19 @@ const REST_DURATION_KEY = 'rest_timer_duration';
 const REST_DURATION_OPTIONS = [0, 30, 60, 90, 120, 180];
 const DEFAULT_REST_DURATION = 90;
 
+// Pulls the rest period (seconds) out of an exercise description such as
+// "resting ~1-2 min between sets" or "rest ~15-20 seconds". Uses the midpoint
+// of a range; returns null when the description doesn't mention one.
+function parseRestSeconds(description) {
+  const m = /\brest(?:ing)?\s*~?(\d+)(?:\s*-\s*(\d+))?\s*(min|sec|s)\w*/i.exec(
+    description ?? ''
+  );
+  if (!m) return null;
+  const lo = parseInt(m[1], 10);
+  const n = m[2] ? (lo + parseInt(m[2], 10)) / 2 : lo;
+  return Math.round(m[3].toLowerCase() === 'min' ? n * 60 : n);
+}
+
 function buildInitialSets(count, repRange, prevSets) {
   const fallbackReps = repRange ? repRange.split('-').pop() : '8';
   return Array.from({ length: count || 2 }, (_, i) => {
@@ -467,7 +480,11 @@ export default function WorkoutScreen() {
     setSets((prev) =>
       prev.map((s) => (s.id === id ? { ...s, completed: !s.completed } : s))
     );
-    if (willComplete) startRest(restDuration);
+    if (willComplete && restDuration > 0) {
+      startRest(
+        parseRestSeconds(displayExercise?.exercise_description) ?? restDuration
+      );
+    }
   };
 
   const updateReps = (id, val) => {
