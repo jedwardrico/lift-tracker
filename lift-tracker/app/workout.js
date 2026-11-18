@@ -172,6 +172,12 @@ export default function WorkoutScreen() {
   // slot in later weeks. The programmed week is never modified.
   const [overrides, setOverrides] = useState({});
   const [swapModalVisible, setSwapModalVisible] = useState(false);
+  // 'swap' replaces the current slot's exercise; 'add' inserts a new exercise
+  // right after the current one. Added exercises are session-only: replayed in
+  // order onto the programmed list (each `afterIndex` is an index in the list
+  // as it stood at insertion), and logged under their own exercise_id.
+  const [pickerMode, setPickerMode] = useState('swap');
+  const [extras, setExtras] = useState([]);
   const [menuVisible, setMenuVisible] = useState(false);
   const [customInput, setCustomInput] = useState('');
   const [swapSearch, setSwapSearch] = useState('');
@@ -358,6 +364,7 @@ export default function WorkoutScreen() {
           setCompletedExercises(new Set(resumable.completedExercises ?? []));
           setSkippedExercises(new Set(resumable.skippedExercises ?? []));
           setOverrides(resumable.overrides ?? {});
+          setExtras(resumable.extras ?? []);
           setNote(resumable.note ?? '');
           setExerciseIndex(resumable.exerciseIndex ?? 0);
           if (resumable.sets) setSets(resumable.sets);
@@ -411,6 +418,7 @@ export default function WorkoutScreen() {
         sets,
         note,
         overrides,
+        extras,
         logs: completedLogs,
         savedSetsMap: savedSetsMap.current,
         startTime: startTimeRef.current,
@@ -428,6 +436,7 @@ export default function WorkoutScreen() {
     sets,
     note,
     overrides,
+    extras,
     completedLogs,
   ]);
 
@@ -538,7 +547,11 @@ export default function WorkoutScreen() {
     );
 
   const activeDay = resolveActiveDay(weekData, dayIndex);
-  const exercises = activeDay?.exercises ?? [];
+  const exercises = useMemo(() => {
+    const list = [...(activeDay?.exercises ?? [])];
+    extras.forEach((x) => list.splice(x.afterIndex + 1, 0, x.exercise));
+    return list;
+  }, [activeDay, extras]);
   const exercise = exercises[exerciseIndex];
   const override = overrides[exerciseIndex];
   // The exercise whose identity/details (name, category, body, RPE) are shown.
@@ -606,11 +619,56 @@ export default function WorkoutScreen() {
   // Swap the current slot's exercise. Only the shown/logged identity changes —
   // the set/rep scheme the user is working through stays exactly as-is.
   const openSwap = () => {
+    setPickerMode('swap');
     setCustomInput('');
     setSwapSearch('');
     setSwapModalVisible(true);
   };
+  const openAdd = () => {
+    setPickerMode('add');
+    setCustomInput('');
+    setSwapSearch('');
+    setSwapModalVisible(true);
+  };
+  // Insert `ex` right after the current exercise and jump to it. Every
+  // index-keyed piece of session state at or past the insertion point shifts
+  // up by one so it stays attached to the right exercise.
+  const insertExercise = (ex) => {
+    const at = exerciseIndex + 1;
+    const shift = (i) => (i >= at ? i + 1 : i);
+    savedSetsMap.current[exerciseIndex] = sets;
+    savedSetsMap.current = Object.fromEntries(
+      Object.entries(savedSetsMap.current).map(([k, v]) => [
+        shift(Number(k)),
+        v,
+      ])
+    );
+    setOverrides((prev) =>
+      Object.fromEntries(
+        Object.entries(prev).map(([k, v]) => [shift(Number(k)), v])
+      )
+    );
+    setCompletedExercises((prev) => new Set([...prev].map(shift)));
+    setSkippedExercises((prev) => new Set([...prev].map(shift)));
+    setCompletedLogs((prev) =>
+      prev.map((l) => ({ ...l, exerciseIndex: shift(l.exerciseIndex) }))
+    );
+    const row = { ...ex, sets: ex.sets || 3, __added: true };
+    setExtras((prev) => [
+      ...prev,
+      { afterIndex: exerciseIndex, exercise: row },
+    ]);
+    const prevSets = prevSetsFromLog(findPrevLog(allLogs, row.exercise_name));
+    setSets(buildInitialSets(row.sets, row.rep_range, prevSets));
+    setNote('');
+    setSwapModalVisible(false);
+    setExerciseIndex(at);
+  };
   const applySwap = (ex) => {
+    if (pickerMode === 'add') {
+      insertExercise(ex);
+      return;
+    }
     setOverrides((prev) => ({ ...prev, [exerciseIndex]: ex }));
     setSwapModalVisible(false);
   };
@@ -1030,13 +1088,13 @@ export default function WorkoutScreen() {
                 <View style={styles.exerciseTitleRow}>
                   <TouchableOpacity
                     style={styles.exerciseTitleLeft}
-                    onPress={() => exercise && openSwap()}
-                    disabled={!exercise}
+                    onPress={() => exercise && !exercise.__added && openSwap()}
+                    disabled={!exercise || exercise.__added}
                   >
                     <Text style={styles.exerciseName}>
                       {exerciseName || '—'}
                     </Text>
-                    {exercise ? (
+                    {exercise && !exercise.__added ? (
                       <Ionicons
                         name="swap-horizontal"
                         size={18}
@@ -1271,11 +1329,19 @@ export default function WorkoutScreen() {
             >
               <Text style={styles.menuItemText}>Watch Exercise Video</Text>
             </TouchableOpacity>
+            {exercise?.__added ? null : (
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={menuAction(openSwap)}
+              >
+                <Text style={styles.menuItemText}>Swap Exercise</Text>
+              </TouchableOpacity>
+            )}
             <TouchableOpacity
               style={styles.menuItem}
-              onPress={menuAction(openSwap)}
+              onPress={menuAction(openAdd)}
             >
-              <Text style={styles.menuItemText}>Swap Exercise</Text>
+              <Text style={styles.menuItemText}>Add Exercise After This</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.menuItem}
@@ -1308,14 +1374,17 @@ export default function WorkoutScreen() {
         >
           <View style={styles.modalCard}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Swap Exercise</Text>
+              <Text style={styles.modalTitle}>
+                {pickerMode === 'add' ? 'Add Exercise' : 'Swap Exercise'}
+              </Text>
               <TouchableOpacity onPress={() => setSwapModalVisible(false)}>
                 <Ionicons name="close" size={24} color={COLORS.textMuted} />
               </TouchableOpacity>
             </View>
             <Text style={styles.modalHint}>
-              Keeps this slot&apos;s sets &amp; reps — only the exercise
-              changes.
+              {pickerMode === 'add'
+                ? 'Adds an exercise right after this one (3 sets).'
+                : "Keeps this slot's sets & reps — only the exercise changes."}
             </Text>
 
             <View style={styles.customRow}>
@@ -1345,7 +1414,7 @@ export default function WorkoutScreen() {
               </TouchableOpacity>
             </View>
 
-            {override ? (
+            {override && pickerMode === 'swap' ? (
               <TouchableOpacity style={styles.resetRow} onPress={resetSwap}>
                 <Ionicons name="refresh" size={16} color={COLORS.blue} />
                 <Text style={styles.resetText}>
